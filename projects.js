@@ -7,7 +7,7 @@ const projects = [
         title: 'Flying & Balanicng robot drone',
         subtitle: 'Two wheeled, two propellered drone car',
         stack: ['MATLAB','Simulink','Kinematics', 'Control Theory'],
-        images: ['images/Drone1/Turn.png', 'images/Drone1/Equation.png','images/Drone1/RobotBild.jpeg', 'images/Drone1/Balancing Kinematics.png'],
+        images: ['images/Drone1/Turn.png', 'images/Drone1/Equation.png','images/Drone1/RobotBild.jpeg', 'images/Drone1/Balancing Kinematics.png', 'images/Drone1/Assembly1.png', 'images/Drone1/PXL_20250327_161507964.jpg'],
         content: md`
 **Overview.** An accurate controlled robot that can move on ground and in air.
 
