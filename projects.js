@@ -1,5 +1,5 @@
-// Tagged template to preserve backslashes in LaTeX (no JS escaping)
-    const md = (strings, ...values) => String.raw({raw: strings}, ...values);
+//(TODO) Tagged template to preserve backslashes in LaTeX (no JS escaping)
+const md = (strings, ...values) => String.raw({raw: strings}, ...values);
 
 const projects = [
       {
@@ -38,7 +38,6 @@ $$
 
             `
       },
-      // Example engineering project with math
       {
         slug: 'comsol-heat',
         title: '1D Heat Conduction (COMSOL)',
@@ -235,8 +234,7 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
         });
     }
 
-
-    const detailImages = document.getElementById('detailImages'); // NEW
+    const detailImages = document.getElementById('detailImages');
 
 function renderDetail(slug){
   const p = projects.find(x => (x.slug || slugify(x.title)) === slug);
@@ -257,7 +255,6 @@ function renderDetail(slug){
     detailImages.appendChild(im);
   });
 }
-
 
     function route(){
       const hash = location.hash || '#projects';

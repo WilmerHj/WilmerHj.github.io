@@ -90,11 +90,11 @@ fn element_p1(
     let dndxi = [-0.5, 0.5];               // dn/dxi
     let dndx  = [dndxi[0]/j, dndxi[1]/j]; // 1/J * dn/dxi
     let mut ke = [0.0; 4]; //!!!!!!!!!!!!!!!
-    let mut fe = [0.0; 2];
+    let mut fe = [0.0; 2]; //!!!!!!!!!!!!!!!
 
     for q in 0..2 { // for each
-        let xiq = xi[q];
-        let wj = w[q]*j;
+        let xiq = xi[q]; //!!!!!!!!!!!!!!!
+        let wj = w[q]*j; ///!!!!!!!!!!!!!!!
         let n = [ (1.0 - xiq)*0.5, (1.0 + xiq)*0.5 ];
 
         add22_scaled(&mut ke, &outer(&dndx, &dndx), c * wj);
@@ -102,7 +102,7 @@ fn element_p1(
         add22_scaled(&mut ke, &outer(&dndx, &n), beta * wj);
         add22_scaled(&mut ke, &outer(&n, &n), a * wj);
 
-        fe[0] += n[0] * f * wj;
+        fe[0] += n[0] * f * wj; //!!!!!!!!!!!!!!!
         fe[1] += n[1] * f * wj;
         fe[0] += -dndx[0] * gamma * wj;
         fe[1] += -dndx[1] * gamma * wj;
