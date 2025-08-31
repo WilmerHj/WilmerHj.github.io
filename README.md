@@ -15,27 +15,16 @@ The process follows as such:
     2. For each Gauss-point we evaluate the shape functions $N_1(\xi)=\tfrac{1-\xi}{2}, N_2(\xi)=\tfrac{1+\xi}{2}$; derivatives $dN/dx=(dN/d\xi)/J$.
     3. At each Gauss point:
     - Matrix:
-       \[
-       K^e += c,(dN\times dN)\,Jw
-       + \alpha\,(N\times dN)\,Jw
-       + \beta\,(dN\times N)\,Jw
-       + a\,(N\times N)\,Jw.
-       \]
+
+        $\vec{k_e} = \begin{bmatrix} W & X \\\ Y & Z\end{bmatrix}$
      - Vector:
-       \[
-       F^e {+}{=} f\,N\,Jw - \gamma\,dN\,Jw.
-       \]  
+
+        $\vec{f} = \begin{bmatrix} X \\\ Y\end{bmatrix}$
     4. Assemble \(K^e\) and \(F^e\) into global \(K\) and \(F\).
     5. (TODO) Explain how each term diffusion $(c)$, couplings $(\alpha, \beta)$, reaction $(a)$, body load $(f)$, and gradient load $\gamma$. affects assembly matrix.
 6. Apply Boundry Conditions (BC).
+  - (TODO) Explain how each BC affects assembly matrix and RHS.
 7. Solve the linear system.
+  - (TODO) Explain how the linear system is solved in RUST.
 8. Return $(x, u)$.
 
-      ```
-      Ke += c   (dN ⊗ dN) Jw
-          + α   (N  ⊗ dN) Jw
-          + β   (dN ⊗ N ) Jw
-          + a   (N  ⊗ N ) Jw
-
-      Fe += f N Jw - γ dN Jw
-      ```
