@@ -248,12 +248,21 @@ function renderDetail(slug){
   // Render stacked images (or fall back to shot)
   const imgs = (p.images && p.images.length) ? p.images : (p.shot ? [p.shot] : []);
   detailImages.innerHTML = '';
-  imgs.forEach(src => {
-    const im = document.createElement('img');
-    im.src = src;
-    im.alt = p.title;
-    detailImages.appendChild(im);
-  });
+imgs.forEach(src => {
+  let el;
+  if (/\.(mp4|webm|ogg)$/i.test(src)) {
+    // video
+    el = document.createElement('video');
+    el.src = src;
+    el.controls = true;
+  } else {
+    // image
+    el = document.createElement('img');
+    el.src = src;
+  }
+  el.alt = p.title;
+  detailImages.appendChild(el);
+});
 }
 
     function route(){
