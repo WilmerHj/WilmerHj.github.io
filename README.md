@@ -1,6 +1,8 @@
 # WilmerHj.github.io
 Portfolio Site and FEM tool.
 
+The FEM-tool is written in RUST and is run through WebAssembly. It features close to native speed and can be run on any modern device. All computations are done locally, no backend needed or used.
+
 The FEM-tool solves $\nabla(-c\nabla u -\alpha u + \gamma) + \beta \nabla u + au = f$ for $u(x)$ with linear elements in 1D.
 
 The solver computes a scalar field  on a 1D domain  using linear finite elements and two‑point Gaussian quadrature. The assembled weak form is (TODO).
