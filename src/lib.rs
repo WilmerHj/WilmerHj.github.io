@@ -52,7 +52,7 @@ fn fem1d_flux_form(
 ) -> Result<(Vec<f64>, Vec<f64>), JsValue> {
     let nd = nel + 1;
     let mut x = Vec::with_capacity(nd);
-    for i in 0..nd { // Create domain.
+    for i in 0..nd { // Create domain "x = linspace(x_left, x_right, nel+1)".
         let t = i as f64 / nel as f64;
         x.push(x_left + t * (x_right - x_left));
     }
@@ -97,10 +97,10 @@ fn element_p1(
         let wj = w[q]*j; ///!!!!!!!!!!!!!!!
         let n = [ (1.0 - xiq)*0.5, (1.0 + xiq)*0.5 ];
 
-        add22_scaled(&mut ke, &outer(&dndx, &dndx), c * wj);
-        add22_scaled(&mut ke, &outer(&n, &dndx), alpha * wj);
-        add22_scaled(&mut ke, &outer(&dndx, &n), beta * wj);
-        add22_scaled(&mut ke, &outer(&n, &n), a * wj);
+        add22_scaled(&mut ke, &crossProd(&dndx, &dndx), c * wj);
+        add22_scaled(&mut ke, &crossProd(&n, &dndx), alpha * wj);
+        add22_scaled(&mut ke, &crossProd(&dndx, &n), beta * wj);
+        add22_scaled(&mut ke, &crossProd(&n, &n), a * wj);
 
         fe[0] += n[0] * f * wj; //!!!!!!!!!!!!!!!
         fe[1] += n[1] * f * wj;
@@ -110,15 +110,20 @@ fn element_p1(
     (ke, fe)
 }
 
-fn outer(a: &[f64;2], b: &[f64;2]) -> [f64;4] {
-    [a[0]*b[0], a[0]*b[1], a[1]*b[0], a[1]*b[1]]
+// Each element in a x b
+fn crossProd(a: &[f64;2], b: &[f64;2]) -> [f64;4] { 
+    [a[0]*b[0], a[0]*b[1],
+    a[1]*b[0], a[1]*b[1]]
 }
+// Puts each element in a x b into a 2x2 matrix.
 fn add22(dst: &mut [f64], n: usize, i: usize, j: usize, m: &[f64;4]) {
     dst[i*n + i] += m[0]; dst[i*n + j] += m[1];
     dst[j*n + i] += m[2]; dst[j*n + j] += m[3];
 }
+// Puts 2x2 matrix into larger "ke (m) into k (dst)".
 fn add22_scaled(dst: &mut [f64;4], m: &[f64;4], s: f64) {
-    dst[0]+=s*m[0]; dst[1]+=s*m[1]; dst[2]+=s*m[2]; dst[3]+=s*m[3];
+    dst[0]+=s*m[0]; dst[1]+=s*m[1];
+    dst[2]+=s*m[2]; dst[3]+=s*m[3];
 }
 
 fn apply_bc(k:&mut [f64], f:&mut [f64], n:usize, node:usize, bc:Bc){

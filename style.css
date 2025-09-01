@@ -269,3 +269,11 @@ nav {
 @media (max-width: 900px) {
   .tool-grid { grid-template-columns: 1fr; }
 }
+.detail-images video {
+  width: 100%;
+  display: block;
+  background: #000;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
