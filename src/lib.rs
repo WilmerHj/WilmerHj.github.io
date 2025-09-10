@@ -86,7 +86,7 @@ fn element_p1(
     xi: &[f64;2], w: &[f64;2],
     c: f64, alpha: f64, beta: f64, a: f64, gamma: f64, f: f64
 ) -> ([f64;4], [f64;2]) {
-    let j = 0.5*(x2 - x1);                  // Jacobian
+    let j = 0.5*(x2 - x1);                  // Jacobian determinant
     let dndxi = [-0.5, 0.5];               // dn/dxi
     let dndx  = [dndxi[0]/j, dndxi[1]/j]; // 1/J * dn/dxi
     let mut ke = [0.0; 4]; //!!!!!!!!!!!!!!!
