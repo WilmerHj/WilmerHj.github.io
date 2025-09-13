@@ -1,15 +1,17 @@
 {
-  "name": "fem1d_wasm",
+  "name": "FDM_2D_Reynolds",
   "type": "module",
   "version": "0.1.0",
   "files": [
-    "fem1d_wasm_bg.wasm",
-    "fem1d_wasm.js",
-    "fem1d_wasm.d.ts"
+    "FDM_2D_Reynolds_bg.wasm",
+    "FDM_2D_Reynolds.js",
+    "FDM_2D_Reynolds_bg.js",
+    "FDM_2D_Reynolds.d.ts"
   ],
-  "main": "fem1d_wasm.js",
-  "types": "fem1d_wasm.d.ts",
+  "main": "FDM_2D_Reynolds.js",
+  "types": "FDM_2D_Reynolds.d.ts",
   "sideEffects": [
+    "./FDM_2D_Reynolds.js",
     "./snippets/*"
   ]
 }
