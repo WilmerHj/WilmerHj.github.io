@@ -3,129 +3,43 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wilmer Hjulström — Projects</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  
-  <!-- MathJax for TeX -->
-  <script>window.MathJax = { tex: { inlineMath: [["$","$"],["\\(","\\)"]], displayMath: [["$$","$$"]] } };</script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <!-- Marked for Markdown -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <title>Reynolds Pressure (WASM)</title>
+  <link rel="stylesheet" href="./style2.css" />
 </head>
 <body>
-  <header class="wrap">
-    <div class="top">
-      <div>
-        <div class="brand">Wilmer Hjulström</div>
-        <div class="sub">Mechanical engineer</div>
-      </div>
-      <nav>
-        <a class="tab" href="#about">About Me</a>
-        <a class="tab" href="#skills">Skills</a>
-        <a class="tab active" href="#projects">Projects</a>
-        <a class="tab" href="#fem">FEM</a>
-        <a class="tab" href="/index2.html">FDM</a>
-      </nav>
+  <section class="reynolds-card">
+    <header>
+      <h1>Reynolds Pressure</h1>
+      <p>Rust&nbsp;→&nbsp;WASM port of your MATLAB solver with symmetry at midline.</p>
+    </header>
+
+    <div class="controls">
+      <label>nx <input id="nx" type="range" min="33" max="199" step="2" value="77"><span id="nxv">77</span></label>
+      <label>ny <input id="ny" type="range" min="33" max="199" step="2" value="99"><span id="nyv">99</span></label>
+      <label>k <input id="k" type="number" step="0.1" value="1.5"></label>
+      <label>b/L <input id="bL" type="number" step="0.05" value="0.5"></label>
+      <label>ω (SOR) <input id="omega" type="number" step="0.1" value="1.6"></label>
+      <label>tol <input id="tol" type="number" step="1e-10" value="1e-8"></label>
+      <label>max_iter <input id="max_iter" type="number" step="1000" value="20000"></label>
+      <button id="run">Compute</button>
     </div>
-  </header>
 
-  <main class="wrap">
-    <!-- LIST VIEW -->
-    <section id="list">
-      <div class="grid" id="grid"></div>
-    </section>
-
-    <!-- DETAIL VIEW -->
-    <section id="detail">
-      <a class="back" href="#projects">← Back to projects</a>
-      <div class="detailbox">
-        <div class="detailhead">
-          <div id="detailImages" class="detail-images"></div>
-          <div class="report">
-            <h1 id="detailTitle"></h1>
-            <div id="detailSubtitle" class="subtitle" style="margin:0 0 10px"></div>
-            <div id="detailMD"></div>
-          </div>
-        </div>
+    <div class="canvases">
+      <div class="canvas-block">
+        <h2>Heatmap</h2>
+        <canvas id="heat" width="640" height="480"></canvas>
       </div>
-    </section>
-  </main>
-
-  <script src="projects.js"></script>
-
-  <section id="fem" class="wrap" style="margin-top:40px;">
-    <div class="detailbox">
-      <div class="detailhead">
-        <div class="report" style="max-width:none;">
-          <h1>1D FEM Solver — Constant Coefficients</h1>
-          <p class="subtitle" style="margin-top:0">Equation FEM Solver - solving u(x) for $\nabla(-c\nabla u -\alpha u + \gamma) + \beta \nabla u + au = f$</p>
-
-          <form id="params" class="fem-form">
-            <div class="tool-grid">
-              <div class="tool-card">
-                <div class="tool-title">Mesh</div>
-                <label>Elements (nel)<input id="nel" type="number" min="1" value="40"></label>
-                <label>Length L<input id="L" type="number" step="0.01" value="0.03"></label>
-              </div>
-
-              <div class="tool-card">
-                <div class="tool-title">PDE Coefficients</div>
-                <label>c<input id="c" type="number" step="0.01" value="-53"></label>
-                <label>α (alpha)<input id="alpha" type="number" step="0.01" value="0.0"></label>
-                <label>β (beta)<input id="beta" type="number" step="0.01" value="0.0"></label>
-                <label>a<input id="a" type="number" step="0.01" value="-25.0"></label>
-                <label>γ (gamma)<input id="gamma" type="number" step="0.01" value="0.0"></label>
-                <label>f<input id="f" type="number" step="0.01" value="-293"></label>
-              </div>
-
-              <div class="tool-card">
-                <div class="tool-title">Left Boundary</div>
-                <label>Kind
-                  <select id="left_kind">
-                    <option value="Dirichlet">Dirichlet</option>
-                    <option value="Flux">Neumann (flux)</option>
-                    <option value="Robin">Robin</option>
-                  </select>
-                </label>
-                <label>Value<input id="left_val" type="number" step="0.01" value="600.0"></label>
-              </div>
-
-              <div class="tool-card">
-                <div class="tool-title">Right Boundary</div>
-                <label>Kind
-                  <select id="right_kind">
-                    <option value="Dirichlet" selected>Dirichlet</option>
-                    <option selected value="Flux">Neumann (flux)</option>
-                    <option value="Robin">Robin</option>
-                  </select>
-                </label>
-                <label>Value<input id="right_val" type="number" step="0.01" value="0.0"></label>
-              </div>
-            </div>
-
-            <div class="tool-actions">
-              <button type="submit" class="btn-primary">Solve</button>
-            </div>
-          </form>
-
-          <div class="plot-card">
-            <canvas id="chart" height="360"></canvas>
-          </div>
-
-          <details class="sample-card">
-            <summary>Show values</summary>
-            <pre id="data"></pre>
-          </details>
-        </div>
+      <div class="canvas-block">
+        <h2>Wireframe (iso)</h2>
+        <canvas id="wire" width="640" height="480"></canvas>
       </div>
     </div>
+
+    <footer>
+      <small>Tip: try nx=77, ny=99, k=1.5, b/L=0.5 (your MATLAB defaults).</small>
+    </footer>
   </section>
-    
-  <!-- libs for FEM tool -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="module" src="main.js"></script>
 
+  <script type="module" src="./main2.js"></script>
 </body>
 </html>
-
