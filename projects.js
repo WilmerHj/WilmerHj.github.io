@@ -39,6 +39,85 @@ $$
             `
       },
       {
+        slug: 'golf-design-exploration',
+        title: 'Golf Trajectory & Club Optimization',
+        subtitle: 'Simulation Driven Design & Parameter Estimation',
+        stack: ['MATLAB', 'Optimization', 'Latin Hypercube', 'Physics Modeling'],
+        images: ['images/Golf/Golf2024.png', 'images/Golf/traject3.png', 'images/Golf/kline3.png', 'images/Golf/Trajectory Best Club.png'],
+        content: md`
+**Overview.** The project consists of two parts: constructing a prediction model for a golf ball's trajectory and optimizing the geometry of a parametric golf club head to maximize carry distance.
+
+**Part 1: Trajectory Prediction.**
+The goal was to build a model to predict the carry and apex of a golf ball using simulator data. The ball is subject to drag and lift forces, modeled as proportional to the square of the velocity:
+$$
+F_D = k_{Drag} \\cdot v^2, \\quad F_L = k_{Lift} \\cdot v^2
+$$
+
+The system is modeled in 2D, where the acceleration components are derived from Newton's second law:
+$$
+\\begin{align}
+a_x &= -\\frac{1}{m} \\left[ k_{Lift}\\sin(\\alpha) + k_{Drag}\\cos(\\alpha) \\right] \\cdot \|v\|^2 \\newline
+a_y &= +\\frac{1}{m} \\left[ k_{Lift}\\cos(\\alpha) - k_{Drag}\\sin(\\alpha) \\right] \\cdot \|v\|^2 - g
+\\end{align}
+$$
+
+**Parameter Estimation.**
+Using the \`fminsearch\` function in MATLAB, a non-linear least square error optimization was performed to estimate $k_{Drag}$ and $k_{Lift}$ by minimizing the difference between predicted and actual carry.
+
+* **Results:** The calculated coefficients were $C_D \\approx 0.34$ and $C_L \\approx 0.32$, which aligns with standard literature.
+* **Accuracy:** 8 out of 11 hits had an error below 2%, though apex error reached up to 16.8% for inexperienced shots.
+
+**Part 2: Geometry Optimization.**
+The second objective was to optimize a fully parametric golf club head to maximize carry distance for a beginner level player.
+
+**Method.**
+To solve the unknown relationships between design variables and club velocity, a **Latin Hypercube Sampling (LHS)** was used to generate initial points, followed by a gradient-based optimization (\`fmincon\`) to minimize the negative carry.
+
+**Optimal Design.**
+The process successfully produced a design within bounds, with parameters pushing the physical limits:
+* **Blade Width:** 150 mm (Upper Bound)
+* **Blade Depth:** 50 mm (Upper Bound)
+* **Loft:** 5$^{\\circ}$ (Lower Bound)
+* **Toe Height:** $\\approx$ 51 mm
+
+The final optimized club yielded a maximum carry of 275 meters, proving the utility of simulation-driven design.
+        `
+      },
+      {
+        slug: 'topology-optimization-lifting',
+        title: 'Topology Optimization for Lifting Solutions',
+        subtitle: 'Generalized attachment design using Ansys Mechanical',
+        stack: ['Ansys Mechanical', 'Topology Optimization', 'FEM', 'CAD', 'Product Development'],
+        images: ['images/Hook//1500N/1500N_optimized_stress.png', 'images/Hook/Paretofront.png', 'images/Hook//400N/400N_optimized.png', 'images/Hook//Analyze lifting loops on cargo.png'],
+        content: md`
+**Overview.** The transportation of a diverse product range—specifically pumps of different sizes and weights—creates logistical bottlenecks due to frequent tool changes. This project investigates the design of a generalized conveyor attachment system capable of handling diverse loads without operational stoppages.
+
+**Methodology.** The study utilizes topology optimization to analyze the structural balance between stress and material consumption. By applying Finite Element Method (FEM) stress analysis in Ansys Mechanical, the design process iteratively removes material from determining where structural support is essential vs. where it is negligible.
+
+**Mathematical Validation.** To validate the FEA results, a simplification of the attachment solution was performed using hand calculations based on the Winkler-Bach formula for bending of curved beams. The hook is affected by both direct tensile stress and bending stress:
+
+$$
+\\sigma = \\frac{F}{A} + M \\cdot \\frac{r_n - r_i}{A \\cdot e \\cdot r_i}
+$$
+
+Where $r_n$ is the neutral axis radius ($r_n = \\frac{h}{\\ln(r_o/r_i)}$) and $e$ is the eccentricity. The theoretical deflection was calculated as:
+
+$$
+\\delta = \\frac{\\pi \\cdot F \\cdot R^2}{2 \\cdot E \\cdot A \\cdot e}
+$$
+
+**Optimization Results.** Three distinct models were generated based on different load cases (400 N and 1500 N) and contact surfaces. The results demonstrated a non-linear trade-off between volume and stress, visualized as a Pareto front.
+
+| Model | Load Case | Volume [L] | Max Stress [MPa] | Characteristics |
+| :--- | :--- | :--- | :--- | :--- |
+| **Model 1** | 400 N | 1.35 | 10.89 | **Balanced:** Good trade-off between weight and strength. |
+| **Model 2** | 1500 N | 1.48 | 10.46 | **Lowest Stress:** Most durable, but highest volume. |
+| **Model 3** | 1500 N (Small Area) | 1.19 | 13.29 | **Lowest Volume:** Lightest design (48% reduction), higher stress. |
+
+**Conclusion.** The final optimized solution achieved a weight reduction of up to 48% compared to the original design while maintaining structural integrity under a reference load of 3000 N. The study confirmed that while critical stress areas require consistent material distribution across load cases, the magnitude of material volume can be optimized significantly.
+        `
+      },
+      {
         slug: 'comsol-heat',
         title: '1D Heat Conduction (COMSOL)',
         subtitle: 'Verification vs. model',
