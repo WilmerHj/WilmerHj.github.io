@@ -1,0 +1,16 @@
+**Overview.** An accurate controlled robot that can move on ground and in air.
+
+**Odometry.** Designed & built a balancing drone robot including both mechanical parts and control algorithms for automated navigation in MATLAB/Simulink.
+
+For wheel $i$, the velocity is
+$$
+V_i = \bar{V} + \overline{r_{i/C}} \times \bar{\omega}.
+$$
+
+With wheel offsets $\pm \frac{L}{2}$ from the center:
+$$
+\begin{cases}
+V_l = V - \frac{L}{2}\,\omega_z, \\
+V_r = V + \frac{L}{2}\,\omega_z.
+\end{cases}
+$$

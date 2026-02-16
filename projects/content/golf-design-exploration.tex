@@ -1,0 +1,10 @@
+**Overview.** Prediction model for golf trajectory and optimization of a parametric club head.
+
+**Trajectory model.** Drag and lift are modeled as
+$$
+F_D = k_{Drag} v^2, \quad F_L = k_{Lift} v^2.
+$$
+
+A non-linear least-squares fit (MATLAB `fminsearch`) was used to estimate aerodynamic coefficients from simulator data.
+
+**Geometry optimization.** Latin Hypercube Sampling + `fmincon` were used to maximize carry under design bounds.

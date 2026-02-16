@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "Drone1",
+    "title": "Flying & Balanicng robot drone",
+    "subtitle": "Two wheeled, two propellered drone car",
+    "stack": ["MATLAB", "Simulink", "Kinematics", "Control Theory"],
+    "images": [
+      "images/Drone1/Turn.png",
+      "images/Drone1/Equation.png",
+      "images/Drone1/RobotBild.jpeg",
+      "images/Drone1/Balancing Kinematics.png",
+      "images/Drone1/Assembly1.png",
+      "images/Drone1/PXL_20250327_161507964.jpg",
+      "images/Drone1/Video (1).mp4",
+      "images/Drone1/Video (2).mp4"
+    ],
+    "content_tex": "projects/content/drone1.tex"
+  },
+  {
+    "slug": "golf-design-exploration",
+    "title": "Golf Trajectory & Club Optimization",
+    "subtitle": "Simulation Driven Design & Parameter Estimation",
+    "stack": ["MATLAB", "Optimization", "Latin Hypercube", "Physics Modeling"],
+    "images": [
+      "images/Golf/Golf2024.png",
+      "images/Golf/traject3.png",
+      "images/Golf/kline3.png",
+      "images/Golf/Trajectory Best Club.png"
+    ],
+    "content_tex": "projects/content/golf-design-exploration.tex"
+  },
+  {
+    "slug": "topology-optimization-lifting",
+    "title": "Topology Optimization for Lifting Solutions",
+    "subtitle": "Generalized attachment design using Ansys Mechanical",
+    "stack": ["Ansys Mechanical", "Topology Optimization", "FEM", "CAD", "Product Development"],
+    "images": [
+      "images/Hook//1500N/1500N_optimized_stress.png",
+      "images/Hook/Paretofront.png",
+      "images/Hook//400N/400N_optimized.png",
+      "images/Hook//Analyze lifting loops on cargo.png"
+    ],
+    "content_tex": "projects/content/topology-optimization-lifting.tex"
+  },
+  {
+    "slug": "rail-suspension-optimization",
+    "title": "Rail Vehicle Suspension Optimization",
+    "subtitle": "Dynamic modeling, RK4 simulation and comfort optimization",
+    "stack": ["MATLAB", "Dynamics", "Optimization", "Runge–Kutta"],
+    "images": [
+      "images/Suspension/Mathematical Model.png",
+      "images/Suspension/StepResponse.png",
+      "images/Suspension/Task1_zoomed set_lowpassed.png",
+      "images/Suspension/Task5_Impulse_10mm.png"
+    ],
+    "content_tex": "projects/content/rail-suspension-optimization.tex"
+  }
+]
