@@ -84,6 +84,32 @@ The final optimized club yielded a maximum carry of 275 meters, proving the util
         `
       },
       {
+        slug: 'arrow-flight-simulation',
+        title: 'Compound Bow Arrow Flight Simulation',
+        subtitle: 'Trajectory and Archer\'s Paradox Modeling',
+        stack: ['MATLAB', 'FEM', 'Runge-Kutta 4', 'Newmark-Beta', 'Physics Simulation'],
+        images: ['images/arrow/DrawCurve2.png', 'images/arrow/StaticDef.png', 'images/arrow/DynamicDef.png', 'images/arrow/FlightHorizontal.png', 'images/arrow/DrawAndVertDiff.png'],
+        content: md`
+[cite_start]**Overview.** The problem consists of building up a simulation model for an arrow launched from a compound bow[cite: 174]. [cite_start]The objective was to hit a target 20 meters away and estimate how the release affects the accuracy, where we only consider different ways of shooting with the Mediterranean draw[cite: 176]. [cite_start]The simulation includes surrounding factors such as gravitation, quadratic air resistance, shooting angle, and the archer's paradox[cite: 179].
+
+**Methodology.**
+The project combined empirical measurements with advanced numerical methods to simulate the entire launch and flight sequence:
+* [cite_start]**Experimental Data Collection:** An experiment was conducted using an actual compound bow and a dynamometer[cite: 197]. [cite_start]By measuring the force subjected to the string for different draw lengths, a nonlinear relationship was interpolated to compute the initial velocity[cite: 198, 200, 201].
+* [cite_start]**Modeling the Archer's Paradox:** The arrow was simplified into an Euler-Bernoulli beam[cite: 210]. [cite_start]The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method[cite: 180, 182]. The dynamic Euler-Bernoulli beam equation is defined as:
+$$
+E I \, \frac{\partial^4 w(x,t)}{\partial x^4} + \rho A \, \frac{\partial^2 w(x,t)}{\partial t^2} = 0
+[cite_start]$$ [cite: 211]
+* [cite_start]**Flight Trajectory:** The flight path was modeled as an ordinary differential equation (ODE) initial value problem and solved using the fourth-order Runge-Kutta (RK4) method[cite: 246, 249]. [cite_start]The model combined initial velocity, gravity, quadratic air resistance, and the tip vibrations derived from the FEM calculations[cite: 246, 247].
+
+[cite_start]**Results.** The simulation produced a periodic oscillating motion reflecting the archer's paradox over a 20-meter trajectory[cite: 289, 311]. The impact of different initial conditions on accuracy was evaluated:
+* [cite_start]The order and timing of which finger leaves the string first (introducing horizontal and vertical offsets) has the largest impact on hit location[cite: 183, 286, 287]. 
+* [cite_start]An uneven release excites a stronger tip vibration and gives the arrow a persistent initial angular deviation[cite: 288, 289].
+* [cite_start]Differences in draw length resulted in considerably lower spread, giving it the least impact on overall precision[cite: 316, 333].
+
+[cite_start]**Conclusion.** To minimize potential error and maximize accuracy, it is highly recommended to release all fingers as simultaneously as possible without pulling the string sideways[cite: 184, 290, 331].
+        `
+      },
+      {
         slug: 'topology-optimization-lifting',
         title: 'Topology Optimization for Lifting Solutions',
         subtitle: 'Generalized attachment design using Ansys Mechanical',
@@ -115,6 +141,35 @@ $$
 | **Model 3** | 1500 N (Small Area) | 1.19 | 13.29 | **Lowest Volume:** Lightest design (48% reduction), higher stress. |
 
 **Conclusion.** The final optimized solution achieved a weight reduction of up to 48% compared to the original design while maintaining structural integrity under a reference load of 3000 N. The study confirmed that while critical stress areas require consistent material distribution across load cases, the magnitude of material volume can be optimized significantly.
+        `
+      },
+      {
+        slug: 'ocean-sensor',
+        title: 'Ocean Sensor',
+        subtitle: 'Modular waterproof sensing unit for ocean pollution & climate data',
+        stack: ['Embedded Systems', 'Sensors', 'Electronics', 'Radio/WiFi', 'Web Visualization'],
+        images: ['images/OceanSensor/slide-1.png', 'images/OceanSensor/slide-2.png', 'images/OceanSensor/slide-3.png', 'images/OceanSensor/slide-4.png', 'images/OceanSensor/slide-5.png'],
+        content: md`
+**Overview.** A modular, waterproof sensor unit for monitoring ocean pollution, collecting climate data for research, and tracking algae growth.
+
+**Hardware.**
+* **Enclosure:** Waterproof case with modular design, built for quick customer assembly.
+* **Electronics & sensors:** turbidity (*grumlighet*) and temperature.
+* **Future extensions:** pH and oil detection via capacitance.
+* **Comms:** radio transmitter (sender).
+
+**Software & data flow.**
+* Web-based data visualization dashboard.
+* Multi-unit support.
+* Receiver: **radio + WiFi** gateway; sender: **radio**.
+
+**Testing.**
+* Temperature validation and calibration (bench testing).
+
+**Learnings.**
+* Waterproofing (connectors, sealing surfaces, tolerances).
+* Radio link robustness as a key design constraint.
+* Design-for-manufacturing and practical measurement electronics.
         `
       },
       {
