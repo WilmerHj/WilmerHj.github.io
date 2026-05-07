@@ -90,23 +90,23 @@ The final optimized club yielded a maximum carry of 275 meters, proving the util
         stack: ['MATLAB', 'FEM', 'Runge-Kutta 4', 'Newmark-Beta', 'Physics Simulation'],
         images: ['images/arrow/DrawCurve2.png', 'images/arrow/StaticDef.png', 'images/arrow/DynamicDef.png', 'images/arrow/FlightHorizontal.png', 'images/arrow/DrawAndVertDiff.png'],
         content: md`
-[cite_start]**Overview.** The problem consists of building up a simulation model for an arrow launched from a compound bow[cite: 174]. [cite_start]The objective was to hit a target 20 meters away and estimate how the release affects the accuracy, where we only consider different ways of shooting with the Mediterranean draw[cite: 176]. [cite_start]The simulation includes surrounding factors such as gravitation, quadratic air resistance, shooting angle, and the archer's paradox[cite: 179].
+**Overview.** The problem consists of building up a simulation model for an arrow launched from a compound bow. The objective was to hit a target 20 meters away and estimate how the release affects the accuracy, considering different shooting styles with the Mediterranean draw. The simulation includes surrounding factors such as gravitation, quadratic air resistance, shooting angle, and the archer's paradox.
 
 **Methodology.**
-The project combined empirical measurements with advanced numerical methods to simulate the entire launch and flight sequence:
-* [cite_start]**Experimental Data Collection:** An experiment was conducted using an actual compound bow and a dynamometer[cite: 197]. [cite_start]By measuring the force subjected to the string for different draw lengths, a nonlinear relationship was interpolated to compute the initial velocity[cite: 198, 200, 201].
-* [cite_start]**Modeling the Archer's Paradox:** The arrow was simplified into an Euler-Bernoulli beam[cite: 210]. [cite_start]The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method[cite: 180, 182]. The dynamic Euler-Bernoulli beam equation is defined as:
-$$
-E I \, \frac{\partial^4 w(x,t)}{\partial x^4} + \rho A \, \frac{\partial^2 w(x,t)}{\partial t^2} = 0
-[cite_start]$$ [cite: 211]
-* [cite_start]**Flight Trajectory:** The flight path was modeled as an ordinary differential equation (ODE) initial value problem and solved using the fourth-order Runge-Kutta (RK4) method[cite: 246, 249]. [cite_start]The model combined initial velocity, gravity, quadratic air resistance, and the tip vibrations derived from the FEM calculations[cite: 246, 247].
+The project combined empirical measurements with advanced numerical methods to simulate the entire launch and flight sequence.
 
-[cite_start]**Results.** The simulation produced a periodic oscillating motion reflecting the archer's paradox over a 20-meter trajectory[cite: 289, 311]. The impact of different initial conditions on accuracy was evaluated:
-* [cite_start]The order and timing of which finger leaves the string first (introducing horizontal and vertical offsets) has the largest impact on hit location[cite: 183, 286, 287]. 
-* [cite_start]An uneven release excites a stronger tip vibration and gives the arrow a persistent initial angular deviation[cite: 288, 289].
-* [cite_start]Differences in draw length resulted in considerably lower spread, giving it the least impact on overall precision[cite: 316, 333].
+**Experimental Data Collection.** An experiment was conducted using an actual compound bow and a dynamometer. By measuring the force applied to the string for different draw lengths, a nonlinear relationship was interpolated to compute the initial velocity.
 
-[cite_start]**Conclusion.** To minimize potential error and maximize accuracy, it is highly recommended to release all fingers as simultaneously as possible without pulling the string sideways[cite: 184, 290, 331].
+**Modeling the Archer's Paradox.** The arrow was simplified into an Euler-Bernoulli beam. The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method. The beam equation used in the model was $EI\,w''''(x,t) + \rho A\,\ddot{w}(x,t) = 0$.
+
+**Flight Trajectory.** The flight path was modeled as an ordinary differential equation (ODE) initial value problem and solved using the fourth-order Runge-Kutta (RK4) method. The model combined initial velocity, gravity, quadratic air resistance, and the tip vibrations derived from the FEM calculations.
+
+**Results.** The simulation produced a periodic oscillating motion reflecting the archer's paradox over a 20-meter trajectory. The impact of different initial conditions on accuracy was evaluated:
+* The order and timing of which finger leaves the string first, introducing horizontal and vertical offsets, has the largest impact on hit location.
+* An uneven release excites a stronger tip vibration and gives the arrow a persistent initial angular deviation.
+* Differences in draw length resulted in considerably lower spread, giving it the least impact on overall precision.
+
+**Conclusion.** To minimize potential error and maximize accuracy, it is highly recommended to release all fingers as simultaneously as possible without pulling the string sideways.
         `
       },
       {
@@ -148,7 +148,7 @@ $$
         title: 'Ocean Sensor',
         subtitle: 'Modular waterproof sensing unit for ocean pollution & climate data',
         stack: ['Embedded Systems', 'Sensors', 'Electronics', 'Radio/WiFi', 'Web Visualization'],
-        images: ['images/OceanSensor/slide-1.png', 'images/OceanSensor/slide-2.png', 'images/OceanSensor/slide-3.png', 'images/OceanSensor/slide-4.png', 'images/OceanSensor/slide-5.png'],
+        images: ['images/OceanSensor/slide-2.png', 'images/OceanSensor/slide-3.png', 'images/OceanSensor/slide-4.png', 'images/OceanSensor/slide-5.png'],
         content: md`
 **Overview.** A modular, waterproof sensor unit for monitoring ocean pollution, collecting climate data for research, and tracking algae growth.
 
@@ -338,21 +338,92 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
       }
     ];
 
+    const aboutPage = {
+      title: 'About me',
+      subtitle: 'Engineering, control, simulation, and prototyping',
+      stack: ['MATLAB','Mathematical Modeling', 'Runge-Kutta 4'],
+      images: ['images/Wilmer/LinkedInProfile2.jpg'],
+      content: md`
+**Hi, I'm an engineer focused on building and understanding real systems.** My work sits at the intersection of mechanical design, modeling, control, and experimentation.
+
+I enjoy taking ideas from first-principles physics and turning them into working prototypes, simulations, and optimized designs. Across the projects on this site, that includes:
+
+* control systems and robotics in **MATLAB** and **Simulink**
+* simulation-driven product development using **FEM**, **COMSOL**, and **Ansys**
+* numerical methods, optimization, and parameter estimation
+* embedded sensing, measurement systems, and hardware prototyping
+
+I'm especially interested in projects where theory meets implementation: deriving the model, validating it with data, and then using it to improve performance, robustness, or design decisions.
+
+This portfolio highlights that workflow through projects in balancing robots, golf trajectory modeling, arrow flight simulation, lifting design optimization, ocean sensing, thermal modeling, and railroad suspension analysis.
+      `
+    };
+
     // ---------- Helpers ----------
     const grid = document.getElementById('grid');
     const list = document.getElementById('list');
     const detail = document.getElementById('detail');
-    const detailShot = document.getElementById('detailShot');
     const detailTitle = document.getElementById('detailTitle');
     const detailSubtitle = document.getElementById('detailSubtitle');
     const detailMD = document.getElementById('detailMD');
+    const tabs = document.querySelectorAll('nav .tab[data-tab]');
 
     function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
 
+    function setActiveTab(activeTab){
+      tabs.forEach(tab => {
+        const isActive = tab.dataset.tab === activeTab;
+        tab.classList.toggle('active', isActive);
+        if (isActive) {
+          tab.setAttribute('aria-current', 'page');
+        } else {
+          tab.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    function renderMedia(container, sources, title){
+      container.innerHTML = '';
+      sources.forEach(src => {
+        let el;
+        if (/\.(mp4|webm|ogg)$/i.test(src)) {
+          el = document.createElement('video');
+          el.src = src;
+          el.controls = true;
+          el.setAttribute('aria-label', `${title || 'Project'} video`);
+        } else {
+          el = document.createElement('img');
+          el.src = src;
+          el.alt = title || '';
+        }
+        container.appendChild(el);
+      });
+    }
+
     function renderList(){
         grid.innerHTML = '';
-        projects.forEach(p => {
+
+        const items = [
+          {
+            slug: 'about',
+            title: aboutPage.title,
+            subtitle: aboutPage.subtitle,
+            stack: ['About', 'Background', 'Skills'],
+            images: aboutPage.images,
+            href: '#about'
+          },
+          ...projects.map(p => ({
+            ...p,
+            href: `#/project/${p.slug || slugify(p.title)}`
+          }))
+        ];
+
+        items.forEach(p => {
             const cover = (p.images && p.images.length) ? p.images[0] : p.shot;
+            const media = cover
+              ? `<div class="shot"><img src="${cover}" alt="${p.title}"/></div>`
+              : `<div class="shot" aria-hidden="true"></div>`;
+
             const card = document.createElement('article');
             card.className = 'card';
             card.innerHTML = `
@@ -361,14 +432,25 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
                 <div class="subtitle">– ${p.subtitle || ''}</div>
                 <div class="stack">${(p.stack||[]).map(s=>`<div>${s}</div>`).join('')}</div>
             </div>
-            <div class="shot"><img src="${cover || ''}" alt="${p.title}"/></div>
-            <a class="linkcover" href="#/project/${p.slug || slugify(p.title)}" aria-label="Open ${p.title}"></a>
+            ${media}
+            <a class="linkcover" href="${p.href}" aria-label="Open ${p.title}"></a>
             `;
             grid.appendChild(card);
         });
     }
 
     const detailImages = document.getElementById('detailImages');
+
+function renderContentPage(page){
+  detailTitle.textContent = page.title || '';
+  detailSubtitle.textContent = page.subtitle || '';
+  detailMD.innerHTML = marked.parse(page.content || '');
+  if(window.MathJax) MathJax.typesetPromise([detailMD]);
+
+  const imgs = (page.images && page.images.length) ? page.images : (page.shot ? [page.shot] : []);
+  renderMedia(detailImages, imgs, page.title);
+}
+
 
 function renderDetail(slug){
   const p = projects.find(x => (x.slug || slugify(x.title)) === slug);
@@ -381,34 +463,28 @@ function renderDetail(slug){
 
   // Render stacked images (or fall back to shot)
   const imgs = (p.images && p.images.length) ? p.images : (p.shot ? [p.shot] : []);
-  detailImages.innerHTML = '';
-imgs.forEach(src => {
-  let el;
-  if (/\.(mp4|webm|ogg)$/i.test(src)) {
-    // video
-    el = document.createElement('video');
-    el.src = src;
-    el.controls = true;
-  } else {
-    // image
-    el = document.createElement('img');
-    el.src = src;
-  }
-  el.alt = p.title;
-  detailImages.appendChild(el);
-});
+  renderMedia(detailImages, imgs, p.title);
 }
 
     function route(){
       const hash = location.hash || '#projects';
       const m = hash.match(/^#\/project\/([A-Za-z0-9\-_%]+)/);
+      if(hash === '#about' || hash === '#/about'){
+        list.style.display = 'none';
+        detail.style.display = 'block';
+        setActiveTab('about');
+        renderContentPage(aboutPage);
+        return;
+      }
       if(m){
         list.style.display = 'none';
         detail.style.display = 'block';
+        setActiveTab('projects');
         renderDetail(decodeURIComponent(m[1]));
       } else {
         detail.style.display = 'none';
         list.style.display = 'block';
+        setActiveTab('projects');
         renderList();
       }
     }
