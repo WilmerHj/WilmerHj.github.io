@@ -144,35 +144,6 @@ $$
         `
       },
       {
-        slug: 'robot-challenge',
-        title: 'Autonomous Ball-Sorting Robots',
-        subtitle: 'Two collaborative mechatronic systems — LEGO Mindstorms EV3',
-        stack: ['LEGO Mindstorms EV3', 'Mechatronics', 'CAD (Inventor)', '3D Printing', 'CNC', 'Design-Build-Test'],
-        images: ['images/CollabRobots/2The_One_assembly_New.png', 'images/CollabRobots/2The_One_assembly_New2.png'],
-        content: md`
-**Overview.** Designed, built, and programmed two autonomous robots — *Baggern* (the digger) and *Dumpern* (the transporter) — that collaborate to collect unsorted balls from a loading zone, navigate an obstacle course, and sort them by size into three colour-coded unloading zones, all within 10 minutes.
-
-**Challenge.** The course featured three elevated platforms (P1–P3), a tipping bridge (P2), and variable-width paths (300–1300 mm), requiring an adaptable open-loop/sensor-fusion solution. Balls came in three sizes — white (Ø 20 mm, 3 g), yellow (Ø 25 mm, 1.4 g), blue (Ø 30 mm, 4.3 g) — plus red balls to be excluded.
-
-**Robot Roles.**
-* **Baggern** — stationed beside the ball box; scoops balls and delivers them to the top platform.
-* **Dumpern** — pre-positioned on the platform nearest the pickup zone; transports and sorts balls across the obstacle course and deposits them in the correct boxes.
-
-**User Interface.** A two-button colour-coded remote control lets an uninitiated user configure the sorting mapping before start. The software then infers the third destination automatically.
-
-**Methodology.**
-* Group contract, shared vision, and sub-team structure (10 members, communication leads per sub-team).
-* Concept generation via brainstorming + ranked comparison in Excel → two finalist concepts selected by elimination.
-* LEGO prototyping → physical iteration → CAD in Autodesk Inventor → CNC milling, metal lathe, and 3D printing (Cura + FDM).
-* Design-Build-Test robustness loop: each sub-solution reviewed for feasibility before manufacture.
-* User-guide validation: external test users performed the full startup sequence; manual refined after each session.
-
-**Sustainability.** No component used two different materials, enabling correct source-separation and recycling at end of life.
-
-**Outcome.** The final system successfully sorted and transported balls autonomously. The team demonstrated that well-thought-out concept selection minimises unnecessary prototypes, and that rigorous user testing produces genuinely user-friendly solutions.
-        `
-      },
-      {
         slug: 'ocean-sensor',
         title: 'Ocean Sensor',
         subtitle: 'Modular waterproof sensing unit for ocean pollution & climate data',
@@ -364,65 +335,6 @@ we have four first-order ODEs of the form $\\dot{y} = F(t, y)$.
 
 Implementation of optimization in MATLAB resulted in the lowest rms acceleration occurred at the lowest possible stiffness and damping in the user defined range. Interpretation of this is that the theoretical maximum deflection is not what is limiting the system but the limit lies in the feasibility and real world application of the stiffness and damping. To test the feasibility of the solution was modified with a fake impulse (simulated gravel on the track) in addition to the solution beginning and end of the data was zero padded to be able to inspect longer oscillatory behaviours. With the introduced "gravel" (impulse in data) the optimization was run again with more feasible results this time, not the lowest possible of the input range of solutions. This result that includes a faked impulse in the track seems more trustworthy and robust since it can handle not perfectly smooth (and clean) track without loosing comfort for potential passengers.
         `
-      },
-      {
-        slug: 'Robotic_Cat_Companion',
-        title: 'Robotic Cat Companion',
-        subtitle: 'A paintable, personality-swappable wooden robot cat for children',
-        stack: ['CAD (Inventor)', 'Arduino Uno', 'Raspberry Pi Zero WH', 'ATMEGA328P', 'ESP8266 Wi-Fi', 'Ultrasonic Sensing', 'Laser-Cut Masonite', '3D Printing', 'Web App', 'DBT / Gate Process'],
-        images: ['images/Cat/Picture2.jpg','images/Cat/Picture1.jpg', 'images/Cat/webGif.mp4', 'images/Cat/PXL_20231208_102716055.jpg', 'images/Cat/PXL_20231208_102719947.jpg'],
-        content: md`
-**Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
-
-The cat is intentionally **not** a low-care pet substitute — it is a creative toy. Children **paint the wooden shell themselves**, swap **ears and hats**, and choose **personalities** through a companion website, so the same hardware can become endlessly different cats over time.
-
-**Product goals (from the PRD).**
-* **Innovative user experience** — a curious, story-enabled, ever-changeable robot friend that addresses unmet desires children haven't yet articulated.
-* **Technology leadership** — modern consumer-robotics components and early prototype testing.
-* **Competitive positioning** — feature/price parity with or above existing offerings (benchmarked against ImagiCharm and Pokémon-style toys).
-
-**Target user.**
-* **Buyer:** parents, grandparents, relatives or friends of children.
-* **User:** children aged 3–8 with an interest in robotics or cats.
-* **Scenario:** *"Elliot, an 8-year-old, is bored and uses ShellCat to stay satisfied with endless play and unlimited personalities. He paints and plays with the ShellCat and sees it as a real pet/friend."*
-
-**Mechanical design.**
-* **Outer shell:** **Masonite, laser-cut** — a wooden surface that takes paint well, fitting the brand's *Blanchedalmond* wooden look.
-* **3D-printed plastic** parts for gears, the MCU case, the computer case, and battery holders.
-* **Swappable accessories:** ears and hats designed to be made by the user from a manual included in the box.
-* CAD modelled in **Inventor** to allow rapid iteration and a **modular design** for a future "world of characters."
-
-**Electronics.**
-The PRD splits the bill of materials between an early *prototype* and a cost-reduced *product* version:
-
-| Subsystem | Prototype | Product |
-| :--- | :--- | :--- |
-| MCU | Arduino Uno | ATMEGA328P-PU |
-| Computer | Raspberry Pi Zero WH | — (replaced by Wi-Fi + MCU) |
-| Connectivity | (via Pi) | ESP8266 Wi-Fi module |
-| Motion | 2× DC motors + 1× stepper (28BYJ-48 + ULN2003) | same |
-| Sensing | Ultrasonic ranger | Ultrasonic ranger |
-| Power | 3× AA + 1× 6LR holders | 3× AA + 1× 6LR holders |
-| PCB | breadboard / wiring | Custom PCB |
-
-**Functional requirements.**
-* Natural, intuitive interaction with children.
-* **Selectable personalities** — currently five, exposed via the companion website with regular updates planned.
-* **Autonomous navigation** in a home environment with obstacle avoidance and the ability to approach objects within a defined area.
-* **Safe interaction** with household objects, children, and pets.
-* **Battery life** sufficient for at least one full day of typical use, with easy-to-change batteries.
-
-**Non-functional requirements.**
-* User-friendly setup with no maintenance.
-* High durability and a low failure rate to support endless play.
-* **Modular design** to allow future upgrades and new characters.
-
-**Companion website.** A web app (a visual copy hosted at *here* and is also shown in one of the videos) lets the user pick the cat's personality and will host a community forum where suggestions can be voted on and rolled into future updates — closing a loop directly back into the product.
-
-**Brand & story.** ShellCats are described in the PRD as having come from a worn-out world to Earth via a "magical spell," carrying protective shells that children can decorate to express each cat's personality.
-
-**Process.** The development followed a **Design-Build-Test (DBT) and gate** workflow with early user-testing prototypes feeding back into the design before each gate.
-        `
       }
     ];
 
@@ -437,7 +349,7 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
 I enjoy taking ideas from first-principles physics and turning them into working prototypes, simulations, and optimized designs. Across the projects on this site, that includes:
 
 * control systems and robotics in **MATLAB** and **Simulink**
-* simulation-driven product development using **FEM** and **scripting**, in **Abaqus**, **Hypermesh**, and **Ansys**
+* simulation-driven product development using **FEM**, **COMSOL**, and **Ansys**
 * numerical methods, optimization, and parameter estimation
 * embedded sensing, measurement systems, and hardware prototyping
 

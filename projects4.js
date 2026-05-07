@@ -148,7 +148,7 @@ $$
         title: 'Autonomous Ball-Sorting Robots',
         subtitle: 'Two collaborative mechatronic systems — LEGO Mindstorms EV3',
         stack: ['LEGO Mindstorms EV3', 'Mechatronics', 'CAD (Inventor)', '3D Printing', 'CNC', 'Design-Build-Test'],
-        images: ['images/CollabRobots/2The_One_assembly_New.png', 'images/CollabRobots/2The_One_assembly_New2.png'],
+        images: ['images/CollabRobots/The_One_assembly_New.png', 'images/CollabRobots/The_One_assembly_New2.png'],
         content: md`
 **Overview.** Designed, built, and programmed two autonomous robots — *Baggern* (the digger) and *Dumpern* (the transporter) — that collaborate to collect unsorted balls from a loading zone, navigate an obstacle course, and sort them by size into three colour-coded unloading zones, all within 10 minutes.
 
@@ -366,63 +366,35 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
         `
       },
       {
-        slug: 'Robotic_Cat_Companion',
+        slug: 'robotic-cat-companion',
         title: 'Robotic Cat Companion',
-        subtitle: 'A paintable, personality-swappable wooden robot cat for children',
-        stack: ['CAD (Inventor)', 'Arduino Uno', 'Raspberry Pi Zero WH', 'ATMEGA328P', 'ESP8266 Wi-Fi', 'Ultrasonic Sensing', 'Laser-Cut Masonite', '3D Printing', 'Web App', 'DBT / Gate Process'],
-        images: ['images/Cat/Picture2.jpg','images/Cat/Picture1.jpg', 'images/Cat/webGif.mp4', 'images/Cat/PXL_20231208_102716055.jpg', 'images/Cat/PXL_20231208_102719947.jpg'],
+        subtitle: 'Concept design of a mechatronic pet companion (MT1559)',
+        stack: ['CAD (Inventor/SolidWorks)', 'Arduino', 'Raspberry Pi', 'Mechatronics', 'Concept Design'],
+        images: ['images/Cat/concept.png'],
         content: md`
-**Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
+**Overview.** Group concept-design project (course MT1559, Group 3) developing a robotic cat as an interactive companion. The work focuses on early-stage conceptualization, mechanical layout in CAD, and the electronics architecture needed for sensing, motion, and behaviour — without committing yet to a fully actuated walking platform.
 
-The cat is intentionally **not** a low-care pet substitute — it is a creative toy. Children **paint the wooden shell themselves**, swap **ears and hats**, and choose **personalities** through a companion website, so the same hardware can become endlessly different cats over time.
+**Goals.**
+* Provide companionship and lightweight interactive behaviour (response to touch, sound, presence).
+* Be safe, quiet, and visually convincing as a pet without requiring care (food, litter, vet visits).
+* Stay within a buildable bill of materials for a student project — off-the-shelf hobby actuators and electronics.
 
-**Product goals (from the PRD).**
-* **Innovative user experience** — a curious, story-enabled, ever-changeable robot friend that addresses unmet desires children haven't yet articulated.
-* **Technology leadership** — modern consumer-robotics components and early prototype testing.
-* **Competitive positioning** — feature/price parity with or above existing offerings (benchmarked against ImagiCharm and Pokémon-style toys).
+**Mechanical concept.**
+* Body and skeleton modelled parametrically in **Inventor / SolidWorks** to allow easy iteration on proportions and joint placement.
+* Articulated head, neck, and tail to express simple behaviours; the legs are designed initially as wheels.
+* Outer shell intended to be soft-covered for safety and a pettable surface, with internal hardpoints for servos and PCBs.
 
-**Target user.**
-* **Buyer:** parents, grandparents, relatives or friends of children.
-* **User:** children aged 3–8 with an interest in robotics or cats.
-* **Scenario:** *"Elliot, an 8-year-old, is bored and uses ShellCat to stay satisfied with endless play and unlimited personalities. He paints and plays with the ShellCat and sees it as a real pet/friend."*
+**Electronics architecture.**
+* **Raspberry Pi** as the high-level controller — handles audio, vision, and the behaviour state machine.
+* **Arduino** as the real-time motor/sensor controller — drives servos for head and tail, reads touch and IMU input, and reports back over serial.
+* Sensor set under consideration: capacitive touch on the back and head, microphone, IMU, and a low-resolution camera for presence detection.
 
-**Mechanical design.**
-* **Outer shell:** **Masonite, laser-cut** — a wooden surface that takes paint well, fitting the brand's *Blanchedalmond* wooden look.
-* **3D-printed plastic** parts for gears, the MCU case, the computer case, and battery holders.
-* **Swappable accessories:** ears and hats designed to be made by the user from a manual included in the box.
-* CAD modelled in **Inventor** to allow rapid iteration and a **modular design** for a future "world of characters."
 
-**Electronics.**
-The PRD splits the bill of materials between an early *prototype* and a cost-reduced *product* version:
 
-| Subsystem | Prototype | Product |
-| :--- | :--- | :--- |
-| MCU | Arduino Uno | ATMEGA328P-PU |
-| Computer | Raspberry Pi Zero WH | — (replaced by Wi-Fi + MCU) |
-| Connectivity | (via Pi) | ESP8266 Wi-Fi module |
-| Motion | 2× DC motors + 1× stepper (28BYJ-48 + ULN2003) | same |
-| Sensing | Ultrasonic ranger | Ultrasonic ranger |
-| Power | 3× AA + 1× 6LR holders | 3× AA + 1× 6LR holders |
-| PCB | breadboard / wiring | Custom PCB |
-
-**Functional requirements.**
-* Natural, intuitive interaction with children.
-* **Selectable personalities** — currently five, exposed via the companion website with regular updates planned.
-* **Autonomous navigation** in a home environment with obstacle avoidance and the ability to approach objects within a defined area.
-* **Safe interaction** with household objects, children, and pets.
-* **Battery life** sufficient for at least one full day of typical use, with easy-to-change batteries.
-
-**Non-functional requirements.**
-* User-friendly setup with no maintenance.
-* High durability and a low failure rate to support endless play.
-* **Modular design** to allow future upgrades and new characters.
-
-**Companion website.** A web app (a visual copy hosted at *here* and is also shown in one of the videos) lets the user pick the cat's personality and will host a community forum where suggestions can be voted on and rolled into future updates — closing a loop directly back into the product.
-
-**Brand & story.** ShellCats are described in the PRD as having come from a worn-out world to Earth via a "magical spell," carrying protective shells that children can decorate to express each cat's personality.
-
-**Process.** The development followed a **Design-Build-Test (DBT) and gate** workflow with early user-testing prototypes feeding back into the design before each gate.
-        `
+**Implementation notes.**
+* "Purr" rendered through a small vibration motor coupled to the chest cavity rather than synthesized sound, giving a more tactile feel during petting.
+* Behaviour transitions are debounced to prevent flicker between states under noisy sensor input.
+`
       }
     ];
 
@@ -437,7 +409,7 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
 I enjoy taking ideas from first-principles physics and turning them into working prototypes, simulations, and optimized designs. Across the projects on this site, that includes:
 
 * control systems and robotics in **MATLAB** and **Simulink**
-* simulation-driven product development using **FEM** and **scripting**, in **Abaqus**, **Hypermesh**, and **Ansys**
+* simulation-driven product development using **FEM**, **COMSOL**, and **Ansys**
 * numerical methods, optimization, and parameter estimation
 * embedded sensing, measurement systems, and hardware prototyping
 
