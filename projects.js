@@ -370,7 +370,7 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
         title: 'Robotic Cat Companion',
         subtitle: 'A paintable, personality-swappable wooden robot cat for children',
         stack: ['CAD (Inventor)', 'Arduino Uno', 'Raspberry Pi Zero WH', 'ATMEGA328P', 'ESP8266 Wi-Fi', 'Ultrasonic Sensing', 'Laser-Cut Masonite', '3D Printing', 'Web App', 'DBT / Gate Process'],
-        images: ['images/Cat/Picture2.jpg','images/Cat/Picture1.jpg', 'images/Cat/webGif.mp4', 'images/Cat/PXL_20231208_102716055.jpg', 'images/Cat/PXL_20231208_102719947.jpg'],
+        images: ['images/cat/Picture2.jpg','images/cat/Picture1.jpg', 'images/cat/webGif.mp4', 'images/cat/PXL_20231208_102716055.jpg', 'images/cat/PXL_20231208_102719947.jpg'],
         content: md`
 **Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
 
