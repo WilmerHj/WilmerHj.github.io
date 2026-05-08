@@ -427,7 +427,7 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
     ];
 
     const aboutPage = {
-      title: 'About me ',
+      title: 'About me',
       subtitle: 'Engineering, control, simulation, and prototyping',
       stack: ['MATLAB','Mathematical Modeling', 'Runge-Kutta 4'],
       images: ['images/Wilmer/LinkedInProfile2.jpg'],
