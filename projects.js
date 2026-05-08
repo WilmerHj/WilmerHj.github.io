@@ -437,7 +437,7 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
 I enjoy taking ideas from first-principles physics and turning them into working prototypes, simulations, and optimized designs. Across the projects on this site, that includes:
 
 * control systems and robotics in **MATLAB** and **Simulink**
-* simulation-driven product development using **FEM** and **scripting**, in **Abaqus**, **Hypermesh**, and **Ansys**
+* simulation-driven product development using **FEM** and **scripting**, in **Abaqus**, **Hypermesh**, **Ansys** and **Autodesk Inventor**.
 * numerical methods, optimization, and parameter estimation
 * embedded sensing, measurement systems, and hardware prototyping
 
