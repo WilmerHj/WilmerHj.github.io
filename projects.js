@@ -470,11 +470,71 @@ This portfolio highlights that workflow through projects in balancing robots, go
       });
     }
 
+    let lightbox;
+    let lightboxContent;
+
+    function ensureLightbox(){
+      if (lightbox) return;
+
+      lightbox = document.createElement('div');
+      lightbox.className = 'project-lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Project media preview');
+      lightbox.hidden = true;
+      lightbox.innerHTML = `
+        <button class="project-lightbox-close" type="button" aria-label="Close preview">×</button>
+        <div class="project-lightbox-content"></div>
+      `;
+
+      lightboxContent = lightbox.querySelector('.project-lightbox-content');
+      lightbox.querySelector('.project-lightbox-close').addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', event => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', event => {
+        if (!lightbox.hidden && event.key === 'Escape') closeLightbox();
+      });
+
+      document.body.appendChild(lightbox);
+    }
+
+    function openLightbox(src, title, isVideo){
+      ensureLightbox();
+      lightboxContent.innerHTML = '';
+
+      let preview;
+      if (isVideo) {
+        preview = document.createElement('video');
+        preview.src = src;
+        preview.controls = true;
+        preview.autoplay = true;
+        preview.setAttribute('aria-label', `${title || 'Project'} video preview`);
+      } else {
+        preview = document.createElement('img');
+        preview.src = src;
+        preview.alt = title || '';
+      }
+
+      lightboxContent.appendChild(preview);
+      lightbox.hidden = false;
+      document.body.classList.add('lightbox-open');
+      lightbox.querySelector('.project-lightbox-close').focus();
+    }
+
+    function closeLightbox(){
+      if (!lightbox) return;
+      lightbox.hidden = true;
+      document.body.classList.remove('lightbox-open');
+      lightboxContent.innerHTML = '';
+    }
+
     function renderMedia(container, sources, title){
       container.innerHTML = '';
       sources.forEach(src => {
         let el;
-        if (/\.(mp4|webm|ogg)$/i.test(src)) {
+        const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
+        if (isVideo) {
           el = document.createElement('video');
           el.src = src;
           el.controls = true;
@@ -484,6 +544,15 @@ This portfolio highlights that workflow through projects in balancing robots, go
           el.src = src;
           el.alt = title || '';
         }
+        el.classList.add('project-media');
+        el.tabIndex = 0;
+        el.addEventListener('click', () => openLightbox(src, title, isVideo));
+        el.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openLightbox(src, title, isVideo);
+          }
+        });
         container.appendChild(el);
       });
     }
@@ -523,6 +592,24 @@ This portfolio highlights that workflow through projects in balancing robots, go
             ${media}
             <a class="linkcover" href="${p.href}" aria-label="Open ${p.title}"></a>
             `;
+            if (cover) {
+              const shot = card.querySelector('.shot');
+              shot.classList.add('project-media');
+              shot.tabIndex = 0;
+              shot.setAttribute('role', 'button');
+              shot.setAttribute('aria-label', `Preview ${p.title}`);
+              shot.addEventListener('click', event => {
+                event.preventDefault();
+                event.stopPropagation();
+                openLightbox(cover, p.title, /\.(mp4|webm|ogg)$/i.test(cover));
+              });
+              shot.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  openLightbox(cover, p.title, /\.(mp4|webm|ogg)$/i.test(cover));
+                }
+              });
+            }
             grid.appendChild(card);
         });
     }
