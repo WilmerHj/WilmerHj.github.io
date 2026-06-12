@@ -29,9 +29,9 @@ We obtain the equations:
 
 $$
 \\begin{cases}
-V_l = V - \\frac{L}{2},\\omega_l
+V_l = V - \\frac{L}{2}\\,\\omega_z
   = \\begin{bmatrix} 1 & -\\frac{L}{2} \\end{bmatrix}\\begin{bmatrix} V \\newline \\omega_z \\end{bmatrix} \\newline
-V_r = V + \\frac{L}{2},\\omega_r
+V_r = V + \\frac{L}{2}\\,\\omega_z
   = \\begin{bmatrix} 1 & +\\frac{L}{2} \\end{bmatrix}\\begin{bmatrix} V \\newline \\omega_z \\end{bmatrix}
 \\end{cases}
 $$
@@ -56,8 +56,8 @@ $$
 The system is modeled in 2D, where the acceleration components are derived from Newton's second law:
 $$
 \\begin{align}
-a_x &= -\\frac{1}{m} \\left[ k_{Lift}\\sin(\\alpha) + k_{Drag}\\cos(\\alpha) \\right] \\cdot \|v\|^2 \\newline
-a_y &= +\\frac{1}{m} \\left[ k_{Lift}\\cos(\\alpha) - k_{Drag}\\sin(\\alpha) \\right] \\cdot \|v\|^2 - g
+a_x &= -\\frac{1}{m} \\left[ k_{Lift}\\sin(\\alpha) + k_{Drag}\\cos(\\alpha) \\right] \\cdot \\|v\\|^2 \\newline
+a_y &= +\\frac{1}{m} \\left[ k_{Lift}\\cos(\\alpha) - k_{Drag}\\sin(\\alpha) \\right] \\cdot \\|v\\|^2 - g
 \\end{align}
 $$
 
@@ -97,7 +97,7 @@ The project combined empirical measurements with advanced numerical methods to s
 
 **Experimental Data Collection.** An experiment was conducted using an actual compound bow and a dynamometer. By measuring the force applied to the string for different draw lengths, a nonlinear relationship was interpolated to compute the initial velocity.
 
-**Modeling the Archer's Paradox.** The arrow was simplified into an Euler-Bernoulli beam. The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method. The beam equation used in the model was $EI\,w''''(x,t) + \rho A\,\ddot{w}(x,t) = 0$.
+**Modeling the Archer's Paradox.** The arrow was simplified into an Euler-Bernoulli beam. The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method. The beam equation used in the model was $EIw''''(x,t) + \\rho A\\ddot{w}(x,t) = 0$.
 
 **Flight Trajectory.** The flight path was modeled as an ordinary differential equation (ODE) initial value problem and solved using the fourth-order Runge-Kutta (RK4) method. The model combined initial velocity, gravity, quadratic air resistance, and the tip vibrations derived from the FEM calculations.
 
@@ -114,7 +114,7 @@ The project combined empirical measurements with advanced numerical methods to s
         title: 'Topology Optimization for Lifting Solutions',
         subtitle: 'Generalized attachment design using Ansys Mechanical',
         stack: ['Ansys Mechanical', 'Topology Optimization', 'FEM', 'CAD', 'Product Development'],
-        images: ['images/Hook//1500N/1500N_optimized_stress.png', 'images/Hook/Paretofront.png', 'images/Hook//400N/400N_optimized.png', 'images/Hook//Analyze lifting loops on cargo.png'],
+        images: ['images/Hook/1500N/1500N_optimized_stress.png', 'images/Hook/Paretofront.png', 'images/Hook/400N/400N_optimized.png', 'images/Hook/Analyze lifting loops on cargo.png'],
         content: md`
 **Overview.** The transportation of a diverse product range—specifically pumps of different sizes and weights—creates logistical bottlenecks due to frequent tool changes. This project investigates the design of a generalized conveyor attachment system capable of handling diverse loads without operational stoppages.
 
@@ -207,7 +207,7 @@ $$
         subtitle: 'Verification vs. model',
         stack: ['MATLAB','COMSOL','FEM'],
         images: ['images/Heatsink/Comsol.png', 'images/Heatsink/FEM.png'],
-        content: `
+        content: md`
 **PDE.** $\\nabla \\cdot(-c\\nabla u - \\alpha u + \\gamma) + \\beta \\nabla u + au = f$. In 1D: $$\\frac{d}{dx}\\left(k \\frac{dT}{dx}\\right) - 25T + 25T_{air} = 0.$$
 
 **Mapping.** $c=-K,\ u=T,\ a=-25,\ f=-25T_{air}$. Dirichlet + zero-flux on boundaries.
@@ -215,7 +215,7 @@ $$
 \\begin{align}
 N_i &= \\frac{x - x_j}{x_i-x_j} \\quad N_j = \\frac{x_i-x}{x_i-x_j} \\newline
 F_r &= \\int_{x_1}^{x_2} 25 T_{air} N_r \\, dx \\newline
-K_{rc} &= \\int_{x_1}^{x_2} \\frac{d^2}{dx^2} K N_r N_c + 25 N_r N_c \\, dx\\newline
+K_{rc} &= \\int_{x_1}^{x_2} -\\frac{d}{dx}\\left(K \\frac{d N_c}{dx}\\right) N_r + 25 N_r N_c \\, dx\\newline
 &= \\int_{x_1}^{x_2} K \\frac{d N_r}{dx} \\frac{d N_c}{dx} + 25 N_r N_c \\, dx\\newline
 \\mathbf{T} &= K^{-1} \\mathbf{F}
 \\end{align}
@@ -284,7 +284,7 @@ A T-shaped structure of two welded 35×35×2 mm hollow steel sections (327 mm ho
         stack: ['MATLAB','Mathematical Modeling', 'Runge-Kutta 4'],
         images: ['images/Suspension/Mathematical Model.png', 'images/Suspension/Task5_Impulse_10mm.png', 'images/Suspension/StepResponse.png'],
         content: md`
-**Problem statement.** The vehicle is running at constant velocity $v = 68 km/h$. The measured vertical height position $z_s$ of the track along the route $s$ is given by data.
+**Problem statement.** The vehicle is running at constant velocity $v = 68\\ \\mathrm{km/h}$. The measured vertical height position $z_s$ of the track along the route $s$ is given by data.
 
 **Mathematical model.** We consider a two-degree-of-freedom train model with masses $m_1$, $m_2$, contact and suspension springs $k_1$, $k_2$, and dampers $C_1$, $C_2$, traveling over a track profile $z_s(s)$ at constant speed v.
 
@@ -297,8 +297,8 @@ C_1 &= 4.10 \\times 10^5 \\ \\mathrm{Ns/m}, & C_2 &= 1.60 \\times 10^5 \\ \\math
 \\end{aligned}
 $$
 
-The track elevation is given as a dataset with corresponding heights z_s and distances s.
-Since the vehicle moves at constant speed v_s = 68 \\ \\mathrm{km/h}, we can also obtain the time signal from the data:
+The track elevation is given as a dataset with corresponding heights $z_s$ and distances $s$.
+Since the vehicle moves at constant speed $v_s = 68\\ \\mathrm{km/h}$, we can also obtain the time signal from the data:
 $$
 t = \\frac{s}{v}, \\quad \\text{where $s$ is the track distance vector}.
 $$
@@ -324,16 +324,16 @@ $$
 The equilibrium equations are:
 $$
 \\begin{aligned}
-\\uparrow^+ \\sum F_{z1} = m_1 \\ddot z_1 &= -F_{S1} - F_{S2} - F_{C1} - F_{C2} + F_1,\\newline
-&= -k_1(z_s - z_1) - k_2(z_1 - z_2) - C_1(\\dot z_s - \\dot z_1) - C_2(\\dot z_1 - \\dot z_2) + F_1,\\newline
+\\uparrow^+ \\sum F_{z1} = m_1 \\ddot z_1 &= +F_{S1} - F_{S2} + F_{C1} - F_{C2} + F_1,\\newline
+&= k_1(z_s - z_1) - k_2(z_1 - z_2) + C_1(\\dot z_s - \\dot z_1) - C_2(\\dot z_1 - \\dot z_2) + F_1,\\newline
 \\uparrow^+ \\sum F_{z2} = m_2 \\ddot z_2 &= +F_{S2} + F_{C2} + F_2,\\newline
 &= -k_2(z_2 - z_1) - C_2(\\dot z_2 - \\dot z_1) + F_2.
 \\end{aligned}
 $$
 
-Since there are no other external forces (F_1 = F_2 = 0), the accelerations can be expressed as:
+Since there are no other external forces ($F_1 = F_2 = 0$), the accelerations can be expressed as:
 $$
-\\ddot{z}_1 = -\\frac{1}{m_1} \\left[ (C_2 - C_1)\\dot z_1 + (k_2 - k_1) z_1 - C_2 \\dot z_2 - k_2 z_2 + C_1 \\dot z_s + k_1 z_s \\right], \\tag{1}
+\\ddot{z}_1 = -\\frac{1}{m_1} \\left[ (C_1 + C_2)\\dot z_1 + (k_1 + k_2) z_1 - C_2 \\dot z_2 - k_2 z_2 - C_1 \\dot z_s - k_1 z_s \\right], \\tag{1}
 $$
 $$
 \\ddot{z}_2 = -\\frac{1}{m_2} \\left[ C_2 \\dot z_2 + k_2 z_2 - C_2 \\dot z_1 - k_2 z_1 \\right]. \\tag{2}
@@ -415,7 +415,7 @@ we have four first-order ODEs of the form $\\dot{y} = F(t, y)$.
 
 **Optimization.** For obvious reasons, the suspension of the car body is something that is added after the wheels and tracks and thus is subject to more changes, therefore the parameters that are to be optimized are the car body's stiffness and damping ($k_2$ and $C_2$). The optimization involves a multidimensional problem, where the displacement is dependent on both stiffness and damping in addition to the wheels reaction to the movement of the car body.
 
-Implementation of optimization in MATLAB resulted in the lowest rms acceleration occurred at the lowest possible stiffness and damping in the user defined range. Interpretation of this is that the theoretical maximum deflection is not what is limiting the system but the limit lies in the feasibility and real world application of the stiffness and damping. To test the feasibility of the solution was modified with a fake impulse (simulated gravel on the track) in addition to the solution beginning and end of the data was zero padded to be able to inspect longer oscillatory behaviours. With the introduced "gravel" (impulse in data) the optimization was run again with more feasible results this time, not the lowest possible of the input range of solutions. This result that includes a faked impulse in the track seems more trustworthy and robust since it can handle not perfectly smooth (and clean) track without loosing comfort for potential passengers.
+Implementation of optimization in MATLAB resulted in the lowest rms acceleration occurred at the lowest possible stiffness and damping in the user defined range. Interpretation of this is that the theoretical maximum deflection is not what is limiting the system but the limit lies in the feasibility and real world application of the stiffness and damping. To test the feasibility of the solution was modified with a fake impulse (simulated gravel on the track) in addition to the solution beginning and end of the data was zero padded to be able to inspect longer oscillatory behaviours. With the introduced "gravel" (impulse in data) the optimization was run again with more feasible results this time, not the lowest possible of the input range of solutions. This result that includes a faked impulse in the track seems more trustworthy and robust since it can handle not perfectly smooth (and clean) track without losing comfort for potential passengers.
         `
       },
       {
@@ -423,7 +423,7 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
         title: 'Robotic Cat Companion',
         subtitle: 'A paintable, personality-swappable wooden robot cat for children',
         stack: ['CAD (Inventor)', 'Arduino Uno', 'Raspberry Pi Zero WH', 'ATMEGA328P', 'ESP8266 Wi-Fi', 'Ultrasonic Sensing', 'Laser-Cut Masonite', '3D Printing', 'Web App', 'DBT / Gate Process'],
-        images: ['images/cat/Picture2.jpg','images/cat/Picture1.jpg', 'images/cat/webGif.mp4', 'images/cat/PXL_20231208_102716055.jpg', 'images/cat/PXL_20231208_102719947.jpg'],
+        images: ['images/Cat/Picture2.jpg','images/Cat/Picture1.jpg', 'images/Cat/webGif.mp4', 'images/Cat/PXL_20231208_102716055.jpg', 'images/Cat/PXL_20231208_102719947.jpg'],
         content: md`
 **Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
 
