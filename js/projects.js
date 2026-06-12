@@ -1,4 +1,10 @@
-//(TODO) Tagged template to preserve backslashes in LaTeX (no JS escaping)
+// MATH AUTHORING CONVENTION — always write TeX commands with DOUBLE
+// backslashes: \\frac, \\rho, \\, etc.
+// Why: this template processes JS escapes (one backslash level is consumed
+// here), and renderMarkdown() then protects $...$ / $$...$$ spans from the
+// markdown parser so the remaining single backslash reaches MathJax intact.
+// Single backslashes are unsafe: \r, \n, \t etc. are JS escape sequences
+// and get corrupted before any rendering happens.
 const md = (strings, ...values) => String.raw({raw: strings}, ...values);
 
 const projects = [
@@ -620,6 +626,23 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
         if (event.key === 'ArrowLeft')  { event.preventDefault(); stepLightbox(-1); }
       });
 
+      // Swipe navigation (mobile)
+      let touchStartX = 0, touchStartY = 0;
+      lightbox.addEventListener('touchstart', event => {
+        const t = event.changedTouches[0];
+        touchStartX = t.clientX;
+        touchStartY = t.clientY;
+      }, { passive: true });
+      lightbox.addEventListener('touchend', event => {
+        if (event.target && event.target.tagName === 'VIDEO') return;
+        const t = event.changedTouches[0];
+        const dx = t.clientX - touchStartX;
+        const dy = t.clientY - touchStartY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+          stepLightbox(dx < 0 ? 1 : -1);
+        }
+      }, { passive: true });
+
       document.body.appendChild(lightbox);
     }
 
@@ -683,11 +706,14 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
           el = document.createElement('video');
           el.src = src;
           el.controls = true;
+          el.preload = 'metadata';
           el.setAttribute('aria-label', `${title || 'Project'} video`);
         } else {
           el = document.createElement('img');
           el.src = src;
           el.alt = title || '';
+          el.loading = 'lazy';
+          el.decoding = 'async';
         }
         el.classList.add('project-media');
         el.tabIndex = 0;
@@ -731,7 +757,7 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
         items.forEach(p => {
             const cover = (p.images && p.images.length) ? p.images[0] : p.shot;
             const media = cover
-              ? `<div class="shot"><img src="${cover}" alt="${p.title}"/></div>`
+              ? `<div class="shot"><img src="${cover}" alt="${p.title}" loading="lazy" decoding="async"/></div>`
               : `<div class="shot" aria-hidden="true"></div>`;
 
             const card = document.createElement('article');
@@ -769,11 +795,28 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
     }
 
     const detailImages = document.getElementById('detailImages');
+    const BASE_TITLE = 'Wilmer Hjulström';
+
+// Render markdown to HTML while protecting TeX math from the markdown parser.
+// Without this, markdown eats backslashes before punctuation (e.g. \, -> ,)
+// and may mangle _ or * inside math. Math spans are swapped for placeholders,
+// markdown runs on the rest, then the raw TeX is reinserted (HTML-escaped).
+function renderMarkdown(src){
+  const math = [];
+  const protectedSrc = (src || '').replace(/\$\$[\s\S]+?\$\$|\$[^$\n]+?\$/g, m => {
+    const tex = m
+      .replace(/\\\\/g, '\\')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    math.push(tex);
+    return `@@MATH${math.length - 1}@@`;
+  });
+  return marked.parse(protectedSrc).replace(/@@MATH(\d+)@@/g, (_, i) => math[i]);
+}
 
 function renderContentPage(page){
   detailTitle.textContent = page.title || '';
   detailSubtitle.textContent = page.subtitle || '';
-  detailMD.innerHTML = marked.parse(page.content || '');
+  detailMD.innerHTML = renderMarkdown(page.content);
   if(window.MathJax) MathJax.typesetPromise([detailMD]);
 
   const imgs = (page.images && page.images.length) ? page.images : (page.shot ? [page.shot] : []);
@@ -785,9 +828,10 @@ function renderDetail(slug){
   const p = projects.find(x => (x.slug || slugify(x.title)) === slug);
   if(!p){ location.hash = '#projects'; return; }
 
+  document.title = `${BASE_TITLE} — ${p.title}`;
   detailTitle.textContent = p.title;
   detailSubtitle.textContent = p.subtitle || '';
-  detailMD.innerHTML = marked.parse(p.content || '');
+  detailMD.innerHTML = renderMarkdown(p.content);
   if(window.MathJax) MathJax.typesetPromise([detailMD]);
 
   // Render stacked images (or fall back to shot)
@@ -802,6 +846,7 @@ function renderDetail(slug){
         list.style.display = 'none';
         detail.style.display = 'block';
         setActiveTab('about');
+        document.title = `${BASE_TITLE} — About Me`;
         renderContentPage(aboutPage);
         return;
       }
@@ -809,6 +854,7 @@ function renderDetail(slug){
         list.style.display = 'none';
         detail.style.display = 'block';
         setActiveTab('thesis');
+        document.title = `${BASE_TITLE} — Thesis`;
         renderContentPage(thesisPage);
         return;
       }
@@ -821,6 +867,7 @@ function renderDetail(slug){
         detail.style.display = 'none';
         list.style.display = 'block';
         setActiveTab('projects');
+        document.title = `${BASE_TITLE} — Projects`;
         renderList();
       }
     }
