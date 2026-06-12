@@ -97,7 +97,7 @@ The project combined empirical measurements with advanced numerical methods to s
 
 **Experimental Data Collection.** An experiment was conducted using an actual compound bow and a dynamometer. By measuring the force applied to the string for different draw lengths, a nonlinear relationship was interpolated to compute the initial velocity.
 
-**Modeling the Archer's Paradox.** The arrow was simplified into an Euler-Bernoulli beam. The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method. The beam equation used in the model was $EI\\,w''''(x,t) + \\rho A\\,\\ddot{w}(x,t) = 0$.
+**Modeling the Archer's Paradox.** The arrow was simplified into an Euler-Bernoulli beam. The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method. The beam equation used in the model was $EIw''''(x,t) + \\rho A\\ddot{w}(x,t) = 0$.
 
 **Flight Trajectory.** The flight path was modeled as an ordinary differential equation (ODE) initial value problem and solved using the fourth-order Runge-Kutta (RK4) method. The model combined initial velocity, gravity, quadratic air resistance, and the tip vibrations derived from the FEM calculations.
 
@@ -588,9 +588,6 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
 
     let lightbox;
     let lightboxContent;
-    let lightboxItems = [];
-    let lightboxIndex = 0;
-    let lightboxTitle = '';
 
     function ensureLightbox(){
       if (lightbox) return;
@@ -612,20 +609,14 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
         if (event.target === lightbox) closeLightbox();
       });
       document.addEventListener('keydown', event => {
-        if (lightbox.hidden) return;
-        if (event.key === 'Escape') { closeLightbox(); return; }
-        // Don't hijack arrow keys while a video has focus (they seek/adjust volume)
-        if (event.target && event.target.tagName === 'VIDEO') return;
-        if (event.key === 'ArrowRight') { event.preventDefault(); stepLightbox(1); }
-        if (event.key === 'ArrowLeft')  { event.preventDefault(); stepLightbox(-1); }
+        if (!lightbox.hidden && event.key === 'Escape') closeLightbox();
       });
 
       document.body.appendChild(lightbox);
     }
 
-    function showLightboxItem(){
-      const src = lightboxItems[lightboxIndex];
-      const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
+    function openLightbox(src, title, isVideo){
+      ensureLightbox();
       lightboxContent.innerHTML = '';
 
       let preview;
@@ -634,34 +625,14 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
         preview.src = src;
         preview.controls = true;
         preview.autoplay = true;
-        preview.setAttribute('aria-label', `${lightboxTitle || 'Project'} video preview`);
+        preview.setAttribute('aria-label', `${title || 'Project'} video preview`);
       } else {
         preview = document.createElement('img');
         preview.src = src;
-        preview.alt = lightboxTitle || '';
+        preview.alt = title || '';
       }
+
       lightboxContent.appendChild(preview);
-
-      if (lightboxItems.length > 1) {
-        const counter = document.createElement('div');
-        counter.className = 'project-lightbox-counter';
-        counter.textContent = `${lightboxIndex + 1} / ${lightboxItems.length}`;
-        lightboxContent.appendChild(counter);
-      }
-    }
-
-    function stepLightbox(dir){
-      if (lightboxItems.length < 2) return;
-      lightboxIndex = (lightboxIndex + dir + lightboxItems.length) % lightboxItems.length;
-      showLightboxItem();
-    }
-
-    function openLightbox(items, index, title){
-      ensureLightbox();
-      lightboxItems = Array.isArray(items) ? items : [items];
-      lightboxIndex = Math.min(Math.max(index || 0, 0), lightboxItems.length - 1);
-      lightboxTitle = title || '';
-      showLightboxItem();
       lightbox.hidden = false;
       document.body.classList.add('lightbox-open');
       lightbox.querySelector('.project-lightbox-close').focus();
@@ -676,7 +647,7 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
 
     function renderMedia(container, sources, title){
       container.innerHTML = '';
-      sources.forEach((src, idx) => {
+      sources.forEach(src => {
         let el;
         const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
         if (isVideo) {
@@ -691,11 +662,11 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
         }
         el.classList.add('project-media');
         el.tabIndex = 0;
-        el.addEventListener('click', () => openLightbox(sources, idx, title));
+        el.addEventListener('click', () => openLightbox(src, title, isVideo));
         el.addEventListener('keydown', event => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            openLightbox(sources, idx, title);
+            openLightbox(src, title, isVideo);
           }
         });
         container.appendChild(el);
@@ -751,16 +722,15 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
               shot.tabIndex = 0;
               shot.setAttribute('role', 'button');
               shot.setAttribute('aria-label', `Preview ${p.title}`);
-              const gallery = (p.images && p.images.length) ? p.images : [cover];
               shot.addEventListener('click', event => {
                 event.preventDefault();
                 event.stopPropagation();
-                openLightbox(gallery, 0, p.title);
+                openLightbox(cover, p.title, /\.(mp4|webm|ogg)$/i.test(cover));
               });
               shot.addEventListener('keydown', event => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault();
-                  openLightbox(gallery, 0, p.title);
+                  openLightbox(cover, p.title, /\.(mp4|webm|ogg)$/i.test(cover));
                 }
               });
             }

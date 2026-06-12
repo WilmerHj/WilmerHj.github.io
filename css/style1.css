@@ -330,15 +330,6 @@ body.lightbox-open {
   background: #000;
 }
 
-.project-lightbox-counter {
-  margin-top: 10px;
-  text-align: center;
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  user-select: none;
-}
-
 .project-lightbox-close {
   position: fixed;
   top: 18px;
