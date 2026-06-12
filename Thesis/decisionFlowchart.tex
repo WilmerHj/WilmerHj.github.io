@@ -1,0 +1,268 @@
+\definecolor{decFill}{HTML}{F1EFE8}
+\definecolor{decLine}{HTML}{5F5E5A}
+\definecolor{linFill}{HTML}{E6F1FB}
+\definecolor{linLine}{HTML}{185FA5}
+\definecolor{nlFill}{HTML}{FAECE7}
+\definecolor{nlLine}{HTML}{993C1D}
+\definecolor{anFill}{HTML}{E1F5EE}
+\definecolor{anLine}{HTML}{0F6E56}
+\definecolor{noteFill}{HTML}{FAEEDA}
+\definecolor{noteLine}{HTML}{854F0B}
+\definecolor{boxFill}{HTML}{FBFAF7}
+\definecolor{boxLine}{HTML}{888780}
+
+\begin{figure}[H]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+    font=\small,
+    >={Stealth[length=2.4mm]},
+    node distance=6mm and 12mm, % Reduced from 8mm and 14mm to save vertical space
+    basebox/.style={
+        rectangle,
+        rounded corners=3pt,
+        line width=0.4pt,
+        align=center,
+        inner sep=5pt
+    },
+    dec/.style={basebox, draw=decLine, fill=decFill, text width=44mm},
+    lin/.style={basebox, draw=linLine, fill=linFill, text width=46mm},
+    nl/.style ={basebox, draw=nlLine,  fill=nlFill,  text width=46mm},
+    an/.style ={basebox, draw=anLine,  fill=anFill,  text width=58mm},
+    fbox/.style={
+        basebox,
+        draw=boxLine,
+        fill=boxFill,
+        text width=42mm,
+        minimum height=9mm
+    },
+    pbox/.style={
+        basebox,
+        draw=boxLine,
+        fill=boxFill,
+        text width=52mm,
+        minimum height=9mm
+    },
+    elabel/.style={font=\scriptsize, inner sep=1.5pt},
+    flow/.style={->, draw=decLine, line width=0.5pt}
+]
+
+%--------------------------------------------------
+% Helper commands
+%--------------------------------------------------
+
+\newcommand{\question}[4][]{%
+    \ifx\relax#4\relax
+        \node[dec,#1] (#2) {#3};%
+    \else
+        \node[dec,#1] (#2) {#3\\[1pt]\scriptsize #4};%
+    \fi
+}
+
+\newcommand{\resultbox}[4][]{%
+    \node[#2,#1] (#3) {#4};
+}
+
+\newcommand{\yesarrow}[2]{%
+    \draw[flow] (#1) -- (#2) node[elabel, midway, above] {Yes};
+}
+
+\newcommand{\noarrow}[2]{%
+    \draw[flow] (#1) -- (#2) node[elabel, midway, left] {No};
+}
+
+%--------------------------------------------------
+% Main decision tree
+%--------------------------------------------------
+
+\question{start}{Start: what to predict?}{}
+
+\question[below=of start]
+    {q1}
+    {Global response, load path or modal behaviour?}
+    {}
+
+\question[below=of q1]
+    {q2}
+    {Clamped-member stress or fatigue life?}
+    {}
+
+\question[below=of q2]
+    {q3}
+    {Local bolt behaviour?}
+    {Fatigue-critical detail, e.g.\ under-head fillet stress}
+
+% Reduced from 42mm to 24mm to heavily compress vertical whitespace
+\question[below=24mm of q3]
+    {q4}
+    {See a phenomenon occur?}
+    {To tell the scale of a phenomenon.}
+
+\resultbox[right=of q1]{lin}{r1}
+    {Beam or bonded contact}
+
+\resultbox[right=of q2]{lin}{r2}
+    {Beam or CBUSH\\[1pt]\scriptsize Beam preferred, see Section \ref{chp:results}}
+
+\question[right=of q3]
+    {q3b}
+    {Thread-root phenomena?}
+    {}
+
+\resultbox[right=of q4]{nl}{r4}
+    {Solid bolt with threads\\[1pt]\scriptsize + nonlinear transient analysis}
+
+\resultbox[below left=8mm and -18mm of q3b] % Reduced vertical distance
+    {lin}
+    {s1}
+    {Solid bolt, no threads}
+
+\resultbox[below right=8mm and -22mm of q3b] % Reduced vertical distance
+    {lin}
+    {s2}
+    {Solid bolt with threads}
+
+\node[an, below=6mm of q4] (anode) % Reduced from 10mm
+{
+Simplified model + analytical checks\\[1pt]
+\scriptsize Binary answers
+};
+
+%--------------------------------------------------
+% Flow arrows
+%--------------------------------------------------
+
+\draw[flow] (start) -- (q1);
+
+\noarrow{q1}{q2}
+\noarrow{q2}{q3}
+\noarrow{q3}{q4}
+\noarrow{q4}{anode}
+
+\yesarrow{q1}{r1}
+\yesarrow{q2}{r2}
+\yesarrow{q3}{q3b}
+\yesarrow{q4}{r4}
+
+\draw[flow]
+(q3b.south) -- ++(0,-4mm) -| (s1.north)
+node[elabel,pos=0.25,above] {No};
+
+\draw[flow]
+(q3b.south) -- ++(0,-4mm) -| (s2.north)
+node[elabel,pos=0.25,above] {Yes};
+
+%--------------------------------------------------
+% Analytical checks
+%--------------------------------------------------
+
+\node[fbox,
+      below=10mm of anode.south west, % Reduced from 18mm
+      anchor=north west,
+      xshift=2mm] (f1)
+{$F_{shear}<F_M\,\mu$};
+
+\node[pbox,right=8mm of f1] (p1)
+{
+\textbf{Sliding / self-loosening}\\[1pt]
+\scriptsize Slip is the gatekeeper phenomenon
+};
+
+\node[fbox,below=2mm of f1] (f2) % Reduced from 4mm
+{$F_Z=\dfrac{f_Z}{\delta_S+\delta_P}$};
+
+\node[pbox,right=8mm of f2] (p2)
+{
+\textbf{Embedding}\\[1pt]
+\scriptsize Preload loss from surface smoothing
+};
+
+\node[fbox,below=2mm of f2] (f3) % Reduced from 4mm
+{$\sigma_{bend}=\dfrac{M}{W}$};
+
+\node[pbox,right=8mm of f3] (p3)
+{\textbf{Bolt bending}};
+
+\node[fbox,below=2mm of f3] (f4) % Reduced from 4mm
+{$\sigma_{bearing}=\dfrac{F_{shear}}{d_{bolt}\cdot t}$};
+
+\node[pbox,right=8mm of f4] (p4)
+{
+\textbf{Hole elongation}\\[1pt]
+\scriptsize Bearing against the hole wall
+};
+
+\node[fbox,below=2mm of f4] (f5) % Reduced from 4mm
+{$\tau_M=\dfrac{M_G}{W_P}$};
+
+\node[pbox,right=8mm of f5] (p5)
+{\textbf{Residual torsion}};
+
+\node[fbox,below=2mm of f5] (f6) % Reduced from 4mm
+{$F_M>(1-\Phi)\,F_L$};
+
+\node[pbox,right=8mm of f6] (p6)
+{
+\textbf{Joint separation}\\[1pt]
+\scriptsize Residual clamp force stays positive
+};
+
+%--------------------------------------------------
+% Analytical-checks container
+%--------------------------------------------------
+
+% FIX: Removed draw and fill properties from this node so it acts 
+% as an invisible bounding box, removing the "double line" bug.
+\node[
+    fit=(f1)(p1)(f6)(p6),
+    inner xsep=7pt,
+    inner ysep=7pt
+] (anfit) {};
+
+\coordinate (hl) at ([yshift=6mm]anfit.north west);
+\coordinate (hr) at ([yshift=6mm]anfit.north east);
+
+\begin{scope}[on background layer]
+    \node[
+        rectangle,
+        rounded corners=5pt,
+        draw=anLine,
+        fill=anFill!35,
+        line width=0.4pt,
+        fit=(anfit)(hl)(hr),
+        inner sep=0pt
+    ] (anbox) {};
+\end{scope}
+
+\node[
+    anchor=north west,
+    font=\scriptsize\bfseries,
+    text=anLine,
+    inner sep=3pt
+]
+at (anbox.north west)
+{Analytical checks};
+
+
+\end{tikzpicture}
+}
+
+\caption{
+Decision flowchart for selecting a bolt FE modelling strategy.
+Each question is answered \emph{Yes}
+(the simpler model on the right is sufficient)
+or \emph{No}
+(more fidelity is required, continue down).
+Beam and CBUSH are capability-equivalent for global and
+clamped-member quantities; the beam was the more efficient
+choice for the joint studied here, offering greater accuracy
+for less preprocessing than a VDI~2230 CBUSH
+(Section~\ref{chp:discussion}).
+The analytical checks are the subset of phenomena with a
+closed-form criterion; the full set is given in the
+phenomenon--method matrix
+(Table~\ref{tab:phenomenaMethodMatrix}).
+}
+\label{fig:decisionTree}
+
+\end{figure}

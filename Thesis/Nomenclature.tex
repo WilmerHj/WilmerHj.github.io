@@ -1,0 +1,173 @@
+\renewcommand\nomgroup[1]{%
+  \item[{\bfseries%
+  \ifstrequal{#1}{A}{Bolt and Joint Geometry}{%
+  \ifstrequal{#1}{B}{Areas and Section Properties}{%
+  \ifstrequal{#1}{C}{Stiffness and Compliance}{%
+  \ifstrequal{#1}{D}{Forces, Loads, and Torque}{%
+  \ifstrequal{#1}{E}{Material Properties}{%
+  \ifstrequal{#1}{F}{Structural Dynamics and FEA Notation}{%
+  \ifstrequal{#1}{G}{Vibration and Spectral Quantities}{%
+  \ifstrequal{#1}{H}{Fatigue Quantities}{%
+  \ifstrequal{#1}{I}{Dirlik and Steinberg Parameters}{%
+  \ifstrequal{#1}{J}{Structural Dynamics and FEA}{%
+  \ifstrequal{#1}{K}{Accuracy, Cost, and Efficiency Metrics}{%
+  \ifstrequal{#1}{Z}{Subscripts and Notation}{}%
+  }}}}}}}}}}}%
+  }]}
+
+% A  –  BOLT AND JOINT GEOMETRY
+\nomenclature[A01]{$d$}{Nominal bolt diameter [mm]}
+\nomenclature[A02]{$d_1$}{Minimum thread diameter at the thread valleys [mm]}
+\nomenclature[A03]{$d_2$}{Maximum thread diameter at the thread peaks [mm]}
+\nomenclature[A04]{$d_3$}{Minor thread-root diameter [mm]}
+\nomenclature[A05]{$d_h$}{Hole diameter [mm]}
+\nomenclature[A06]{$d_w$}{Bearing diameter under the bolt head or nut [mm]}
+\nomenclature[A07]{$d_{wa}$}{Largest bearing diameter acting on the clamped members, typically the washer diameter [mm]}
+\nomenclature[A08]{$d_s$}{Mean thread diameter used for torsional stiffness, $d_s=\tfrac{d_2+d_3}{2}$ [mm]}
+\nomenclature[A09]{$d_b$}{Bolt diameter [mm]}
+\nomenclature[A10]{$d_c$}{Diameter used in the Sandia DMP geometry factor $x_G$ [mm]}
+\nomenclature[A11]{$l_k$}{Grip or clamping length [mm]}
+\nomenclature[A12]{$L_i$}{Axial length of section $i$ in the compliance summation [mm]}
+\nomenclature[A13]{$D_A$}{Equivalent substitution-cylinder diameter in joint-compliance calculations [mm]}
+\nomenclature[A14]{$D_{A, Gr}$}{Limiting diameter separating the VDI cone/sleeve compliance cases [mm]}
+\nomenclature[A15]{$D_C$}{Effective compression-cone diameter constrained by the joint geometry [mm]}
+
+% B  –  AREAS AND SECTION PROPERTIES
+\nomenclature[B01]{$A_s$}{Tensile stress area of the bolt $[\text{mm}^2]$}
+\nomenclature[B02]{$A_i$}{Cross-sectional area of section $i$ $[\text{mm}^2]$}
+\nomenclature[B03]{$A_{d_3}$}{Minor thread area, $A_{d_3}=\tfrac{\pi}{4}d_3^2$ $[\text{mm}^2]$}
+\nomenclature[B04]{$A_{shear}$}{Effective shear area used in the Timoshenko shear-stiffness relation $[\text{mm}^2]$}
+\nomenclature[B05]{$I$}{Second moment of area of a circular section $[\text{mm}^4]$}
+\nomenclature[B06]{$I_i$}{Second moment of area of section $i$ $[\text{mm}^4]$}
+\nomenclature[B07]{$J$}{Polar second moment of area $[\text{mm}^4]$}
+\nomenclature[B08]{$W$}{Elastic section modulus of the bolt shank $[\text{mm}^3]$}
+\nomenclature[B09]{$W_P$}{Polar section modulus of the bolt shank $[\text{mm}^3]$}
+
+% C  –  STIFFNESS, COMPLIANCE, AND LOAD SHARING
+\nomenclature[C01]{$\varphi$}{VDI curve-fitting parameter for compression-cone spreading}
+\nomenclature[C02]{$\varphi_D$}{Physical half-angle of the distributed compression cone}
+\nomenclature[C03]{$\beta_L$}{Grip-to-bearing diameter ratio, $\beta_L=l_k/d_w$}
+\nomenclature[C04]{$y$}{Ratio between substitution-cylinder diameter and bearing diameter in the VDI cone model}
+\nomenclature[C05]{$\delta_i$}{Compliance of section $i$ [mm/N]}
+\nomenclature[C06]{$\delta_S$}{Total bolt compliance [mm/N]}
+\nomenclature[C07]{$\delta_P$}{Compliance of the clamped members [mm/N]}
+\nomenclature[C08]{$k_S$}{Axial bolt stiffness [N/mm]}
+\nomenclature[C09]{$k_P$}{Axial stiffness of the clamped members [N/mm]}
+\nomenclature[C10]{$w$}{Joint-type factor in the VDI cone model ($w=1$ for DVS, $w=2$ for ESV)}
+\nomenclature[C11]{$q_i$}{Hole-to-bolt diameter ratio for layer $i$}
+\nomenclature[C12]{$Q$}{Context-dependent quantity: Q-factor in the Sandia stiffness method, also used as a Dirlik shape parameter}
+\nomenclature[C13]{$E_{eff}$}{Effective Young's modulus in the Sandia DMP formulation [MPa]}
+\nomenclature[C14]{$x_G$}{Geometry factor in the Sandia DMP member-stiffness formulation}
+\nomenclature[C15]{$N_k$}{Non-dimensional stiffness factor in the Sandia DMP formulation}
+\nomenclature[C16]{$k_m$}{Member stiffness}
+\nomenclature[C17]{$k_{bend}$}{Bending stiffness}
+\nomenclature[C18]{$\delta_{bend}$}{Bending compliance}
+\nomenclature[C19]{$k_{shear}$}{Shear stiffness}
+\nomenclature[C20]{$\kappa$}{Shear correction factor for a circular section}
+\nomenclature[C21]{$k_{torsion}$}{Torsional stiffness}
+\nomenclature[C22]{$\Phi$}{Preload efficiency or load-sharing factor}
+
+% D  –  FORCES, PRELOAD, AND STRESSES
+\nomenclature[D01]{$F_M$}{Assembly preload [N]}
+\nomenclature[D02]{$F_L$}{External load applied to the joint [N]}
+\nomenclature[D03]{$F_e$}{External tensile load used in the load-sharing relation $\Delta F=\Phi F_e$ [N]}
+\nomenclature[D04]{$\Delta F$}{Bolt-load increment caused by the external load [N]}
+\nomenclature[D05]{$F_{shear}$}{Applied shear load [N]}
+\nomenclature[D06]{$F_{Friction}$}{Friction capacity against slip [N]}
+\nomenclature[D07]{$\mu$}{Friction coefficient}
+\nomenclature[D08]{$M_G$}{Thread torque [N mm]}
+\nomenclature[D09]{$\tau_M$}{Torsional stress in the bolt [MPa]}
+\nomenclature[D10]{$\sigma_{VM}$}{Von Mises equivalent stress [MPa]}
+\nomenclature[D11]{$\sigma_{bend}$}{Bending stress in the bolt [MPa]}
+\nomenclature[D12]{$\sigma_z$}{Axial preload stress in the bolt shank [MPa]}
+\nomenclature[D13]{$\sigma_{bearing}$}{Bearing stress used in the hole-elongation check [MPa]}
+
+% E  –  MATERIAL PROPERTIES
+\nomenclature[E01]{$E$}{Young's modulus [MPa]}
+\nomenclature[E02]{$E_i$}{Young's modulus of section or layer $i$ [MPa]}
+\nomenclature[E03]{$E_P$}{Young's modulus of the clamped members [MPa]}
+\nomenclature[E04]{$E_{max},\,E_{min}$}{Largest and smallest Young's moduli in the Sandia DMP formulation [MPa]}
+\nomenclature[E05]{$G$}{Shear modulus [MPa]}
+\nomenclature[E06]{$\nu$}{Poisson's ratio}
+
+% F  –  STRUCTURAL DYNAMICS AND FEA NOTATION
+\nomenclature[F01]{$f_n$}{Natural frequency of mode $n$ [Hz]}
+\nomenclature[F02]{$\omega_n$}{Angular natural frequency of mode $n$ [rad/s]}
+\nomenclature[F03]{$\varphi_n$}{Mode shape of mode $n$}
+\nomenclature[F04]{$\zeta_n$}{Modal damping ratio of mode $n$}
+\nomenclature[F05]{$[K]$}{Structural stiffness matrix}
+\nomenclature[F06]{$[M]$}{Structural mass matrix}
+\nomenclature[F07]{$S$}{Stress-stiffening matrix in the prestressed eigenvalue problem}
+\nomenclature[F08]{$H(f)$}{Frequency response function}
+\nomenclature[F09]{$S_{FF}(f)$}{Excitation power spectral density}
+\nomenclature[F10]{$[B]$}{Strain-displacement matrix}
+\nomenclature[F11]{$[D]$}{Constitutive or material stiffness matrix}
+\nomenclature[F12]{$\{u\}$}{Nodal displacement vector}
+\nomenclature[F13]{$\sigma(t)$}{Stress vector of non-redundant stress components at time $t$}
+\nomenclature[F14]{$p(t)$}{Von Mises stress in the time domain at time $t$}
+\nomenclature[F15]{$q_k(t)$}{$k$-th modal coordinate at time $t$}
+\nomenclature[F16]{$\Psi^\sigma_k$}{Modal stress vector at a nodal location for mode $k$}
+\nomenclature[F17]{$A_J$}{Jacobian matrix mapping the stress vector to the Von Mises scalar}
+
+% G  –  RANDOM-VIBRATION AND SPECTRAL QUANTITIES
+\nomenclature[G01]{$S_{aa}(f)$}{Acceleration power spectral density}
+\nomenclature[G02]{$S_{xx}(f)$}{Context-dependent $xx$ auto-spectrum, used for displacement response and for the $xx$ stress component by context}
+\nomenclature[G03]{$S_{VM}(f)$}{Equivalent Von Mises stress power spectral density}
+\nomenclature[G04]{$S_{\sigma,i}$}{Stress-PSD value in frequency bin $i$}
+\nomenclature[G05]{$G_{ij}(f)$}{Cross-spectral density between stress components $i$ and $j$}
+\nomenclature[G06]{$m_n$}{$n$-th spectral moment}
+\nomenclature[G07]{$m_0,\,m_1,\,m_2,\,m_4$}{Zeroth, first, second, and fourth spectral moments}
+\nomenclature[G08]{$f_i$}{Centre frequency of bin $i$ [Hz]}
+\nomenclature[G09]{$\delta f$}{Frequency-bin width [Hz]}
+\nomenclature[G10]{$\sigma_{RMS}$}{Root-mean-square stress [MPa]}
+\nomenclature[G11]{$\dot{\sigma}_{RMS}$}{Root-mean-square stress rate [MPa/s]}
+\nomenclature[G12]{$f_0$}{Statistical frequency [Hz]\\\\}
+
+% H  –  FATIGUE-LIFE QUANTITIES
+\nomenclature[H01]{$p(S)$}{Dirlik probability density function of stress ranges}
+\nomenclature[H02]{$\dot{D}$}{Fatigue damage rate $[\text{s}^{-1}]$}
+\nomenclature[H03]{$T_f$}{Predicted fatigue life [s]}
+\nomenclature[H04]{$D$}{Cumulative fatigue damage}
+\nomenclature[H05]{$n_i$}{Number of cycles at stress level $i$}
+\nomenclature[H06]{$N_i$}{Number of cycles to failure at stress level $i$}
+\nomenclature[H07]{$N_r$}{Reference number of cycles on the SN curve}
+\nomenclature[H08]{$\sigma_r$}{Reference stress on the SN curve [MPa]}
+\nomenclature[H09]{$b$}{Slope of the finite-life region in log-log SN space}
+\nomenclature[H10]{$m$}{Fatigue-strength exponent, with $b=-1/m$}
+\nomenclature[H11]{$k$}{Context-dependent scalar: standard-deviation multiplier in Steinberg bands and exponent in the power-law SN relation (equal to m).}
+\nomenclature[H12]{$\sigma_1$}{$1\sigma$ RMS stress level [MPa]}
+\nomenclature[H13]{$N_{k\sigma}$}{Cycles to failure at the $k\sigma$ stress level}
+\nomenclature[H14]{$T_{exp}$}{Vibration exposure time [s]}
+\nomenclature[H15]{$S_a$}{Alternating stress amplitude in mean-stress correction [MPa]}
+\nomenclature[H16]{$S_e$}{Fatigue strength at zero mean stress in the Goodman/Gerber relations [MPa]}
+\nomenclature[H17]{$S_m,\,\sigma_m$}{Mean stress used in mean-stress correction [MPa]}
+\nomenclature[H18]{$S_u,\,\sigma_u,\,\sigma_{UTS}$}{Ultimate tensile strength used in mean-stress correction [MPa]}
+\nomenclature[H19]{$C$}{Context-dependent scalar: fatigue coefficient in the stress-life relation, later also the normalized model cost in the efficiency metric}
+\nomenclature[H20]{$C_{eff}$}{Goodman-corrected fatigue coefficient}
+\nomenclature[H21]{$g_f$}{Goodman factor, $g_f=1-\sigma_m/\sigma_u$}
+\nomenclature[H22]{$R$}{Context-dependent scalar: Dirlik distribution parameter, in the results section also the fatigue-life ratio $T_{simplified}/T_{reference}$\\\\\\\\\\}
+
+% I  –  DIRLIK AND STATISTICAL PARAMETERS
+\nomenclature[I01]{$x_m$}{Mean frequency ratio in Dirlik's method}
+\nomenclature[I02]{$\nu_p$}{Rate of peaks [Hz]}
+\nomenclature[I03]{$\gamma$}{Irregularity ratio}
+\nomenclature[I04]{$D_1,\,D_2,\,D_3$}{Dirlik weighting coefficients}
+\nomenclature[I05]{$Z$}{Normalized stress range in Dirlik's probability density function}
+
+% J  –  ACCURACY, COST, AND EFFICIENCY METRICS
+\nomenclature[J01]{$\eta$}{Efficiency ratio}
+\nomenclature[J02]{$A$}{Accuracy score used in the efficiency ratio}
+\nomenclature[J03]{$E_{combined}$}{Combined error used to define the final accuracy score}
+\nomenclature[J04]{$E_{life}$}{Logarithmic fatigue-life error term}
+\nomenclature[J05]{$E_{max\, RMS}$}{Relative error in maximum RMS stress}
+\nomenclature[J06]{$E_{95\, RMS}$}{Relative error in 95th-percentile RMS stress}
+\nomenclature[J07]{$T_{model},\,T_{truth}$}{Model and reference fatigue lives used in the life-error term}
+\nomenclature[J08]{Accuracy}{Final accuracy score, $100e^{-E_{combined}}$}
+
+% Z  –  SUBSCRIPTS AND SPECIAL NOTATION
+\nomenclature[Z01]{$(\cdot)_i$}{Index for section, layer, bin, or stress level}
+\nomenclature[Z02]{$(\cdot)_n$}{Mode number or spectral-moment order}
+\nomenclature[Z03]{$(\cdot)_{RMS}$}{Root-mean-square quantity}
+\nomenclature[Z04]{DVS}{Through-bolted joint with nut (\textit{Durchsteckschraubverbindung})}
+\nomenclature[Z05]{ESV}{Tapped-thread joint without nut (\textit{Einschraubverbindung})}
+\nomenclature[Z06]{VM}{Von Mises}

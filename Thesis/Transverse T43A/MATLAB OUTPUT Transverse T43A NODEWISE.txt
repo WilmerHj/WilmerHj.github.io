@@ -1,0 +1,304 @@
+S-N fit: k=4.0191, C=4.6435e+13, R^2=0.988405
+Goodman mode: NODEWISE (fallback=nominal, sigma_u=1040.0 MPa)
+S-N curve: Data Fit (k=4.02, R^2=0.9884)
+
+============================================================
+MODEL 1/4: Solid Transverse T43A
+  File: ./mat_files/parsed_segalman_data_solidTransT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  101258      1.000      0.919       0.0493    1.597e-10    6.262e+09
+  101307      1.000      0.902      0.00673    1.469e-10    6.807e+09
+  101316      1.000      0.881      0.00423    1.370e-10    7.299e+09
+  8008        1.000      0.839       0.0817    1.136e-10    8.802e+09
+  101236      1.000      0.841        0.046    1.121e-10    8.920e+09
+  Skipped nodes        : 0
+  Goodman nodewise     : 1380
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_under_head: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  64299       1.000      0.628       0.0464    3.409e-11    2.934e+10
+  64442       1.000      0.619       0.0174    3.217e-11    3.108e+10
+  64156       1.000      0.576       0.0888    2.410e-11    4.149e+10
+  64585       1.000      0.552       0.0105    2.044e-11    4.893e+10
+  65443       1.000      0.537            0    1.648e-11    6.069e+10
+  Skipped nodes        : 0
+  Goodman nodewise     : 502
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_at_nut: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  64349       1.000      0.661      0.00265    3.903e-11    2.562e+10
+  64492       1.000      0.642        0.033    3.456e-11    2.894e+10
+  65493       1.000      0.605       0.0487    2.773e-11    3.606e+10
+  65350       1.000      0.571        0.144    2.299e-11    4.349e+10
+  65703       1.000      0.571            0    2.220e-11    4.504e+10
+  Skipped nodes        : 0
+  Goodman nodewise     : 438
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+============================================================
+MODEL 2/4: Beam Transverse T43A
+  File: ./mat_files/parsed_segalman_data_BeamTransT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  100845      1.000       1.24      0.00597    5.389e-10    1.856e+09
+  100937      1.000        1.2        0.179    4.712e-10    2.122e+09
+  100830      1.000       1.18            0    4.419e-10    2.263e+09
+  97254       1.000       1.18       0.0868    4.328e-10    2.310e+09
+  100925      1.000       1.16        0.177    4.094e-10    2.443e+09
+  Skipped nodes        : 0
+  Goodman nodewise     : 1900
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_under_head: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  146         1.000      0.915        0.263    1.691e-10    5.913e+09
+  157         1.000      0.915        0.263    1.691e-10    5.913e+09
+  155         1.000      0.751        0.216    7.718e-11    1.296e+10
+  165         1.000      0.751        0.216    7.718e-11    1.296e+10
+  154         1.000      0.586        0.166    2.871e-11    3.483e+10
+  Skipped nodes        : 0
+  Goodman nodewise     : 11
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_at_nut: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  145         1.000      0.944        0.257    1.886e-10    5.302e+09
+  147         1.000       0.76        0.212    7.909e-11    1.264e+10
+  156         1.000       0.76        0.212    7.909e-11    1.264e+10
+  148         1.000       0.58        0.163    2.654e-11    3.768e+10
+  158         1.000       0.58        0.163    2.654e-11    3.768e+10
+  Skipped nodes        : 0
+  Goodman nodewise     : 9
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+============================================================
+MODEL 3/4: Bush Transverse T43A
+  File: ./mat_files/parsed_segalman_data_BushTransT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  38576       1.000       1.18       0.0994    4.853e-10    2.060e+09
+  35161       1.000       1.24        0.206    4.309e-10    2.320e+09
+  38549       1.000       1.14         0.08    4.186e-10    2.389e+09
+  38663       1.000       1.13       0.0447    4.110e-10    2.433e+09
+  35361       1.000       1.14       0.0394    4.017e-10    2.489e+09
+  Skipped nodes        : 0
+  Goodman nodewise     : 2095
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+============================================================
+MODEL 4/4: Bonded Transverse T43A
+  File: ./mat_files/parsed_segalman_data_BondedTransT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  35625       1.000       2.55        0.717    6.174e-09    1.620e+08
+  74071       1.000       2.19        0.451    5.255e-09    1.903e+08
+  35774       1.000       2.29        0.718    5.231e-09    1.912e+08
+  74083       1.000        2.1        0.611    4.685e-09    2.134e+08
+  35750       1.000       2.14        0.708    4.674e-09    2.139e+08
+  Skipped nodes        : 0
+  Goodman nodewise     : 1505
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+Regions found across all models: stress_members, stress_under_head, stress_at_nut
+
+
+============================================================
+READY-TO-COPY LATEX TABLE: MINIMUM DIRLIK LIFE [weeks]
+============================================================
+\begin{table}[H]
+    \centering
+    \caption{Minimum nodewise Goodman-corrected Dirlik life: Transverse Loading (T43A)}
+    \label{tab:MinLife_transverse_t43a_nodewise_weeks}
+    \begin{tabular}{lcccc}
+        \toprule
+        Region & Bonded & Beam & Solid & Bush \\
+        \midrule
+        Clamped Members & $268$ weeks & $3.07\times10^{3}$ weeks & $1.04\times10^{4}$ weeks & $3.41\times10^{3}$ weeks \\
+        Head to Shank & - & $9.78\times10^{3}$ weeks & $4.85\times10^{4}$ weeks & - \\
+        First Engaged & - & $8.77\times10^{3}$ weeks & $4.24\times10^{4}$ weeks & - \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+LaTeX minimum-life table exported to figures\Transverse T43A\Transverse T43A_min_life_weeks_table_NODEWISE.tex
+Shape error plot: stress_members, Solid Transverse T43A -> truth node 101258 (rank 1), model node 101258 (rank 1), m0_truth=8.447e-01, m0_model=8.447e-01
+Shape error plot: stress_members, Beam Transverse T43A -> truth node 101258 (rank 1), model node 100845 (rank 1), m0_truth=8.447e-01, m0_model=1.545e+00
+Shape error plot: stress_members, Bush Transverse T43A -> truth node 101258 (rank 1), model node 38576 (rank 1), m0_truth=8.447e-01, m0_model=1.384e+00
+Shape error plot: stress_members, Bonded Transverse T43A -> truth node 101258 (rank 1), model node 35625 (rank 1), m0_truth=8.447e-01, m0_model=6.521e+00
+[Warning: Error in state of SceneNode.
+String scalar or character vector must have valid interpreter
+syntax:
+(\\hat{S}_{model} - \\hat{S}_{truth}) / \\hat{S}_{truth}
+] 
+Shape error plot: stress_under_head, Solid Transverse T43A -> truth node 64299 (rank 1), model node 64299 (rank 1), m0_truth=3.945e-01, m0_model=3.945e-01
+Shape error plot: stress_under_head, Beam Transverse T43A -> truth node 64299 (rank 1), model node 146 (rank 1), m0_truth=3.945e-01, m0_model=8.368e-01
+[Warning: Error in state of SceneNode.
+String scalar or character vector must have valid interpreter
+syntax:
+(\\hat{S}_{model} - \\hat{S}_{truth}) / \\hat{S}_{truth}
+] 
+Shape error plot: stress_at_nut, Solid Transverse T43A -> truth node 64349 (rank 1), model node 64349 (rank 1), m0_truth=4.364e-01, m0_model=4.364e-01
+Shape error plot: stress_at_nut, Beam Transverse T43A -> truth node 64349 (rank 1), model node 145 (rank 1), m0_truth=4.364e-01, m0_model=8.903e-01
+[Warning: Error in state of SceneNode.
+String scalar or character vector must have valid interpreter
+syntax:
+(\\hat{S}_{model} - \\hat{S}_{truth}) / \\hat{S}_{truth}
+] 
+
+============================================================
+COMPARISON SUMMARY
+============================================================
+S-N: Data Fit (k=4.02, R^2=0.9884) | Goodman: NODEWISE (fallback=nominal, sigma_u=1040.0 MPa)
+
+Region                Solid Transverse T43A Life[weeks]       Max RMS  Beam Transverse T43A Life[weeks]       Max RMS  Bush Transverse T43A Life[weeks]       Max RMS  Bonded Transverse T43A Life[weeks]       Max RMS
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+stress members                  1.0354e+04    9.1908e-01            3.0684e+03    1.2431e+00            3.4068e+03    1.2374e+00            2.6782e+02    2.5537e+00
+stress under head               4.8504e+04    6.2808e-01            9.7762e+03    9.1477e-01                     -             -                     -             -
+stress at nut                   4.2368e+04    6.6062e-01            8.7661e+03    9.4354e-01                     -             -                     -             -
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Life ratio relative to Solid Transverse T43A:
+Region                Beam Transverse T43A / Solid Transverse T43A  Bush Transverse T43A / Solid Transverse T43A  Bonded Transverse T43A / Solid Transverse T43A
+stress members                      0.2964                0.3290                0.0259
+stress under head                   0.2016                     -                     -
+stress at nut                       0.2069                     -                     -
+
+============================================================
+ACCURACY AGAINST TRUTH MODEL: Solid Transverse T43A
+============================================================
+          <strong>Region</strong>                 <strong>TruthModel</strong>                  <strong>TestModel</strong>            <strong>Truth_MinLife_s</strong>    <strong>Model_MinLife_s</strong>    <strong>Life_Ratio</strong>    <strong>Life_Error_Dec</strong>    <strong>Truth_MaxRMS</strong>    <strong>Model_MaxRMS</strong>    <strong>MaxRMS_RelErr</strong>    <strong>Truth_P95RMS</strong>    <strong>Model_P95RMS</strong>    <strong>P95RMS_RelErr</strong>    <strong>Combined_Error</strong>    <strong>Ranking_Score</strong>
+    <strong>___________________</strong>    <strong>_______________________</strong>    <strong>________________________</strong>    <strong>_______________</strong>    <strong>_______________</strong>    <strong>__________</strong>    <strong>______________</strong>    <strong>____________</strong>    <strong>____________</strong>    <strong>_____________</strong>    <strong>____________</strong>    <strong>____________</strong>    <strong>_____________</strong>    <strong>______________</strong>    <strong>_____________</strong>
+
+    "stress_at_nut"        "Solid Transverse T43A"    "Solid Transverse T43A"       2.5624e+10         2.5624e+10               1              0          0.66062         0.66062                0         0.36836         0.36836                0                0              100    
+    "stress_at_nut"        "Solid Transverse T43A"    "Beam Transverse T43A"        2.5624e+10         5.3017e+09          0.2069        0.68424          0.66062         0.94354          0.42826         0.36836         0.94354           1.5615          0.78289           45.708    
+    "stress_members"       "Solid Transverse T43A"    "Solid Transverse T43A"       6.2619e+09         6.2619e+09               1              0          0.91908         0.91908                0         0.59234         0.59234                0                0              100    
+    "stress_members"       "Solid Transverse T43A"    "Beam Transverse T43A"        6.2619e+09         1.8558e+09         0.29636        0.52818          0.91908          1.2431          0.35258         0.59234          0.7099          0.19845          0.40955           66.395    
+    "stress_members"       "Solid Transverse T43A"    "Bush Transverse T43A"        6.2619e+09         2.0605e+09         0.32905        0.48274          0.91908          1.2374          0.34635         0.59234         0.79758          0.34647          0.41457           66.062    
+    "stress_members"       "Solid Transverse T43A"    "Bonded Transverse T43A"      6.2619e+09         1.6198e+08        0.025868         1.5872          0.91908          2.5537           1.7785         0.59234          1.2962           1.1882           1.5648           20.912    
+    "stress_under_head"    "Solid Transverse T43A"    "Solid Transverse T43A"       2.9335e+10         2.9335e+10               1              0          0.62808         0.62808                0         0.42141         0.42141                0                0              100    
+    "stress_under_head"    "Solid Transverse T43A"    "Beam Transverse T43A"        2.9335e+10         5.9126e+09         0.20155        0.69561          0.62808         0.91477          0.45646         0.42141         0.91477           1.1707          0.71889           48.729    
+
+[Warning: Required column "ReferenceModel" is missing; returning
+an empty table.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>buildRankingIndexTable', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 3224)" style="font-weight:bold">segalman_compare15>buildRankingIndexTable</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',3224,0)">line 3224</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>segalman_compare', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 746)" style="font-weight:bold">segalman_compare15>segalman_compare</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',746,0)">line 746</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 5900)" style="font-weight:bold">segalman_compare15</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',5900,0)">line 5900</a>)] 
+
+============================================================
+READY-TO-COPY LATEX TABLE: RANKING INDEX
+  Region: stress_members
+============================================================
+No Ranking Index rows were produced. Check cfg.ranking.index_region and rankingTable.
+[Warning: Required column "ReferenceModel" is missing; returning
+empty table.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>computeRankingIndexSensitivity', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 3439)" style="font-weight:bold">segalman_compare15>computeRankingIndexSensitivity</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',3439,0)">line 3439</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>segalman_compare', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 798)" style="font-weight:bold">segalman_compare15>segalman_compare</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',798,0)">line 798</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 5900)" style="font-weight:bold">segalman_compare15</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',5900,0)">line 5900</a>)] 
+
+============================================================
+RANKING INDEX WEIGHT SENSITIVITY
+  Region: stress_members
+  Metric: RI = 100 * exp(-(w_life*E_life + w_maxRMS*E_maxRMS + w_95RMS*E_95RMS))
+============================================================
+No ranking-index sensitivity rows were produced. Check the configured region and ranking table.
+
+============================================================
+COST TABLE (normalised against truth = Solid Transverse T43A)
+============================================================
+             <strong>Model</strong>              <strong>WallClock_s</strong>    <strong>CPU_s</strong>     <strong>WallClock_norm</strong>    <strong>CPU_norm</strong>    <strong>Cost_C</strong>
+    <strong>________________________</strong>    <strong>___________</strong>    <strong>______</strong>    <strong>______________</strong>    <strong>________</strong>    <strong>______</strong>
+
+    "Solid Transverse T43A"       2236.3       8984.1             1              1        100
+    "Beam Transverse T43A"          1878       8282.7       0.83977        0.92193     88.085
+    "Bush Transverse T43A"        1363.2       5388.3       0.60959        0.59976     60.467
+    "Bonded Transverse T43A"      1289.7         4613       0.57672        0.51346     54.509
+
+
+============================================================
+EFFICIENCY RATIO eta = A / (100 * C)
+  eta = 1 at truth model (by construction)
+  eta > 1: more ranking per unit cost than truth
+  eta < 1: less ranking per unit cost than truth
+============================================================
+          <strong>Region</strong>               <strong>ReferenceModel</strong>                <strong>TestModel</strong>            <strong>Ranking_Score</strong>    <strong>Cost_C</strong>    <strong>Efficiency_Ratio</strong>
+    <strong>___________________</strong>    <strong>_______________________</strong>    <strong>________________________</strong>    <strong>_____________</strong>    <strong>______</strong>    <strong>________________</strong>
+
+    "stress_at_nut"        "Solid Transverse T43A"    "Solid Transverse T43A"           100           100              1     
+    "stress_at_nut"        "Solid Transverse T43A"    "Beam Transverse T43A"         45.708        88.085        0.51891     
+    "stress_members"       "Solid Transverse T43A"    "Bush Transverse T43A"         66.062        60.467         1.0925     
+    "stress_members"       "Solid Transverse T43A"    "Solid Transverse T43A"           100           100              1     
+    "stress_members"       "Solid Transverse T43A"    "Beam Transverse T43A"         66.395        88.085        0.75376     
+    "stress_members"       "Solid Transverse T43A"    "Bonded Transverse T43A"       20.912        54.509        0.38365     
+    "stress_under_head"    "Solid Transverse T43A"    "Solid Transverse T43A"           100           100              1     
+    "stress_under_head"    "Solid Transverse T43A"    "Beam Transverse T43A"         48.729        88.085        0.55321     
+
+
+============================================================
+COST-ACCURACY PARETO FRONTIER
+  Cost_C lower is better; Ranking_Score higher is better.
+  Pareto optimal = not dominated by a model that is both cheaper and at least as accurate.
+============================================================
+        <strong>ReferenceModel</strong>                <strong>TestModel</strong>            <strong>MeanRanking_Score</strong>    <strong>MedianRanking_Score</strong>    <strong>MinRanking_Score</strong>    <strong>NumRegions</strong>    <strong>Cost_C</strong>    <strong>IsParetoOptimal</strong>    <strong>IsDominated</strong>
+    <strong>_______________________</strong>    <strong>________________________</strong>    <strong>_________________</strong>    <strong>___________________</strong>    <strong>________________</strong>    <strong>__________</strong>    <strong>______</strong>    <strong>_______________</strong>    <strong>___________</strong>
+
+    "Solid Transverse T43A"    "Bonded Transverse T43A"         20.912                20.912                20.912             1         54.509         true             false   
+    "Solid Transverse T43A"    "Bush Transverse T43A"           66.062                66.062                66.062             1         60.467         true             false   
+    "Solid Transverse T43A"    "Solid Transverse T43A"             100                   100                   100             3            100         true             false   
+    "Solid Transverse T43A"    "Beam Transverse T43A"           53.611                48.729                45.708             3         88.085         false            true    
+
+Combined Cost-ranking Pareto plot exported to figures\Transverse T43A\Transverse T43A_cost_ranking_pareto_combined NODEWISE.png
+
+--- Error Spectra Plot ---
+Reference model     : Solid Transverse T43A
+Critical node   : 101258
+Region          : stress_members
+Reference RMS (node): 9.1908e-01 [MPa]
+
+  Solid Transverse T43A: matched node 101258 (exact ID), RMS=0.9191
+  Beam Transverse T43A: matched node 101258 (exact ID), RMS=1.035
+  Bush Transverse T43A: matched node 53784 (shape match (score=0.9104)), RMS=1.132
+  Bonded Transverse T43A: matched node 74071 (shape match (score=0.8302)), RMS=2.185
+
+--- Error Spectra Summary (Node 101258, stress_members) ---
+Model                    Node          RMS   RMS Error%  Mean PSD Err%  Match Method
+------------------------------------------------------------------------------------------
+Solid Transverse T43A   101258       0.9191      (truth)        (truth)  -
+Solid Transverse T43A   101258       0.9191       +0.00%         +0.00%  exact ID
+Beam Transverse T43A   101258        1.035      +12.64%        +28.01%  exact ID
+Bush Transverse T43A    53784        1.132      +23.22%       +103.16%  shape match (score=0.9104)
+Bonded Transverse T43A    74071        2.185     +137.75%       +664.02%  shape match (score=0.8302)
+------------------------------------------------------------------------------------------
+Expected cycles | Solid Transverse T43A | stress_members     | node 101258 | life = 6.2619e+09 s | vp = 1.7652e+03 1/s | N_exp = 1.1053e+13
+Expected cycles | Beam Transverse T43A | stress_members     | node 100845 | life = 1.8558e+09 s | vp = 1.7637e+03 1/s | N_exp = 3.2730e+12
+Expected cycles | Bush Transverse T43A | stress_members     | node 38576 | life = 2.0605e+09 s | vp = 1.6957e+03 1/s | N_exp = 3.4939e+12
+Expected cycles | Bonded Transverse T43A | stress_members     | node 35625 | life = 1.6198e+08 s | vp = 1.7927e+03 1/s | N_exp = 2.9039e+11
+Expected cycles | Solid Transverse T43A | stress_under_head  | node 64299 | life = 2.9335e+10 s | vp = 1.7700e+03 1/s | N_exp = 5.1924e+13
+Expected cycles | Beam Transverse T43A | stress_under_head  | node 146 | life = 5.9126e+09 s | vp = 1.7698e+03 1/s | N_exp = 1.0464e+13
+Expected cycles | Solid Transverse T43A | stress_at_nut      | node 64349 | life = 2.5624e+10 s | vp = 1.7671e+03 1/s | N_exp = 4.5281e+13
+Expected cycles | Beam Transverse T43A | stress_at_nut      | node 145 | life = 5.3017e+09 s | vp = 1.7694e+03 1/s | N_exp = 9.3811e+12
+
+Plot 9: S-N curve with Goodman correction exported to figures\Transverse T43A\Transverse T43A_sn_curve_goodman_and_rms NODEWISE.png
+
+Done. Returned struct contains results, tables, and exported file paths.

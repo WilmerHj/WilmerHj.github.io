@@ -1,0 +1,304 @@
+S-N fit: k=4.0191, C=4.6435e+13, R^2=0.988405
+Goodman mode: NODEWISE (fallback=nominal, sigma_u=1040.0 MPa)
+S-N curve: Data Fit (k=4.02, R^2=0.9884)
+
+============================================================
+MODEL 1/4: Solid Axial T43A
+  File: ./mat_files/parsed_segalman_data_solidVerticalT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  81944       1.000       15.5       0.0317    3.928e-07    2.546e+06
+  84254       1.000       15.4       0.0442    3.866e-07    2.586e+06
+  81743       1.000       15.3       0.0223    3.764e-07    2.657e+06
+  81551       1.000         15         0.02    3.469e-07    2.883e+06
+  84503       1.000         15       0.0571    3.444e-07    2.904e+06
+  Skipped nodes        : 0
+  Goodman nodewise     : 1380
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_under_head: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  64404       1.000       15.1        0.165    2.692e-07    3.715e+06
+  64547       1.000       14.8       0.0757    2.470e-07    4.048e+06
+  64261       1.000       14.7         0.23    2.431e-07    4.113e+06
+  64690       1.000       14.5            0    2.317e-07    4.315e+06
+  64118       1.000       12.4        0.254    1.200e-07    8.330e+06
+  Skipped nodes        : 0
+  Goodman nodewise     : 502
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_at_nut: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  64349       1.000       11.2      0.00265    6.183e-08    1.617e+07
+  64492       1.000         11        0.033    5.686e-08    1.759e+07
+  65493       1.000       10.3       0.0487    4.241e-08    2.358e+07
+  64206       1.000       9.94            0    3.715e-08    2.692e+07
+  65703       1.000        9.6            0    3.223e-08    3.103e+07
+  Skipped nodes        : 0
+  Goodman nodewise     : 438
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+============================================================
+MODEL 2/4: Beam Axial T43A
+  File: ./mat_files/parsed_segalman_data_BeamVerticalT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  100845      1.000       16.9      0.00597    5.643e-07    1.772e+06
+  80342       1.000       16.4         0.18    5.364e-07    1.864e+06
+  85470       1.000       16.3     0.000276    5.246e-07    1.906e+06
+  97254       1.000       16.5       0.0868    5.171e-07    1.934e+06
+  97284       1.000       16.4            0    4.989e-07    2.004e+06
+  Skipped nodes        : 0
+  Goodman nodewise     : 1900
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_under_head: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  146         1.000         10        0.263    3.531e-08    2.832e+07
+  157         1.000         10        0.263    3.531e-08    2.832e+07
+  155         1.000       7.96        0.216    1.403e-08    7.128e+07
+  165         1.000       7.96        0.216    1.403e-08    7.128e+07
+  154         1.000       5.91        0.166    4.268e-09    2.343e+08
+  Skipped nodes        : 0
+  Goodman nodewise     : 11
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+  stress_at_nut: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  145         1.000       10.9        0.257    5.103e-08    1.960e+07
+  147         1.000       8.88        0.212    2.212e-08    4.522e+07
+  156         1.000       8.88        0.212    2.212e-08    4.522e+07
+  148         1.000       6.83        0.163    7.751e-09    1.290e+08
+  158         1.000       6.83        0.163    7.751e-09    1.290e+08
+  Skipped nodes        : 0
+  Goodman nodewise     : 9
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+============================================================
+MODEL 3/4: Bush Axial T43A
+  File: ./mat_files/parsed_segalman_data_BushVerticalT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  35161       1.000       24.5        0.206    2.600e-06    3.846e+05
+  35174       1.000       23.2        0.354    2.091e-06    4.782e+05
+  35150       1.000       22.8        0.049    1.958e-06    5.108e+05
+  139716      1.000       22.1       0.0332    1.931e-06    5.180e+05
+  139717      1.000         21        0.137    1.549e-06    6.457e+05
+  Skipped nodes        : 0
+  Goodman nodewise     : 2095
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+============================================================
+MODEL 4/4: Bonded Axial T43A
+  File: ./mat_files/parsed_segalman_data_BondedVerticalT43A.mat
+============================================================
+  stress_members: top 5 nodes
+  Node          SCF        RMS      sigma_m   Dirlik D/s  Dirlik Life
+  35625       1.000       60.2        0.717    3.987e-05    2.508e+04
+  35572       1.000       57.2        0.674    3.229e-05    3.097e+04
+  35855       1.000       54.6        0.583    2.672e-05    3.742e+04
+  35876       1.000       54.4        0.587    2.634e-05    3.797e+04
+  35891       1.000       53.5          0.6    2.468e-05    4.053e+04
+  Skipped nodes        : 0
+  Goodman nodewise     : 1505
+  Goodman nominal      : 0
+  Goodman off          : 0
+  sigma_m >= sigma_u   : 0
+
+Regions found across all models: stress_members, stress_under_head, stress_at_nut
+
+
+============================================================
+READY-TO-COPY LATEX TABLE: MINIMUM DIRLIK LIFE [weeks]
+============================================================
+\begin{table}[H]
+    \centering
+    \caption{Minimum nodewise Goodman-corrected Dirlik life: Axial Loading (T43A)}
+    \label{tab:MinLife_axial_t43a_nodewise_weeks}
+    \begin{tabular}{lcccc}
+        \toprule
+        Region & Bonded & Beam & Solid & Bush \\
+        \midrule
+        Clamped Members & $0.0415$ weeks & $2.93$ weeks & $4.21$ weeks & $0.636$ weeks \\
+        Head to Shank & - & $46.8$ weeks & $6.14$ weeks & - \\
+        First Engaged & - & $32.4$ weeks & $26.7$ weeks & - \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+LaTeX minimum-life table exported to figures\Axial T43A\Axial T43A_min_life_weeks_table_NODEWISE.tex
+Shape error plot: stress_members, Solid Axial T43A -> truth node 81944 (rank 1), model node 81944 (rank 1), m0_truth=2.396e+02, m0_model=2.396e+02
+Shape error plot: stress_members, Beam Axial T43A -> truth node 81944 (rank 1), model node 100845 (rank 1), m0_truth=2.396e+02, m0_model=2.846e+02
+Shape error plot: stress_members, Bush Axial T43A -> truth node 81944 (rank 1), model node 35161 (rank 1), m0_truth=2.396e+02, m0_model=5.998e+02
+Shape error plot: stress_members, Bonded Axial T43A -> truth node 81944 (rank 1), model node 35625 (rank 1), m0_truth=2.396e+02, m0_model=3.625e+03
+[Warning: Error in state of SceneNode.
+String scalar or character vector must have valid interpreter
+syntax:
+(\\hat{S}_{model} - \\hat{S}_{truth}) / \\hat{S}_{truth}
+] 
+Shape error plot: stress_under_head, Solid Axial T43A -> truth node 64404 (rank 1), model node 64404 (rank 1), m0_truth=2.289e+02, m0_model=2.289e+02
+Shape error plot: stress_under_head, Beam Axial T43A -> truth node 64404 (rank 1), model node 146 (rank 1), m0_truth=2.289e+02, m0_model=1.003e+02
+[Warning: Error in state of SceneNode.
+String scalar or character vector must have valid interpreter
+syntax:
+(\\hat{S}_{model} - \\hat{S}_{truth}) / \\hat{S}_{truth}
+] 
+Shape error plot: stress_at_nut, Solid Axial T43A -> truth node 64349 (rank 1), model node 64349 (rank 1), m0_truth=1.265e+02, m0_model=1.265e+02
+Shape error plot: stress_at_nut, Beam Axial T43A -> truth node 64349 (rank 1), model node 145 (rank 1), m0_truth=1.265e+02, m0_model=1.197e+02
+[Warning: Error in state of SceneNode.
+String scalar or character vector must have valid interpreter
+syntax:
+(\\hat{S}_{model} - \\hat{S}_{truth}) / \\hat{S}_{truth}
+] 
+
+============================================================
+COMPARISON SUMMARY
+============================================================
+S-N: Data Fit (k=4.02, R^2=0.9884) | Goodman: NODEWISE (fallback=nominal, sigma_u=1040.0 MPa)
+
+Region                Solid Axial T43A Life[weeks]       Max RMS  Beam Axial T43A Life[weeks]       Max RMS  Bush Axial T43A Life[weeks]       Max RMS  Bonded Axial T43A Life[weeks]       Max RMS
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+stress members                  4.2098e+00    1.5481e+01            2.9299e+00    1.6870e+01            6.3597e-01    2.4491e+01            4.1471e-02    6.0212e+01
+stress under head               6.1431e+00    1.5129e+01            4.6830e+01    1.0013e+01                     -             -                     -             -
+stress at nut                   2.6741e+01    1.1249e+01            3.2404e+01    1.0942e+01                     -             -                     -             -
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Life ratio relative to Solid Axial T43A:
+Region                Beam Axial T43A / Solid Axial T43A  Bush Axial T43A / Solid Axial T43A  Bonded Axial T43A / Solid Axial T43A
+stress members                      0.6960                0.1511                0.0099
+stress under head                   7.6232                     -                     -
+stress at nut                       1.2118                     -                     -
+
+============================================================
+ACCURACY AGAINST TRUTH MODEL: Solid Axial T43A
+============================================================
+          <strong>Region</strong>               <strong>TruthModel</strong>             <strong>TestModel</strong>         <strong>Truth_MinLife_s</strong>    <strong>Model_MinLife_s</strong>    <strong>Life_Ratio</strong>    <strong>Life_Error_Dec</strong>    <strong>Truth_MaxRMS</strong>    <strong>Model_MaxRMS</strong>    <strong>MaxRMS_RelErr</strong>    <strong>Truth_P95RMS</strong>    <strong>Model_P95RMS</strong>    <strong>P95RMS_RelErr</strong>    <strong>Combined_Error</strong>    <strong>Ranking_Score</strong>
+    <strong>___________________</strong>    <strong>__________________</strong>    <strong>___________________</strong>    <strong>_______________</strong>    <strong>_______________</strong>    <strong>__________</strong>    <strong>______________</strong>    <strong>____________</strong>    <strong>____________</strong>    <strong>_____________</strong>    <strong>____________</strong>    <strong>____________</strong>    <strong>_____________</strong>    <strong>______________</strong>    <strong>_____________</strong>
+
+    "stress_at_nut"        "Solid Axial T43A"    "Solid Axial T43A"       1.6173e+07         1.6173e+07               1               0          11.249          11.249                0          6.1824          6.1824                0                0              100    
+    "stress_at_nut"        "Solid Axial T43A"    "Beam Axial T43A"        1.6173e+07         1.9598e+07          1.2118        0.083429          11.249          10.942         0.027219          6.1824          10.942          0.76996          0.20387           81.557    
+    "stress_members"       "Solid Axial T43A"    "Solid Axial T43A"       2.5461e+06         2.5461e+06               1               0          15.481          15.481                0          8.7676          8.7676                0                0              100    
+    "stress_members"       "Solid Axial T43A"    "Beam Axial T43A"        2.5461e+06          1.772e+06         0.69597         0.15741          15.481           16.87         0.089776          8.7676          13.419          0.53049          0.21174           80.918    
+    "stress_members"       "Solid Axial T43A"    "Bush Axial T43A"        2.5461e+06         3.8463e+05         0.15107         0.82083          15.481          24.491          0.58205          8.7676          10.083          0.15007          0.61504           54.062    
+    "stress_members"       "Solid Axial T43A"    "Bonded Axial T43A"      2.5461e+06              25082        0.009851          2.0065          15.481          60.212           2.8895          8.7676          33.295           2.7975           2.4296           8.8071    
+    "stress_under_head"    "Solid Axial T43A"    "Solid Axial T43A"       3.7153e+06         3.7153e+06               1               0          15.129          15.129                0          7.3675          7.3675                0                0              100    
+    "stress_under_head"    "Solid Axial T43A"    "Beam Axial T43A"        3.7153e+06         2.8323e+07          7.6232         0.88214          15.129          10.013          0.33814          7.3675          10.013          0.35909          0.61433             54.1    
+
+[Warning: Required column "ReferenceModel" is missing; returning
+an empty table.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>buildRankingIndexTable', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 3224)" style="font-weight:bold">segalman_compare15>buildRankingIndexTable</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',3224,0)">line 3224</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>segalman_compare', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 746)" style="font-weight:bold">segalman_compare15>segalman_compare</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',746,0)">line 746</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 5899)" style="font-weight:bold">segalman_compare15</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',5899,0)">line 5899</a>)] 
+
+============================================================
+READY-TO-COPY LATEX TABLE: RANKING INDEX
+  Region: stress_members
+============================================================
+No Ranking Index rows were produced. Check cfg.ranking.index_region and rankingTable.
+[Warning: Required column "ReferenceModel" is missing; returning
+empty table.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>computeRankingIndexSensitivity', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 3439)" style="font-weight:bold">segalman_compare15>computeRankingIndexSensitivity</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',3439,0)">line 3439</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15>segalman_compare', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 798)" style="font-weight:bold">segalman_compare15>segalman_compare</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',798,0)">line 798</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('segalman_compare15', 'C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m', 5899)" style="font-weight:bold">segalman_compare15</a> (<a href="matlab: opentoline('C:\Users\wilme\OneDrive - BTH Student\Aktuella kurser\01 Examensarbete\06 Code\Matlab\segalman_compare15.m',5899,0)">line 5899</a>)] 
+
+============================================================
+RANKING INDEX WEIGHT SENSITIVITY
+  Region: stress_members
+  Metric: RI = 100 * exp(-(w_life*E_life + w_maxRMS*E_maxRMS + w_95RMS*E_95RMS))
+============================================================
+No ranking-index sensitivity rows were produced. Check the configured region and ranking table.
+
+============================================================
+COST TABLE (normalised against truth = Solid Axial T43A)
+============================================================
+           <strong>Model</strong>           <strong>WallClock_s</strong>    <strong>CPU_s</strong>     <strong>WallClock_norm</strong>    <strong>CPU_norm</strong>    <strong>Cost_C</strong>
+    <strong>___________________</strong>    <strong>___________</strong>    <strong>______</strong>    <strong>______________</strong>    <strong>________</strong>    <strong>______</strong>
+
+    "Solid Axial T43A"       2236.3       8984.1             1              1        100
+    "Beam Axial T43A"          1878       8282.7       0.83977        0.92193     88.085
+    "Bush Axial T43A"        1363.2       5388.3       0.60959        0.59976     60.467
+    "Bonded Axial T43A"      1289.7         4613       0.57672        0.51346     54.509
+
+
+============================================================
+EFFICIENCY RATIO eta = A / (100 * C)
+  eta = 1 at truth model (by construction)
+  eta > 1: more ranking per unit cost than truth
+  eta < 1: less ranking per unit cost than truth
+============================================================
+          <strong>Region</strong>             <strong>ReferenceModel</strong>           <strong>TestModel</strong>         <strong>Ranking_Score</strong>    <strong>Cost_C</strong>    <strong>Efficiency_Ratio</strong>
+    <strong>___________________</strong>    <strong>__________________</strong>    <strong>___________________</strong>    <strong>_____________</strong>    <strong>______</strong>    <strong>________________</strong>
+
+    "stress_at_nut"        "Solid Axial T43A"    "Solid Axial T43A"           100           100              1     
+    "stress_at_nut"        "Solid Axial T43A"    "Beam Axial T43A"         81.557        88.085        0.92589     
+    "stress_members"       "Solid Axial T43A"    "Solid Axial T43A"           100           100              1     
+    "stress_members"       "Solid Axial T43A"    "Beam Axial T43A"         80.918        88.085        0.91863     
+    "stress_members"       "Solid Axial T43A"    "Bush Axial T43A"         54.062        60.467        0.89407     
+    "stress_members"       "Solid Axial T43A"    "Bonded Axial T43A"       8.8071        54.509        0.16157     
+    "stress_under_head"    "Solid Axial T43A"    "Solid Axial T43A"           100           100              1     
+    "stress_under_head"    "Solid Axial T43A"    "Beam Axial T43A"           54.1        88.085        0.61418     
+
+
+============================================================
+COST-ACCURACY PARETO FRONTIER
+  Cost_C lower is better; Ranking_Score higher is better.
+  Pareto optimal = not dominated by a model that is both cheaper and at least as accurate.
+============================================================
+      <strong>ReferenceModel</strong>           <strong>TestModel</strong>         <strong>MeanRanking_Score</strong>    <strong>MedianRanking_Score</strong>    <strong>MinRanking_Score</strong>    <strong>NumRegions</strong>    <strong>Cost_C</strong>    <strong>IsParetoOptimal</strong>    <strong>IsDominated</strong>
+    <strong>__________________</strong>    <strong>___________________</strong>    <strong>_________________</strong>    <strong>___________________</strong>    <strong>________________</strong>    <strong>__________</strong>    <strong>______</strong>    <strong>_______________</strong>    <strong>___________</strong>
+
+    "Solid Axial T43A"    "Bonded Axial T43A"         8.8071                8.8071                8.8071             1         54.509         true             false   
+    "Solid Axial T43A"    "Bush Axial T43A"           54.062                54.062                54.062             1         60.467         true             false   
+    "Solid Axial T43A"    "Beam Axial T43A"           72.192                80.918                  54.1             3         88.085         true             false   
+    "Solid Axial T43A"    "Solid Axial T43A"             100                   100                   100             3            100         true             false   
+
+Combined Cost-ranking Pareto plot exported to figures\Axial T43A\Axial T43A_cost_ranking_pareto_combined NODEWISE.png
+
+--- Error Spectra Plot ---
+Reference model     : Solid Axial T43A
+Critical node   : 81944
+Region          : stress_members
+Reference RMS (node): 1.5481e+01 [MPa]
+
+  Solid Axial T43A: matched node 81944 (exact ID), RMS=15.48
+  Beam Axial T43A: matched node 81944 (exact ID), RMS=10.93
+  Bush Axial T43A: matched node 35237 (shape match (score=0.9461)), RMS=20.05
+  Bonded Axial T43A: matched node 35625 (shape match (score=0.8796)), RMS=60.21
+
+--- Error Spectra Summary (Node 81944, stress_members) ---
+Model                    Node          RMS   RMS Error%  Mean PSD Err%  Match Method
+------------------------------------------------------------------------------------------
+Solid Axial T43A        81944        15.48      (truth)        (truth)  -
+Solid Axial T43A        81944        15.48       +0.00%         +0.00%  exact ID
+Beam Axial T43A         81944        10.93      -29.39%        -43.11%  exact ID
+Bush Axial T43A         35237        20.05      +29.50%       +161.02%  shape match (score=0.9461)
+Bonded Axial T43A       35625        60.21     +288.95%      +1176.10%  shape match (score=0.8796)
+------------------------------------------------------------------------------------------
+Expected cycles | Solid Axial T43A   | stress_members     | node 81944 | life = 2.5461e+06 s | vp = 5.3841e+02 1/s | N_exp = 1.3709e+09
+Expected cycles | Beam Axial T43A    | stress_members     | node 100845 | life = 1.7720e+06 s | vp = 5.8529e+02 1/s | N_exp = 1.0371e+09
+Expected cycles | Bush Axial T43A    | stress_members     | node 35161 | life = 3.8463e+05 s | vp = 5.7120e+02 1/s | N_exp = 2.1970e+08
+Expected cycles | Bonded Axial T43A  | stress_members     | node 35625 | life = 2.5082e+04 s | vp = 5.8387e+02 1/s | N_exp = 1.4644e+07
+Expected cycles | Solid Axial T43A   | stress_under_head  | node 64404 | life = 3.7153e+06 s | vp = 5.1946e+02 1/s | N_exp = 1.9300e+09
+Expected cycles | Beam Axial T43A    | stress_under_head  | node 146 | life = 2.8323e+07 s | vp = 8.9305e+02 1/s | N_exp = 2.5294e+10
+Expected cycles | Solid Axial T43A   | stress_at_nut      | node 64349 | life = 1.6173e+07 s | vp = 5.7423e+02 1/s | N_exp = 9.2869e+09
+Expected cycles | Beam Axial T43A    | stress_at_nut      | node 145 | life = 1.9598e+07 s | vp = 8.3406e+02 1/s | N_exp = 1.6346e+10
+
+Plot 9: S-N curve with Goodman correction exported to figures\Axial T43A\Axial T43A_sn_curve_goodman_and_rms NODEWISE.png
+
+Done. Returned struct contains results, tables, and exported file paths.
