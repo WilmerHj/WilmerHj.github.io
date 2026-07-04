@@ -34,7 +34,7 @@
         <a class="tab active" data-tab="projects" href="#projects">Projects</a>
         <a class="tab" data-tab="thesis" href="#thesis">Thesis</a>
         <a class="tab" href="https://www.linkedin.com/in/wilmer-hjulstr%C3%B6m/?locale=en-US" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a class="tab" href="#" target="_blank" rel="noopener" title="CV link coming soon">CV ⬇</a>
+        <a class="tab" href="https://drive.google.com/file/d/1rvKQaBR4t7lpv_akGV9iBTrmIHAXp_XG/view?usp=sharing" target="_blank" rel="noopener" title="CV link coming soon">CV ⬇</a>
       </nav>
     </div>
   </header>
@@ -47,7 +47,13 @@
 
     <!-- DETAIL VIEW -->
     <section id="detail">
-      <a class="back" href="#projects">← Back to projects</a>
+      <div class="detailnav">
+        <a class="back" href="#projects">← Back to projects</a>
+        <nav class="projnav" id="projNav" aria-label="Project navigation" hidden>
+          <a id="prevProject" href="#">← Prev</a>
+          <a id="nextProject" href="#">Next →</a>
+        </nav>
+      </div>
       <div class="detailbox">
         <div class="detailhead">
           <div id="detailImages" class="detail-images"></div>

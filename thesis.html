@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bolted Joints under Random Vibration — Interactive Thesis Companion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <script>window.MathJax = { tex: { inlineMath: [["$","$"],["\\(","\\)"]], displayMath: [["$$","$$"]] } };</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    main.wrap { padding-bottom: 80px; }
+    .hero { margin-top: 10px; }
+    .hero h1 { font-size: 32px; margin: 0 0 6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+    .chip { border: 1px solid var(--line); background: #f3f4f6; border-radius: 999px;
+            padding: 4px 12px; font-size: 13px; font-weight: 600; color: #374151; }
+    section.detailbox { margin-top: 26px; }
+    section h2 { margin-top: 0; }
+    .lead { color: #374151; max-width: 85ch; }
+    .note { font-size: 13px; color: var(--muted); }
+    .ctl { display: grid; gap: 2px; margin-bottom: 10px; font-weight: 600; font-size: 14px; }
+    .ctl .row { display: flex; gap: 10px; align-items: center; }
+    .ctl input[type=range] { flex: 1; }
+    .ctl input[type=number] { width: 92px; padding: 6px 8px; border: 1px solid var(--line);
+            border-radius: 6px; font: inherit; }
+    .ctl select { padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px;
+            background:#fff; font: inherit; width: 100%; }
+    .ctl .unit { color: var(--muted); font-weight: 400; font-size: 13px; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px; margin: 14px 0; }
+    .kpi { background: var(--panel); border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }
+    .kpi .v { font-weight: 800; font-size: 20px; }
+    .kpi .l { color: var(--muted); font-size: 13px; }
+    table.res { border-collapse: collapse; width: 100%; margin-top: 8px; }
+    table.res th, table.res td { border: 1px solid #e5e7eb; padding: 7px 10px;
+            text-align: right; font-size: 14px; }
+    table.res th { background: #f3f4f6; }
+    table.res td:first-child, table.res th:first-child { text-align: left; }
+    .plots2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 900px) { .plots2 { grid-template-columns: 1fr; } }
+    .util { height: 12px; border-radius: 6px; background: #e5e7eb; overflow: hidden; margin-top: 6px; }
+    .util > div { height: 100%; background: #16a34a; }
+    .util.warn > div { background: #ea580c; }
+    .util.bad  > div { background: #dc2626; }
+    .btn-secondary { border: 1px solid var(--line); background: #f3f4f6; color: #374151;
+            padding: 10px 14px; border-radius: 8px; font-weight: 800; cursor: pointer; }
+    footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="top">
+      <div>
+        <div class="brand">Wilmer Hjulström</div>
+        <div class="sub">Master's thesis — interactive companion</div>
+      </div>
+      <nav>
+        <a class="tab" href="index.html">← Portfolio</a>
+        <a class="tab" href="#joint">Joint stiffness</a>
+        <a class="tab" href="#loadshare">Load sharing</a>
+        <a class="tab" href="#fatigue">Fatigue</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ============================= HERO ============================= -->
+    <section class="detailbox hero">
+      <h1>Guidelines for Resource-Efficient Finite Element Analysis of Bolted Joints under Random Vibration Fatigue</h1>
+      <div class="subtitle">Master's thesis in Mechanical Engineering — this page lets you run the thesis' analytical models live in your browser.</div>
+      <div class="chips">
+        <span class="chip">VDI 2230</span><span class="chip">SAND2008-0371</span>
+        <span class="chip">CBUSH / PBUSH</span><span class="chip">Random vibration</span>
+        <span class="chip">Dirlik</span><span class="chip">Steinberg</span>
+        <span class="chip">PSD fatigue</span><span class="chip">MATLAB → JS</span>
+      </div>
+      <p class="lead">
+        The thesis compares ways of representing bolted joints in structural FE models — from analytically
+        derived 6-DOF spring (CBUSH) elements to more expensive representations — and evaluates how the modelling
+        choice propagates into random-vibration fatigue-life predictions using spectral methods.
+        The reference joint is two SS304 plates clamped by an M10&nbsp;×&nbsp;1.5 grade&nbsp;10.9 socket-head cap screw,
+        excited by a NASA GEVS-type acceleration spectrum.
+        The three tools below reproduce the thesis' analytical chain: <b>bolt &amp; member stiffness</b> →
+        <b>load sharing</b> → <b>spectral fatigue life</b>. All defaults reproduce the (corrected) thesis values.
+      </p>
+      <p class="note">Numbers follow the corrected scripts (ISO&nbsp;68-1 minor diameter d₃ = 8.160&nbsp;mm,
+        W<sub>P</sub> on the stress-section diameter, Bickford Q per SAND2008-0371 Eqs.&nbsp;13–17).</p>
+    </section>
+
+    <!-- ======================= 1. JOINT STIFFNESS ====================== -->
+    <section id="joint" class="detailbox">
+      <h2>1&nbsp;·&nbsp;Bolted-joint stiffness — VDI 2230 vs. Sandia</h2>
+      <p class="lead">
+        The bolt is condensed into a 6-DOF spring using VDI 2230 segment resiliences
+        ($\delta_S=\sum L_i/(E A_i)$, $\beta_S=\sum L_i/(E I_i)$); the clamped members are estimated three ways:
+        the VDI 2230 pressure cone, the Sandia <i>Dimensionless Material Property</i> (DMP) correlation
+        $k_m = E_{eff}\, d_b\,(0.9991\,x_G + 0.2189\,n + 0.5234)$, and Bickford's Q-factor.
+        Drag the sliders — everything recomputes live.
+      </p>
+
+      <div class="tool-grid">
+        <div class="tool-card">
+          <div class="tool-title">Bolt</div>
+          <label class="ctl">Size preset
+            <select id="preset">
+              <option value="M8">M8 × 1.25</option>
+              <option value="M10" selected>M10 × 1.5 (thesis)</option>
+              <option value="M12">M12 × 1.75</option>
+            </select>
+          </label>
+          <div id="grpBolt"></div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-title">Clamped stack</div>
+          <div id="grpStack"></div>
+          <div class="note">Clamp length l<sub>K</sub> = washer + 2 × plate = <b id="lkOut"></b> mm</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-title">Bearing &amp; hole</div>
+          <div id="grpBearing"></div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-title">Material &amp; preload</div>
+          <div id="grpMat"></div>
+          <button class="btn-secondary" id="resetBtn" type="button">Reset to thesis values</button>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kpiKs"></div><div class="l">k<sub>S</sub> bolt axial [kN/mm]</div></div>
+        <div class="kpi"><div class="v" id="kpiKmDmp"></div><div class="l">k<sub>m</sub> DMP [kN/mm]</div></div>
+        <div class="kpi"><div class="v" id="kpiKmVdi"></div><div class="l">k<sub>m</sub> VDI cone [kN/mm]</div></div>
+        <div class="kpi"><div class="v" id="kpiKmBick"></div><div class="l">k<sub>m</sub> Bickford Q [kN/mm]</div></div>
+        <div class="kpi"><div class="v" id="kpiPhi"></div><div class="l">Φ = δ<sub>P</sub>/(δ<sub>S</sub>+δ<sub>P</sub>) — DMP / VDI / Bickford</div></div>
+      </div>
+
+      <div class="plots2">
+        <div class="plot-card"><canvas id="chartKm" height="300"></canvas></div>
+        <div class="plot-card"><canvas id="chartPhi" height="300"></canvas></div>
+      </div>
+
+      <h3>CBUSH / PBUSH card (bolt-only stiffness — members are meshed in the FE model)</h3>
+      <table class="res" id="cbushTable">
+        <thead><tr><th>DOF</th><th>Meaning</th><th>Value</th><th>Thesis (corrected)</th><th>Unit</th></tr></thead>
+        <tbody>
+          <tr><td>K1, K2</td><td>Shear (Timoshenko, κ·A<sub>d3</sub>)</td><td id="tK1"></td><td>1.925 × 10⁵</td><td>N/mm</td></tr>
+          <tr><td>K3</td><td>Axial, 1/δ<sub>S</sub></td><td id="tK3"></td><td>3.626 × 10⁵</td><td>N/mm</td></tr>
+          <tr><td>K4, K5</td><td>Bending, 1/β<sub>S</sub></td><td id="tK4"></td><td>1.608 × 10⁶</td><td>N·mm/rad</td></tr>
+          <tr><td>K6</td><td>Torsion, G·J/l<sub>K</sub></td><td id="tK6"></td><td>2.223 × 10⁶</td><td>N·mm/rad</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Assembly state at <span id="preloadPctLbl"></span> % preload</h3>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kpiFM"></div><div class="l">Preload F<sub>M</sub> [kN]</div></div>
+        <div class="kpi"><div class="v" id="kpiMG"></div><div class="l">Thread torque M<sub>G</sub> [N·m]</div></div>
+        <div class="kpi"><div class="v" id="kpiTau"></div><div class="l">Torsional stress τ [MPa]</div></div>
+        <div class="kpi">
+          <div class="v" id="kpiVM"></div><div class="l">σ<sub>red,M</sub> install — utilisation of R<sub>p0.2</sub></div>
+          <div class="util" id="utilBar"><div style="width:0%"></div></div>
+        </div>
+      </div>
+      <p class="note">Install state uses k<sub>τ</sub> = 1.0, service k<sub>τ</sub> = 0.5 (shown in tooltip of the bar).
+        W<sub>P</sub> is evaluated on d<sub>S0</sub> = √(4A<sub>s</sub>/π) per VDI 2230-1:2003 Eq. (5.5/5).</p>
+    </section>
+
+    <!-- ========================= 2. LOAD SHARING ======================= -->
+    <section id="loadshare" class="detailbox">
+      <h2>2&nbsp;·&nbsp;Load sharing — why the member-stiffness method matters</h2>
+      <p class="lead">
+        Only the fraction $\Phi$ of an external axial load goes through the bolt;
+        the rest unloads the clamped members. The joint opens when the clamp force
+        $F_K = F_M - (1-\Phi)F_A$ reaches zero, i.e. at $F_{A,open} = F_M/(1-\Phi)$.
+        Because the three member-stiffness methods disagree on $\Phi$
+        (DMP 0.144, VDI 0.118, Bickford 0.238 for the thesis joint), they disagree on both the
+        alternating bolt stress and the predicted opening load.
+      </p>
+      <div class="plot-card"><canvas id="chartForce" height="330"></canvas></div>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kpiOpenDmp"></div><div class="l">F<sub>A,open</sub> DMP [kN]</div></div>
+        <div class="kpi"><div class="v" id="kpiOpenVdi"></div><div class="l">F<sub>A,open</sub> VDI [kN]</div></div>
+        <div class="kpi"><div class="v" id="kpiOpenBick"></div><div class="l">F<sub>A,open</sub> Bickford [kN]</div></div>
+        <div class="kpi"><div class="v" id="kpiSigA"></div><div class="l">σ<sub>a</sub> in bolt at F<sub>A</sub> = 10 kN (DMP / VDI / Bick) [MPa]</div></div>
+      </div>
+    </section>
+
+    <!-- ========================== 3. FATIGUE =========================== -->
+    <section id="fatigue" class="detailbox">
+      <h2>3&nbsp;·&nbsp;Random-vibration fatigue — spectral methods</h2>
+      <p class="lead">
+        A stress response PSD is generated by passing a NASA GEVS-type base-acceleration spectrum
+        through a single-mode resonator with natural frequency $f_n$, damping $\zeta$ and a stress
+        sensitivity $\sigma/g$. From the spectral moments $m_n=\int f^{\,n} S(f)\,df$ the up-crossing rate is
+        $\nu_0=\sqrt{m_2/m_0}$, the peak rate $\nu_p=\sqrt{m_4/m_2}$ and the irregularity factor
+        $\gamma = m_2/\sqrt{m_0 m_4}$. Fatigue life follows from Miner's rule with the S–N curve
+        $N_f = C\,S_a^{-m}$ (stress-<b>amplitude</b> convention, $S_a=\sqrt{m_0}\,Z$), comparing
+        <b>Dirlik</b>, <b>narrowband (Rice)</b> and <b>Steinberg's three-band</b> estimates —
+        the same estimators benchmarked in the thesis.
+      </p>
+
+      <div class="tool-grid">
+        <div class="tool-card">
+          <div class="tool-title">Input PSD (GEVS-type)</div>
+          <div id="grpPsd"></div>
+          <div class="note">Breakpoints 20→80→500→2000 Hz, ramps are straight lines in log–log.
+            Input RMS = <b id="grmsOut"></b> g</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-title">Structural response</div>
+          <div id="grpSdof"></div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-title">S–N curve (SS304 fit)</div>
+          <div id="grpSn"></div>
+          <div class="note">$N_f = C\,S_a^{-m}$; thesis fit: m ≈ 4.0, C ≈ 4.6×10¹³ (MPa, amplitude).</div>
+        </div>
+        <div class="tool-card">
+          <div class="tool-title">Response statistics</div>
+          <div class="kpi" style="margin-bottom:8px"><div class="v" id="kpiSrms"></div><div class="l">σ<sub>RMS</sub> [MPa]</div></div>
+          <div class="kpi" style="margin-bottom:8px"><div class="v" id="kpiNu0"></div><div class="l">ν₀ = √(m₂/m₀) [Hz]</div></div>
+          <div class="kpi"><div class="v" id="kpiGamma"></div><div class="l">irregularity γ = m₂/√(m₀m₄)</div></div>
+        </div>
+      </div>
+
+      <div class="plots2">
+        <div class="plot-card"><canvas id="chartPsd" height="300"></canvas></div>
+        <div class="plot-card"><canvas id="chartPdf" height="300"></canvas></div>
+      </div>
+      <div class="plot-card"><canvas id="chartLife" height="240"></canvas></div>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="kpiLifeDirlik"></div><div class="l">Life — Dirlik</div></div>
+        <div class="kpi"><div class="v" id="kpiLifeNb"></div><div class="l">Life — narrowband</div></div>
+        <div class="kpi"><div class="v" id="kpiLifeStein"></div><div class="l">Life — Steinberg 3-band</div></div>
+      </div>
+      <p class="note">Narrowband is the conservative bound (γ→1); Dirlik follows rainflow counting closely for
+        broadband responses; Steinberg's fixed 68.3&nbsp;/&nbsp;27.1&nbsp;/&nbsp;4.33&nbsp;% banding is simple but
+        can be non-conservative. Try lowering $f_n$ toward the plateau edge or raising ζ and watch γ drop.</p>
+    </section>
+
+    <footer class="wrap">
+      Interactive companion to the master's thesis by Wilmer Hjulström. Analytical models: VDI 2230-1:2003,
+      SAND2008-0371 (Brown et&nbsp;al., 2008), Dirlik (1985), Steinberg. Values reflect the corrected
+      calculation scripts (d₃ = 8.160 mm per ISO 68-1).
+    </footer>
+  </main>
+
+<script>
+// ===CALC-BEGIN===
+// ---------- math helpers ----------
+function gammaFn(x){ // Lanczos approximation
+  const g=7, c=[0.99999999999980993,676.5203681218851,-1259.1392167224028,
+    771.32342877765313,-176.61502916214059,12.507343278686905,
+    -0.13857109526572012,9.9843695780195716e-6,1.5056327351493116e-7];
+  if(x<0.5) return Math.PI/(Math.sin(Math.PI*x)*gammaFn(1-x));
+  x-=1; let a=c[0]; const t=x+g+0.5;
+  for(let i=1;i<g+2;i++) a+=c[i]/(x+i);
+  return Math.sqrt(2*Math.PI)*Math.pow(t,x+0.5)*Math.exp(-t)*a;
+}
+
+// ---------- bolt (VDI 2230 segmentation, fully threaded SHCS + nut) ----------
+function boltResilience(p){
+  const d2=p.d-0.6495*p.P, d3=p.d-1.2269*p.P, ds=(d2+d3)/2;
+  const AN=Math.PI/4*p.d*p.d, Ad3=Math.PI/4*d3*d3;
+  const Id=Math.PI/64*Math.pow(p.d,4), Id3=Math.PI/64*Math.pow(d3,4);
+  const L_SK=0.4*p.d, L_M=0.4*p.d, L_G=0.5*p.d, L_GEW=p.lK;
+  const dS = L_SK/(p.E_S*AN) + L_GEW/(p.E_S*Ad3) + L_G/(p.E_S*Ad3) + L_M/(p.E_S*AN);
+  const bS = L_SK/(p.E_S*Id) + L_GEW/(p.E_S*Id3) + L_G/(p.E_S*Id3) + L_M/(p.E_S*Id);
+  return {d2,d3,ds,AN,Ad3,Id,Id3,deltaS:dS,betaS:bS};
+}
+
+// ---------- CBUSH 6 DOF (bolt only) ----------
+function cbush(p,b){
+  const G=p.E_S/(2*(1+p.nu));
+  const kappa=6*(1+p.nu)/(7+6*p.nu);
+  const K1=G*kappa*b.Ad3/p.lK;
+  const K3=1/b.deltaS;
+  const K4=1/b.betaS;
+  const J=Math.PI/32*Math.pow(b.ds,4);
+  const K6=G*J/p.lK;
+  return {K1,K2:K1,K3,K4,K5:K4,K6};
+}
+
+// ---------- VDI 2230 cone member stiffness ----------
+function kmVDI(p){
+  // effective bearing diameter: head+washer spreading, capped by washer OD, controlling = min(head side, nut side)
+  let dWa=Math.min(p.dWhead+1.6*p.hS, p.washerOD);
+  let dW=Math.min(dWa,p.dWnut);
+  dW=Math.max(dW, p.dh*1.001);   // guard: bearing diameter cannot be smaller than the hole
+  const w=1, lK=p.lK, dh=p.dh, DA=p.DA, E=p.E_P;
+  const tanphi=0.362+0.032*Math.log(lK/dW/2)+0.153*Math.log(DA/dW);
+  const DA_Gr=dW+w*lK*tanphi;
+  let deltaP;
+  if(DA>=DA_Gr){
+    const num=(dW+dh)*(dW+w*lK*tanphi-dh), den=(dW-dh)*(dW+w*lK*tanphi+dh);
+    deltaP=2*Math.log(num/den)/(w*E*Math.PI*dh*tanphi);
+  } else if(dW<DA){
+    const t1=(2/(w*dh*tanphi))*Math.log(((dW+dh)*(DA-dh))/((dW-dh)*(DA+dh)));
+    const t2=(4/(DA*DA-dh*dh))*(lK-(DA-dW)/(w*tanphi));
+    deltaP=(t1+t2)/(E*Math.PI);
+  } else {
+    deltaP=4*lK/(E*Math.PI*(DA*DA-dh*dh));
+  }
+  return {km:1/deltaP, deltaP, tanphi, dW, DA_Gr};
+}
+
+// ---------- Sandia DMP member stiffness (SAND2008-0371 Eq. 23-24) ----------
+function kmDMP(p){
+  const dh=Math.max(Math.min(p.dWhead,p.dWnut), p.dh*1.001); // controlling bearing diameter (guarded)
+  const xG=(p.d/p.lK)*(dh*dh-p.dh*p.dh)/(1.25*p.d*p.d);
+  const n=0.5;                                    // same-material assumption (documented)
+  const Nk=0.9991*xG+0.2189*n+0.5234;
+  const km=p.E_P*p.d*Nk;
+  return {km, xG, Nk, valid:(xG>=0.167&&xG<=1.786)};
+}
+
+// ---------- Bickford Q-factor (SAND2008-0371 Eq. 13-17) ----------
+function kmBickford(p){
+  const dh=Math.min(p.dWhead,p.dWnut), Dj=p.DA, db=p.d, lK=p.lK, qi=p.dh/db;
+  let Q;
+  if(dh>=Dj) Q=Dj/db;
+  else if(Dj<3*dh) Q=(1/db)*Math.sqrt(dh*dh+(Dj/dh-1)*(lK*dh/10+lK*lK/200));
+  else Q=(dh+lK/10)/db;
+  Q=Math.max(Q,qi+1e-9);
+  const A=(Math.PI*db*db/4)*(Q*Q-qi*qi);
+  const l1=p.hS+p.t, l2=p.t;
+  const k1=p.E_P*A/l1, k2=p.E_P*A/l2;
+  return {km:1/(1/k1+1/k2), Q, A};
+}
+
+// ---------- preload & assembly stress ----------
+function assembly(p,b){
+  const FM=p.nuPre*p.Rp02*p.As;
+  const pitchAng=Math.atan(p.P/(Math.PI*b.d2));
+  const fricAng=Math.atan(p.muG/Math.cos(Math.PI/6));
+  const MG=FM*(b.d2/2)*Math.tan(pitchAng+fricAng);
+  const dS0=Math.sqrt(4*p.As/Math.PI);
+  const Wp=Math.PI*Math.pow(dS0,3)/16;
+  const sigZ=FM/p.As, tau=MG/Wp;
+  const VMi=Math.sqrt(sigZ*sigZ+3*tau*tau);
+  const VMs=Math.sqrt(sigZ*sigZ+3*Math.pow(0.5*tau,2));
+  return {FM,MG,tau,sigZ,VMi,VMs,util:VMi/p.Rp02};
+}
+
+// ---------- full joint solve ----------
+function solveJoint(p){
+  const b=boltResilience(p);
+  const K=cbush(p,b);
+  const vdi=kmVDI(p), dmp=kmDMP(p), bick=kmBickford(p);
+  const kS=K.K3;
+  const PhiDMP=(1/dmp.km)/(b.deltaS+1/dmp.km);
+  const PhiVDI=(1/vdi.km)/(b.deltaS+1/vdi.km);
+  const PhiBick=(1/bick.km)/(b.deltaS+1/bick.km);
+  const asm=assembly(p,b);
+  return {b,K,vdi,dmp,bick,kS,PhiDMP,PhiVDI,PhiBick,asm};
+}
+
+// ---------- GEVS-type input PSD, log-log interpolation ----------
+function makePSD(plateau, lowLevel){
+  const bp=[[20,lowLevel],[80,plateau],[500,plateau],[2000,lowLevel]];
+  return function(f){
+    if(f<bp[0][0]||f>bp[3][0]) return 0;
+    for(let i=0;i<bp.length-1;i++){
+      const [f1,y1]=bp[i],[f2,y2]=bp[i+1];
+      if(f>=f1&&f<=f2){
+        if(y1===y2) return y1;
+        const s=Math.log(y2/y1)/Math.log(f2/f1);
+        return y1*Math.pow(f/f1,s);
+      }
+    }
+    return 0;
+  };
+}
+
+// ---------- spectral moments of stress response ----------
+function responseMoments(cfg){
+  // cfg: {plateau, lowLevel, fn, zeta, sigPerG}
+  const psd=makePSD(cfg.plateau,cfg.lowLevel);
+  const N=4000, f1=20, f2=2000;
+  let m=[0,0,0,0,0], gsq=0;
+  let prev=null;
+  for(let i=0;i<=N;i++){
+    const f=f1*Math.pow(f2/f1,i/N);           // log spacing
+    const r=f/cfg.fn, tz=2*cfg.zeta*r;
+    const H2=(1+tz*tz)/(Math.pow(1-r*r,2)+tz*tz);   // base-accel transmissibility^2
+    const Ss=cfg.sigPerG*cfg.sigPerG*H2*psd(f);     // stress PSD [MPa^2/Hz]
+    const cur={f,Ss,W:psd(f)};
+    if(prev){
+      const df=cur.f-prev.f;
+      for(let n=0;n<=4;n++)
+        m[n]+=0.5*(Math.pow(prev.f,n)*prev.Ss+Math.pow(cur.f,n)*cur.Ss)*df;
+      gsq+=0.5*(prev.W+cur.W)*df;
+    }
+    prev=cur;
+  }
+  const m0=m[0],m1=m[1],m2=m[2],m4=m[4];
+  return {m0,m1,m2,m4,
+    grms:Math.sqrt(gsq),
+    srms:Math.sqrt(m0),
+    nu0:Math.sqrt(m2/m0),
+    nup:Math.sqrt(m4/m2),
+    gamma:m2/Math.sqrt(m0*m4)};
+}
+
+// ---------- Dirlik parameters ----------
+function dirlikParams(mm){
+  const {m0,m1,m2,m4}=mm;
+  const xm=(m1/m0)*Math.sqrt(m2/m4);
+  const g=m2/Math.sqrt(m0*m4);
+  const D1=2*(xm-g*g)/(1+g*g);
+  const R=(g-xm-D1*D1)/(1-g-D1+D1*D1);
+  const D2=(1-g-D1+D1*D1)/(1-R);
+  const D3=1-D1-D2;
+  const Q=1.25*(g-D3-D2*R)/D1;
+  return {xm,g,D1,D2,D3,R,Q};
+}
+function dirlikPdf(Z,dp){
+  return dp.D1/dp.Q*Math.exp(-Z/dp.Q)
+       + dp.D2*Z/(dp.R*dp.R)*Math.exp(-Z*Z/(2*dp.R*dp.R))
+       + dp.D3*Z*Math.exp(-Z*Z/2);
+}
+
+// ---------- damage rates (amplitude convention: Sa = sqrt(m0) * Z) ----------
+function damageRates(mm, m, C){
+  const dp=dirlikParams(mm);
+  const EZm=dp.D1*Math.pow(dp.Q,m)*gammaFn(1+m)
+          + Math.pow(Math.SQRT2,m)*gammaFn(1+m/2)*(dp.D2*Math.pow(Math.abs(dp.R),m)+dp.D3);
+  const dDirlik=mm.nup*Math.pow(mm.m0,m/2)*EZm/C;
+  const dNb=mm.nu0*Math.pow(2*mm.m0,m/2)*gammaFn(1+m/2)/C;
+  const p=[0.683,0.271,0.0433];
+  const dStein=mm.nu0*Math.pow(mm.srms,m)*(p[0]+p[1]*Math.pow(2,m)+p[2]*Math.pow(3,m))/C;
+  return {dDirlik,dNb,dStein,dp};
+}
+// ===CALC-END===
+
+// ---------------- UI plumbing ----------------
+const DEFAULTS={
+  M8:  {d:8, P:1.25,As:36.6,dWhead:13,dWnut:16,washerOD:16,dh:9,   t:8.46,hS:1.6},
+  M10: {d:10,P:1.5, As:58.0,dWhead:15,dWnut:20,washerOD:20,dh:11,  t:8.46,hS:1.6},
+  M12: {d:12,P:1.75,As:84.3,dWhead:18,dWnut:24,washerOD:24,dh:13.5,t:8.46,hS:1.6}
+};
+const CTLS=[
+  {id:'d',     grp:'grpBolt',   lbl:'Nominal diameter d', unit:'mm', min:6,max:16,step:0.5,val:10},
+  {id:'P',     grp:'grpBolt',   lbl:'Pitch P', unit:'mm', min:0.75,max:2,step:0.05,val:1.5},
+  {id:'As',    grp:'grpBolt',   lbl:'Stress area Aₛ', unit:'mm²', min:20,max:120,step:0.1,val:58},
+  {id:'t',     grp:'grpStack',  lbl:'Plate thickness t', unit:'mm', min:3,max:20,step:0.01,val:8.46},
+  {id:'hS',    grp:'grpStack',  lbl:'Washer thickness hₛ', unit:'mm', min:0,max:4,step:0.1,val:1.6},
+  {id:'DA',    grp:'grpStack',  lbl:'Member width Dₐ', unit:'mm', min:15,max:80,step:0.1,val:31.6},
+  {id:'dWhead',grp:'grpBearing',lbl:'Head bearing Ø', unit:'mm', min:10,max:30,step:0.5,val:15},
+  {id:'dWnut', grp:'grpBearing',lbl:'Nut bearing Ø', unit:'mm', min:10,max:30,step:0.5,val:20},
+  {id:'washerOD',grp:'grpBearing',lbl:'Washer OD', unit:'mm', min:12,max:30,step:0.5,val:20},
+  {id:'dh',    grp:'grpBearing',lbl:'Hole Ø dₕ', unit:'mm', min:6.5,max:18,step:0.5,val:11},
+  {id:'E',     grp:'grpMat',    lbl:'E (bolt & plates)', unit:'GPa', min:70,max:220,step:5,val:200},
+  {id:'nuPre', grp:'grpMat',    lbl:'Preload level', unit:'× Rₚ₀.₂', min:0.3,max:0.9,step:0.01,val:0.7},
+  {id:'muG',   grp:'grpMat',    lbl:'Thread friction μᴳ', unit:'-', min:0.08,max:0.25,step:0.01,val:0.15},
+  // fatigue
+  {id:'plateau',grp:'grpPsd',  lbl:'Plateau level (80–500 Hz)', unit:'g²/Hz', min:0.005,max:0.2,step:0.005,val:0.04},
+  {id:'lowLevel',grp:'grpPsd', lbl:'Edge level (20 / 2000 Hz)', unit:'g²/Hz', min:0.001,max:0.05,step:0.001,val:0.01},
+  {id:'fn',    grp:'grpSdof',  lbl:'Natural frequency fₙ', unit:'Hz', min:30,max:1500,step:5,val:120},
+  {id:'zeta',  grp:'grpSdof',  lbl:'Damping ζ', unit:'-', min:0.005,max:0.15,step:0.005,val:0.025},
+  {id:'sigPerG',grp:'grpSdof', lbl:'Stress sensitivity σ/g', unit:'MPa/g', min:1,max:60,step:0.5,val:3},
+  {id:'snM',   grp:'grpSn',    lbl:'S–N slope m', unit:'-', min:3,max:10,step:0.1,val:4.0},
+  {id:'snC',   grp:'grpSn',    lbl:'log₁₀ C', unit:'-', min:11,max:17,step:0.1,val:13.6628}
+];
+const V={};
+function buildControls(){
+  CTLS.forEach(c=>{
+    V[c.id]=c.val;
+    const box=document.getElementById(c.grp);
+    const el=document.createElement('label'); el.className='ctl';
+    el.innerHTML=`${c.lbl} <span class="unit">[${c.unit}]</span>
+      <div class="row">
+        <input type="range" id="${c.id}_r" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.val}">
+        <input type="number" id="${c.id}_n" min="${c.min}" max="${c.max}" step="${c.step}" value="${c.val}">
+      </div>`;
+    box.appendChild(el);
+    const r=el.querySelector('input[type=range]'), n=el.querySelector('input[type=number]');
+    const on=v=>{ V[c.id]=parseFloat(v); r.value=v; n.value=v; update(); };
+    r.addEventListener('input',e=>on(e.target.value));
+    n.addEventListener('input',e=>{ if(e.target.value!=='') on(e.target.value); });
+  });
+}
+function setCtl(id,v){ V[id]=v;
+  const r=document.getElementById(id+'_r'), n=document.getElementById(id+'_n');
+  if(r){r.value=v;} if(n){n.value=v;}
+}
+function applyPreset(name){
+  const p=DEFAULTS[name];
+  Object.entries(p).forEach(([k,v])=>setCtl(k,v));
+  update();
+}
+
+// ---------------- charts ----------------
+const CLR={dmp:'#2563eb',vdi:'#16a34a',bick:'#ea580c',ink:'#23272f',mut:'#9ca3af'};
+let chKm,chPhi,chForce,chPsd,chPdf,chLife;
+function makeCharts(){
+  chKm=new Chart(chartKm,{type:'bar',
+    data:{labels:['Sandia DMP','VDI 2230 cone','Bickford Q'],
+      datasets:[{label:'kₘ [kN/mm]',data:[0,0,0],
+        backgroundColor:[CLR.dmp,CLR.vdi,CLR.bick]}]},
+    options:{plugins:{title:{display:true,text:'Clamped-member stiffness km'},legend:{display:false}},
+      scales:{y:{title:{display:true,text:'kN/mm'},beginAtZero:true}}}});
+  chPhi=new Chart(chartPhi,{type:'line',
+    data:{labels:[],datasets:[
+      {label:'Φ DMP',data:[],borderColor:CLR.dmp,pointRadius:0,borderWidth:2},
+      {label:'Φ VDI',data:[],borderColor:CLR.vdi,pointRadius:0,borderWidth:2},
+      {label:'Φ Bickford',data:[],borderColor:CLR.bick,pointRadius:0,borderWidth:2},
+      {label:'design lₖ',data:[],borderColor:CLR.ink,pointRadius:5,pointStyle:'crossRot',showLine:false}]},
+    options:{plugins:{title:{display:true,text:'Load factor Φ vs clamp length lK'}},
+      scales:{x:{type:'linear',title:{display:true,text:'lK [mm]'}},
+              y:{title:{display:true,text:'Φ [-]'},beginAtZero:true}}}});
+  chForce=new Chart(chartForce,{type:'line',data:{labels:[],datasets:[]},
+    options:{plugins:{title:{display:true,text:'Bolt force FB and clamp force FK vs external load FA'}},
+      scales:{x:{type:'linear',title:{display:true,text:'FA [kN]'}},
+              y:{title:{display:true,text:'Force [kN]'},beginAtZero:true}}}});
+  chPsd=new Chart(chartPsd,{type:'line',
+    data:{labels:[],datasets:[
+      {label:'Input [g²/Hz]',data:[],borderColor:CLR.mut,pointRadius:0,borderWidth:2,yAxisID:'y'},
+      {label:'Stress response [MPa²/Hz]',data:[],borderColor:CLR.dmp,pointRadius:0,borderWidth:2,yAxisID:'y2'}]},
+    options:{plugins:{title:{display:true,text:'Input and stress-response PSD'}},
+      scales:{x:{type:'logarithmic',title:{display:true,text:'f [Hz]'},min:20,max:2000},
+        y:{type:'logarithmic',title:{display:true,text:'g²/Hz'}},
+        y2:{type:'logarithmic',position:'right',title:{display:true,text:'MPa²/Hz'},grid:{drawOnChartArea:false}}}}});
+  chPdf=new Chart(chartPdf,{type:'line',
+    data:{labels:[],datasets:[
+      {label:'Dirlik p(Z)',data:[],borderColor:CLR.dmp,pointRadius:0,borderWidth:2},
+      {label:'Rayleigh (narrowband)',data:[],borderColor:CLR.bick,pointRadius:0,borderWidth:2,borderDash:[6,4]}]},
+    options:{plugins:{title:{display:true,text:'Amplitude PDF, Z = Sa/√m0'}},
+      scales:{x:{type:'linear',title:{display:true,text:'Z [-]'}},
+              y:{title:{display:true,text:'p(Z)'},beginAtZero:true}}}});
+  chLife=new Chart(chartLife,{type:'bar',
+    data:{labels:['Dirlik','Narrowband (Rice)','Steinberg 3-band'],
+      datasets:[{label:'Life [h]',data:[0,0,0],backgroundColor:[CLR.dmp,CLR.mut,CLR.bick]}]},
+    options:{indexAxis:'y',plugins:{title:{display:true,text:'Predicted fatigue life (log scale)'},legend:{display:false}},
+      scales:{x:{type:'logarithmic',title:{display:true,text:'hours'}}}}});
+}
+
+// ---------------- formatting ----------------
+const f2=x=>x.toFixed(2), f3=x=>x.toFixed(3), f4=x=>x.toFixed(4);
+const sci=x=>{ const e=Math.floor(Math.log10(Math.abs(x))); const mant=x/Math.pow(10,e);
+  const sup=String(e).split('').map(ch=>ch==='-'?'⁻':'⁰¹²³⁴⁵⁶⁷⁸⁹'[+ch]).join('');
+  return mant.toFixed(3)+' × 10'+sup; };
+function fmtLife(sec){
+  if(!isFinite(sec)) return '∞';
+  const h=sec/3600;
+  if(h<1) return (sec/60).toFixed(1)+' min';
+  if(h<48) return h.toFixed(1)+' h';
+  const d=h/24; if(d<365) return d.toFixed(1)+' days';
+  return (d/365.25).toFixed(1)+' years';
+}
+
+// ---------------- main update ----------------
+function jointParams(){
+  return {d:V.d,P:V.P,As:V.As,E_S:V.E*1e3,E_P:V.E*1e3,nu:0.30,
+    lK:V.hS+2*V.t, t:V.t, hS:V.hS, DA:V.DA,
+    dWhead:V.dWhead,dWnut:V.dWnut,washerOD:V.washerOD,dh:V.dh,
+    nuPre:V.nuPre,Rp02:940,muG:V.muG};
+}
+function update(){
+  const p=jointParams();
+  document.getElementById('lkOut').textContent=f2(p.lK);
+  const s=solveJoint(p);
+
+  // KPIs
+  kpiKs.textContent=f2(s.kS/1e3);
+  kpiKmDmp.textContent=f2(s.dmp.km/1e3)+(s.dmp.valid?'':' ⚠');
+  kpiKmVdi.textContent=f2(s.vdi.km/1e3);
+  kpiKmBick.textContent=f2(s.bick.km/1e3);
+  kpiPhi.textContent=f4(s.PhiDMP)+' / '+f4(s.PhiVDI)+' / '+f4(s.PhiBick);
+
+  // CBUSH table
+  tK1.textContent=sci(s.K.K1); tK3.textContent=sci(s.K.K3);
+  tK4.textContent=sci(s.K.K4); tK6.textContent=sci(s.K.K6);
+
+  // assembly
+  preloadPctLbl.textContent=Math.round(V.nuPre*100);
+  kpiFM.textContent=f2(s.asm.FM/1e3);
+  kpiMG.textContent=f2(s.asm.MG/1e3);
+  kpiTau.textContent=s.asm.tau.toFixed(0);
+  kpiVM.textContent=s.asm.VMi.toFixed(0)+' MPa ('+(s.asm.util*100).toFixed(1)+' %)';
+  const ub=document.getElementById('utilBar');
+  ub.firstElementChild.style.width=Math.min(100,s.asm.util*100)+'%';
+  ub.className='util'+(s.asm.util>1?' bad':(s.asm.util>0.9?' warn':''));
+  ub.title='Service (kτ=0.5): '+s.asm.VMs.toFixed(0)+' MPa ('+(s.asm.VMs/940*100).toFixed(1)+' %)';
+
+  // km chart
+  chKm.data.datasets[0].data=[s.dmp.km/1e3,s.vdi.km/1e3,s.bick.km/1e3];
+  chKm.update('none');
+
+  // Phi vs lK sweep
+  const lks=[],pd=[],pv=[],pb=[];
+  for(let lk=5;lk<=40.001;lk+=0.5){
+    const q={...p,lK:lk,t:(lk-p.hS)/2};
+    const bb=boltResilience(q);
+    const kd=kmDMP(q).km,kv=kmVDI(q).km,kb=kmBickford(q).km;
+    lks.push(lk);
+    pd.push({x:lk,y:(1/kd)/(bb.deltaS+1/kd)});
+    pv.push({x:lk,y:(1/kv)/(bb.deltaS+1/kv)});
+    pb.push({x:lk,y:(1/kb)/(bb.deltaS+1/kb)});
+  }
+  chPhi.data.datasets[0].data=pd;
+  chPhi.data.datasets[1].data=pv;
+  chPhi.data.datasets[2].data=pb;
+  chPhi.data.datasets[3].data=[{x:p.lK,y:s.PhiDMP},{x:p.lK,y:s.PhiVDI},{x:p.lK,y:s.PhiBick}];
+  chPhi.update('none');
+
+  // load-sharing chart
+  const FM=s.asm.FM/1e3;
+  const methods=[['DMP',s.PhiDMP,CLR.dmp],['VDI',s.PhiVDI,CLR.vdi],['Bickford',s.PhiBick,CLR.bick]];
+  const FAmax=1.3*FM/(1-Math.min(s.PhiDMP,s.PhiVDI,s.PhiBick));
+  chForce.data.datasets=[];
+  methods.forEach(([nm,Phi,clr])=>{
+    const fb=[],fk=[];
+    for(let i=0;i<=60;i++){
+      const FA=FAmax*i/60;
+      const open=FM/(1-Phi);
+      fb.push({x:FA,y:FA<=open?FM+Phi*FA:FA});
+      fk.push({x:FA,y:Math.max(0,FM-(1-Phi)*FA)});
+    }
+    chForce.data.datasets.push({label:'FB '+nm,data:fb,borderColor:clr,pointRadius:0,borderWidth:2});
+    chForce.data.datasets.push({label:'FK '+nm,data:fk,borderColor:clr,pointRadius:0,borderWidth:1.5,borderDash:[6,4]});
+  });
+  chForce.update('none');
+  kpiOpenDmp.textContent=f2(FM/(1-s.PhiDMP));
+  kpiOpenVdi.textContent=f2(FM/(1-s.PhiVDI));
+  kpiOpenBick.textContent=f2(FM/(1-s.PhiBick));
+  const sa=Phi=>(Phi*10e3/2/V.As).toFixed(1);
+  kpiSigA.textContent=sa(s.PhiDMP)+' / '+sa(s.PhiVDI)+' / '+sa(s.PhiBick);
+
+  // ---------------- fatigue ----------------
+  const cfg={plateau:V.plateau,lowLevel:V.lowLevel,fn:V.fn,zeta:V.zeta,sigPerG:V.sigPerG};
+  const mm=responseMoments(cfg);
+  grmsOut.textContent=f2(mm.grms);
+  kpiSrms.textContent=f2(mm.srms);
+  kpiNu0.textContent=f2(mm.nu0);
+  kpiGamma.textContent=f3(mm.gamma);
+
+  const C=Math.pow(10,V.snC), m=V.snM;
+  const dr=damageRates(mm,m,C);
+  const lifeD=1/dr.dDirlik, lifeN=1/dr.dNb, lifeS=1/dr.dStein;
+  kpiLifeDirlik.textContent=fmtLife(lifeD);
+  kpiLifeNb.textContent=fmtLife(lifeN);
+  kpiLifeStein.textContent=fmtLife(lifeS);
+  chLife.data.datasets[0].data=[lifeD/3600,lifeN/3600,lifeS/3600];
+  chLife.update('none');
+
+  // PSD chart
+  const psd=makePSD(cfg.plateau,cfg.lowLevel);
+  const din=[],dres=[];
+  for(let i=0;i<=300;i++){
+    const f=20*Math.pow(100,i/300);
+    const r=f/cfg.fn,tz=2*cfg.zeta*r;
+    const H2=(1+tz*tz)/(Math.pow(1-r*r,2)+tz*tz);
+    din.push({x:f,y:psd(f)});
+    dres.push({x:f,y:cfg.sigPerG*cfg.sigPerG*H2*psd(f)});
+  }
+  chPsd.data.datasets[0].data=din;
+  chPsd.data.datasets[1].data=dres;
+  chPsd.update('none');
+
+  // PDF chart
+  const dp=dr.dp, pdD=[],pdR=[];
+  for(let i=0;i<=200;i++){
+    const Z=6*i/200;
+    pdD.push({x:Z,y:dirlikPdf(Z,dp)});
+    pdR.push({x:Z,y:Z*Math.exp(-Z*Z/2)});
+  }
+  chPdf.data.datasets[0].data=pdD;
+  chPdf.data.datasets[1].data=pdR;
+  chPdf.update('none');
+}
+
+// ---------------- init ----------------
+buildControls();
+makeCharts();
+document.getElementById('preset').addEventListener('change',e=>applyPreset(e.target.value));
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  document.getElementById('preset').value='M10';
+  applyPreset('M10');
+  [['E',200],['nuPre',0.7],['muG',0.15],['DA',31.6],
+   ['plateau',0.04],['lowLevel',0.01],['fn',120],['zeta',0.025],
+   ['sigPerG',3],['snM',4.0],['snC',13.6628]].forEach(([k,v])=>setCtl(k,v));
+  update();
+});
+update();
+</script>
+</body>
+</html>
