@@ -7,6 +7,13 @@
 // and get corrupted before any rendering happens.
 const md = (strings, ...values) => String.raw({raw: strings}, ...values);
 
+function getYoutubeId(url) {
+  const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+  return match ? match[1] : null;
+}
+
+
+
 const projects = [
       {
         slug: 'Drone1',
@@ -593,7 +600,8 @@ References available upon request.
         'images/Thesis/MODAL27.png',
         'images/Thesis/modal_frequency_convergence.png',
         'images/Thesis/ranking_heatmap_transverse_nasa.png',
-        'images/Thesis/efficiency_ratio.png'
+        'images/Thesis/efficiency_ratio.png',
+        'https://youtu.be/rPNvHnWSXBc',
       ],
       content: md`
 > *A practical engineering model is not the most detailed model available, but the simplest model that still answers the right question with sufficient confidence.*
@@ -721,11 +729,21 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
 
     function showLightboxItem(){
       const src = lightboxItems[lightboxIndex];
+      const ytId = getYoutubeId(src); // Check if it's a YouTube URL
       const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
       lightboxContent.innerHTML = '';
 
       let preview;
-      if (isVideo) {
+      if (ytId) {
+        preview = document.createElement('iframe');
+        // Adding ?autoplay=1 so it starts immediately when the lightbox opens
+        preview.src = `https://www.youtube.com/embed/${ytId}?autoplay=1`; 
+        preview.setAttribute('frameborder', '0');
+        preview.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+        preview.setAttribute('allowfullscreen', 'true');
+        preview.style.width = '100%';
+        preview.style.height = '100%'; // Ensure it fills the lightbox container
+      } else if (isVideo) {
         preview = document.createElement('video');
         preview.src = src;
         preview.controls = true;
@@ -774,8 +792,17 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
       container.innerHTML = '';
       sources.forEach((src, idx) => {
         let el;
+        const ytId = getYoutubeId(src);
         const isVideo = /\.(mp4|webm|ogg)$/i.test(src);
-        if (isVideo) {
+        
+        if (ytId) {
+          el = document.createElement('iframe');
+          el.src = `https://www.youtube.com/embed/${ytId}`;
+          el.setAttribute('frameborder', '0');
+          el.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+          el.setAttribute('allowfullscreen', 'true');
+          el.setAttribute('aria-label', `${title || 'Project'} YouTube video`);
+        } else if (isVideo) {
           el = document.createElement('video');
           el.src = src;
           el.controls = true;
@@ -788,15 +815,21 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
           el.loading = 'lazy';
           el.decoding = 'async';
         }
+        
         el.classList.add('project-media');
-        el.tabIndex = 0;
-        el.addEventListener('click', () => openLightbox(sources, idx, title));
-        el.addEventListener('keydown', event => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            openLightbox(sources, idx, title);
-          }
-        });
+        
+        // Only add lightbox click events for local images and videos, 
+        // since clicking an iframe should just interact with the YouTube player.
+        if (!ytId) {
+          el.tabIndex = 0;
+          el.addEventListener('click', () => openLightbox(sources, idx, title));
+          el.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              openLightbox(sources, idx, title);
+            }
+          });
+        }
         container.appendChild(el);
       });
     }
