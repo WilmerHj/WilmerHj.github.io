@@ -1082,6 +1082,7 @@ References available upon request.
         'https://youtu.be/rPNvHnWSXBc',
       ],
       content: md`
+*Link to thesis PDF:* [Guidelines for Resource Efficient Finite Element Analysis of Bolted Joints under Random Vibration Fatigue](http://www.diva-portal.org/smash/record.jsf?pid=diva2:2067092)
 > *A practical engineering model is not the most detailed model available, but the simplest model that still answers the right question with sufficient confidence.*
 
 **Background.** Predicting random-vibration fatigue in bolted joints is challenging. While industry standards provide analytical frameworks, they lack systematic guidance on selecting a Finite Element bolt representation. Fully threaded 3D models become prohibitive at large assembly scale, requiring engineers to simplify — yet it remains unclear *when* specific simplifications are acceptable.
@@ -1123,8 +1124,6 @@ Model accuracy was scored against the solid reference using a combined ranking o
 Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bolt bending, hole elongation, embedding preload loss — can still be incorporated into design decisions through analytical governing conditions (e.g. $F_{Shear} < F_{friction}$, $\\sigma_{bend} = M/W$). The resulting **decision flowchart**, **phenomenon–method matrix**, and benchmark results provide scoped engineering guidance for FE model selection under random-vibration fatigue.
 
 **Keywords:** Bolted joints, Dirlik method, Finite element modeling, Modeling guidelines, Random vibration fatigue.
-
-*Link to thesis PDF:* [Guidelines for Resource Efficient Finite Element Analysis of Bolted Joints under Random Vibration Fatigue](http://www.diva-portal.org/smash/record.jsf?pid=diva2:2067092)
       `
     };
 
