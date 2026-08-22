@@ -492,8 +492,8 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
       },
       {
   slug: 'thermal-fem-slider-bearing',
-  title: 'Thermal FEM & Elastic Slider Bearing Analysis',
-  subtitle: 'Transient heat transfer and coupled lubrication modeling in MATLAB',
+  title: 'Thermal FEM',
+  subtitle: 'Transient heat transfer in MATLAB and Abaqus',
   stack: [
     'MATLAB',
     'Finite Element Method',
@@ -502,63 +502,150 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
     'Reynolds Equation',
     'Coupled Physics'
   ],
-  images: ['images/Comp2A2/A2_Ball.png', 'images/Comp2A2/A2_T(r).png', 'images/Comp2A2/A2_T(t).png'],
+  images: ['images/Comp2A2/A2_Ball.png', 'images/Comp2A2/MatlabR.svg', 'images/Comp2A2/MatlabTemp.svg', 'images/Comp2A2/AbaqusTemp.svg'],
   content: md`
-**Overview.** A two-part computational engineering project combining transient thermal analysis and elastohydrodynamic lubrication. Both problems were formulated from governing equations and solved numerically in MATLAB.
+**Overview.** The transient thermal model was reproduced in Abaqus and Matlab to verify the implementation and compare the two finite element solutions.
 
-## Part 1 - Transient cooling of martensitic steel
+The first problem investigated how long a heated martensitic-steel component could remain in ambient air before its surface temperature fell below a manufacturing limit of $950\\,^{\\circ}\\mathrm{C}$.
 
-The first problem investigated how long a heated martensitic stainless-steel component could remain in ambient air before its surface temperature fell below the manufacturing limit of $950\\,^{\\circ}\\mathrm{C}$.
-
-The component's elliptic cross-section was approximated as a sphere with radius
+The component's elliptic cross-section was approximated by a sphere with radius
 
 $$
-R = \\sqrt{a^2+b^2} \\approx 0.029\\ \\mathrm{m}.
+R=\\sqrt{a^2+b^2}\\approx0.029\\ \\mathrm{m}.
+$$
+
+The component was initially at
+
+$$
+T_0=1030\\,^{\\circ}\\mathrm{C},
+$$
+
+with an ambient-air temperature of
+
+$$
+T_{\\mathrm{air}}=25\\,^{\\circ}\\mathrm{C}.
 $$
 
 Radial heat conduction was described by the transient heat equation in spherical coordinates:
 
 $$
-\\rho c_p \\frac{\\partial T}{\\partial t}
+\\rho c_p\\frac{\\partial T}{\\partial t}
 =
 \\frac{1}{r^2}
 \\frac{\\partial}{\\partial r}
 \\left(
-k r^2 \\frac{\\partial T}{\\partial r}
-\\right).
+k r^2\\frac{\\partial T}{\\partial r} \\right).
 $$
 
-Heat loss at the surface included both convection and nonlinear thermal radiation:
+Heat loss from the outer surface included convection and nonlinear thermal radiation:
 
 $$
-q_s =
-h(T_s-T_{air})
+q_s= h(T_s-T_{\\mathrm{air}})
 +
-\\sigma\\left(T_s^4-T_{air}^4\\right).
+\\varepsilon\\sigma
+\\left(
+T_s^4-T_{\\mathrm{air}}^4
+\\right),
 $$
 
-**Numerical method.** The spatial problem was discretized with linear finite elements. The resulting capacity and conductivity matrices were integrated in time using the unconditionally stable Crank-Nicolson method:
+where $h=15\\ \\mathrm{W/(m^2K)}$. An emissivity of $\\varepsilon=1$ was used in the comparison model.
+
+### MATLAB finite element model
+
+The radial domain was discretized using linear finite elements. Element capacity and conductivity matrices were assembled into the global system
+
+$$
+\\mathbf C\\dot{\\mathbf T}
++
+\\mathbf K\\mathbf T
+=
+\\mathbf f(\\mathbf T).
+$$
+
+Time integration was performed using the Crank–Nicolson method,
 
 $$
 \\left(
-\\frac{\\mathbf{C}}{\\Delta t}
+\\frac{\\mathbf C}{\\Delta t}
 +
-\\frac{\\mathbf{K}}{2}
+\\frac{\\mathbf K}{2}
 \\right)
-\\mathbf{T}_{n+1}
+\\mathbf T_{n+1}
 =
 \\left(
-\\frac{\\mathbf{C}}{\\Delta t}
+\\frac{\\mathbf C}{\\Delta t}
 -
-\\frac{\\mathbf{K}}{2}
+\\frac{\\mathbf K}{2}
 \\right)
-\\mathbf{T}_n
+\\mathbf T_n
 +
-\\frac{\\mathbf{f}_n+\\mathbf{f}_{n+1}}{2}.
+\\frac{\\mathbf f_n+\\mathbf f_{n+1}}{2}.
 $$
 
-The simulation calculated the temperature distribution through the component and determined the allowable exposure time before the surface cooled from $1030\\,^{\\circ}\\mathrm{C}$ to the specified limit.
- `
+Because the radiation heat flux varies with $T_s^4$, the surface-load vector is nonlinear. A nonlinear iteration was therefore performed within each time increment to update $\\mathbf f_{n+1}$ until the temperature solution converged.
+
+The MATLAB model used 20 radial nodes and a time increment of
+
+$$
+\\Delta t=0.01\\ \\mathrm{s}.
+$$
+
+### Independent verification in Abaqus
+
+The same cooling problem was recreated independently in Abaqus/Standard using a three-dimensional heat-transfer model of the sphere.
+
+The Abaqus model used:
+
+* the same geometry and thermal properties as the MATLAB model;
+* an initial temperature of $1030\\,^{\\circ}\\mathrm{C}$;
+* convection to air at $25\\,^{\\circ}\\mathrm{C}$;
+* nonlinear surface radiation;
+* a transient heat-transfer step; and
+* linear tetrahedral heat-transfer elements.
+
+This provided an independent implementation of the same physical problem and allowed the MATLAB solver to be checked against a commercial finite element code.
+
+The comparison also proved useful for debugging the numerical implementation. An earlier MATLAB formulation weighted the surface-load vector only as $\\theta\\mathbf f$. For the general $\\theta$-method, the correct contribution is
+
+$$
+(1-\\theta)\\mathbf f_n+\\theta\\mathbf f_{n+1}.
+$$
+
+For Crank–Nicolson, where $\\theta=0.5$, this becomes
+
+$$
+\\frac{\\mathbf f_n+\\mathbf f_{n+1}}{2}.
+$$
+
+Correcting the load treatment and iterating the nonlinear radiation term produced close agreement with Abaqus.
+
+### Results
+
+Both models predicted essentially the same time for the surface to cool from $1030\\,^{\\circ}\\mathrm{C}$ to $950\\,^{\\circ}\\mathrm{C}$:
+
+| Model           | Time to $950\\,^{\\circ}\\mathrm{C}$ |
+| --------------- | -------------------------------: |
+| MATLAB FEM      |     $\\approx 14.300\\ \\mathrm{s}$ |
+| Abaqus/Standard |     $\\approx 14.294\\ \\mathrm{s}$ |
+
+The difference between the reported threshold times was approximately
+
+$$
+0.006\\ \\mathrm{s},
+$$
+
+or about $0.04\\%$.
+
+The close agreement between two independently constructed finite element models provides strong verification of the numerical implementation within the assumptions of the model.
+
+It also demonstrates the value of independent solver comparison: Abaqus was not simply used to reproduce the result, but as a verification tool that helped identify and correct an error in the original time-integration implementation.
+
+## Key takeaways
+
+The project combined equation-based modelling with numerical implementation and independent FE verification. Rather than treating the numerical solver as a black box, the governing equations were derived, discretized and implemented directly before the thermal model was cross-checked in Abaqus.
+
+**Methods and tools:** MATLAB, Abaqus/Standard, finite element method, Crank–Nicolson time integration, nonlinear thermal boundary conditions, solver-to-solver verification.
+`
 },
 {
   slug: 'sector-thrust-bearing-analysis',
@@ -1037,7 +1124,7 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
 
 **Keywords:** Bolted joints, Dirlik method, Finite element modeling, Modeling guidelines, Random vibration fatigue.
 
-*Link to thesis PDF:* [Guidelines for Resource Efficient Finite Element Analysis of Bolted Joints under Random Vibration Fatigue](http://www.diva-portal.org/smash/record.jsf?pid=diva2:2067092) (soon to be added)
+*Link to thesis PDF:* [Guidelines for Resource Efficient Finite Element Analysis of Bolted Joints under Random Vibration Fatigue](http://www.diva-portal.org/smash/record.jsf?pid=diva2:2067092)
       `
     };
 
