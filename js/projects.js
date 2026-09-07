@@ -1,10 +1,3 @@
-// MATH AUTHORING CONVENTION — always write TeX commands with DOUBLE
-// backslashes: \\frac, \\rho, \\, etc.
-// Why: this template processes JS escapes (one backslash level is consumed
-// here), and renderMarkdown() then protects $...$ / $$...$$ spans from the
-// markdown parser so the remaining single backslash reaches MathJax intact.
-// Single backslashes are unsafe: \r, \n, \t etc. are JS escape sequences
-// and get corrupted before any rendering happens.
 const md = (strings, ...values) => String.raw({raw: strings}, ...values);
 
 function getYoutubeId(url) {
@@ -129,7 +122,7 @@ The project combined empirical measurements with advanced numerical methods to s
         stack: ['Ansys Mechanical', 'Topology Optimization', 'FEM', 'CAD', 'Product Development'],
         images: ['images/Hook/1500N/1500N_optimized_stress.png', 'images/Hook/Paretofront.png', 'images/Hook/400N/400N_optimized.png', 'images/Hook/Analyze lifting loops on cargo.png'],
         content: md`
-**Overview.** The transportation of a diverse product range—specifically pumps of different sizes and weights—creates logistical bottlenecks due to frequent tool changes. This project investigates the design of a generalized conveyor attachment system capable of handling diverse loads without operational stoppages.
+**Overview.** The transportation of a diverse product range-specifically pumps of different sizes and weights-creates logistical bottlenecks due to frequent tool changes. This project investigates the design of a generalized conveyor attachment system capable of handling diverse loads without operational stoppages.
 
 **Methodology.** The study utilizes topology optimization to analyze the structural balance between stress and material consumption. By applying Finite Element Method (FEM) stress analysis in Ansys Mechanical, the design process iteratively removes material from determining where structural support is essential vs. where it is negligible.
 
@@ -159,17 +152,17 @@ $$
       {
         slug: 'robot-challenge',
         title: 'Autonomous Ball-Sorting Robots',
-        subtitle: 'Two collaborative mechatronic systems — LEGO Mindstorms EV3',
+        subtitle: 'Two collaborative mechatronic systems - LEGO Mindstorms EV3',
         stack: ['LEGO Mindstorms EV3', 'Mechatronics', 'CAD (Inventor)', '3D Printing', 'CNC', 'Design-Build-Test'],
         images: ['images/CollabRobots/2The_One_assembly_New.png', 'images/CollabRobots/2The_One_assembly_New2.png'],
         content: md`
-**Overview.** Designed, built, and programmed two autonomous robots — *Baggern* (the digger) and *Dumpern* (the transporter) — that collaborate to collect unsorted balls from a loading zone, navigate an obstacle course, and sort them by size into three colour-coded unloading zones, all within 10 minutes.
+**Overview.** Designed, built, and programmed two autonomous robots - *Baggern* (the digger) and *Dumpern* (the transporter) - that collaborate to collect unsorted balls from a loading zone, navigate an obstacle course, and sort them by size into three colour-coded unloading zones, all within 10 minutes.
 
-**Challenge.** The course featured three elevated platforms (P1–P3), a tipping bridge (P2), and variable-width paths (300–1300 mm), requiring an adaptable open-loop/sensor-fusion solution. Balls came in three sizes — white (Ø 20 mm, 3 g), yellow (Ø 25 mm, 1.4 g), blue (Ø 30 mm, 4.3 g) — plus red balls to be excluded.
+**Challenge.** The course featured three elevated platforms (P1–P3), a tipping bridge (P2), and variable-width paths (300–1300 mm), requiring an adaptable open-loop/sensor-fusion solution. Balls came in three sizes - white (Ø 20 mm, 3 g), yellow (Ø 25 mm, 1.4 g), blue (Ø 30 mm, 4.3 g) - plus red balls to be excluded.
 
 **Robot Roles.**
-* **Baggern** — stationed beside the ball box; scoops balls and delivers them to the top platform.
-* **Dumpern** — pre-positioned on the platform nearest the pickup zone; transports and sorts balls across the obstacle course and deposits them in the correct boxes.
+* **Baggern** - stationed beside the ball box; scoops balls and delivers them to the top platform.
+* **Dumpern** - pre-positioned on the platform nearest the pickup zone; transports and sorts balls across the obstacle course and deposits them in the correct boxes.
 
 **User Interface.** A two-button colour-coded remote control lets an uninitiated user configure the sorting mapping before start. The software then infers the third destination automatically.
 
@@ -240,7 +233,7 @@ $$
       {
         slug: 'experimental-modal-analysis',
         title: 'Experimental Modal Analysis & FE Model Updating',
-        subtitle: 'Shaker testing vs. simulation — from a free-free beam to a welded T-structure',
+        subtitle: 'Shaker testing vs. simulation - from a free-free beam to a welded T-structure',
         stack: ['Abaqus', 'MATLAB', 'CALFEM', 'EMA', 'FRF & Coherence', 'Shaker Testing', 'Model Updating'],
         images: [
           'images/ModalLab/lab2_test_setup.png',
@@ -256,8 +249,8 @@ $$
         content: md`
 **Overview.** A two-part structural dynamics lab project comparing Finite Element predictions against Experimental Modal Analysis (EMA), then updating the FE models until simulation and measurement agree. Performed together with Tobias Johansson.
 
-**Part 1 — Steel beam (free-free & cantilever).**
-The first three bending modes of a 400 mm steel beam were predicted with two FE formulations: Euler-Bernoulli beam elements in MATLAB/CALFEM and Timoshenko (B31) elements in Abaqus. The mode shape plots identified the node lines — locations where a mode is always zero — to avoid placing accelerometers there.
+**Part 1 - Steel beam (free-free & cantilever).**
+The first three bending modes of a 400 mm steel beam were predicted with two FE formulations: Euler-Bernoulli beam elements in MATLAB/CALFEM and Timoshenko (B31) elements in Abaqus. The mode shape plots identified the node lines - locations where a mode is always zero - to avoid placing accelerometers there.
 
 | Mode | Abaqus [Hz] | MATLAB [Hz] | Experimental [Hz] |
 | :--- | :--- | :--- | :--- |
@@ -273,9 +266,9 @@ $$
 E_{new} = \\left( \\frac{f_{exp}}{f_{sim}} \\right)^2 E_0 = 67.78 \\ \\mathrm{GPa} \\quad (E_0 = 69 \\ \\mathrm{GPa})
 $$
 
-This normalized the errors but could not remove them all, as the deviations had mixed signs. For the cantilever case, replacing the ideal clamp with a rotational spring $k_\\theta = 50 \\ \\mathrm{kNm/rad}$ matched the experiment better than scaling the stiffness — the real fixture is not ideally rigid.
+This normalized the errors but could not remove them all, as the deviations had mixed signs. For the cantilever case, replacing the ideal clamp with a rotational spring $k_\\theta = 50 \\ \\mathrm{kNm/rad}$ matched the experiment better than scaling the stiffness - the real fixture is not ideally rigid.
 
-**Part 2 — Welded T-structure.**
+**Part 2 - Welded T-structure.**
 A T-shaped structure of two welded 35×35×2 mm hollow steel sections (327 mm horizontal, 500 mm vertical) was modeled in Abaqus. The predicted mode shapes guided the pretest planning: the shaker was placed at the end of the vertical beam where both modes are most visible, and 13 response points were distributed over the structure.
 
 **Measurement.** Excitation by shaker, response by 3 accelerometers (QuickDAQ): 0–150 Hz range, 4000 Hz sample rate, FFT size 8192, Hanning window, 20 averages. Modal parameters were extracted from the stabilization diagram:
@@ -287,7 +280,7 @@ A T-shaped structure of two welded 35×35×2 mm hollow steel sections (327 mm ho
 
 **Model updating (Part 2).** The ideally fixed support overestimated the stiffness by ~20%. Replacing it with boundary springs (rotation about x: $1.25 \\cdot 10^5$ N/rad, about y: $1.9 \\cdot 10^4$ N/rad, about z: $10^6$ N/rad, translation in z: $10^{15}$ N/m) reproduced the measured frequencies almost exactly.
 
-**Conclusion.** Idealized clamped boundary conditions consistently overpredict resonance frequencies. Calibrating boundary stiffness against EMA data — rather than scaling material parameters — reconciles the FE model with reality, since real fixtures are never ideally rigid.
+**Conclusion.** Idealized clamped boundary conditions consistently overpredict resonance frequencies. Calibrating boundary stiffness against EMA data - rather than scaling material parameters - reconciles the FE model with reality, since real fixtures are never ideally rigid.
         `
       },
       {
@@ -432,6 +425,124 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
         `
       },
       {
+  slug: 'vickers-indentation-mesh-convergence',
+  title: 'Automated Mesh Convergence Study',
+  subtitle: 'Scripted Abaqus refinement and MATLAB post-processing of a Vickers indentation model',
+  stack: [
+    'Abaqus',
+    'Python (Abaqus scripting)',
+    'MATLAB',
+    'Axisymmetric FEM',
+    'Contact Mechanics',
+    'Elastoplasticity',
+    'Mesh Convergence',
+    'Automation'
+  ],
+  images: ['images/Vickers/VickersConvergence.svg'],
+  content: md`
+**Overview.** A Vickers indentation model was used as the test case for a fully scripted mesh-refinement study. One Abaqus Python script copies a base model, halves the biased seed sizes for each refinement level, meshes, submits the job, opens the resulting ODB and writes a force-displacement CSV in which the mesh metadata is carried in dedicated columns. A MATLAB script then discovers every CSV automatically, isolates the loading branch and compares the indentation force at one common penetration depth. The subject of the project is the automation and the comparison methodology; the indentation model itself is deliberately small.
+ 
+## Finite element model
+ 
+The Vickers pyramid is represented by the axisymmetric cone of equal apex angle. The 136$^{\\circ}$ face angle gives a cone semi-angle of
+ 
+$$
+\\psi=\\frac{136^{\\circ}}{2}=68^{\\circ},
+$$
+ 
+which reduces the indentation to a two-dimensional axisymmetric contact problem while preserving the area-to-depth relation of the real indenter.
+ 
+| Parameter | Value |
+| :--- | :--- |
+| Specimen element type | CAX8R (quadratic, reduced integration) |
+| Indenter element type | CAX4R / CAX3 |
+| Specimen domain | $30\\ \\mathrm{\\mu m}$ radius $\\times\\ 6\\ \\mathrm{\\mu m}$ depth |
+| Specimen material | $E=210\\ \\mathrm{GPa}$, $\\nu=0.33$, isotropic hardening $250\\rightarrow400\\ \\mathrm{MPa}$ |
+| Indenter material | $E=900\\ \\mathrm{GPa}$, $\\nu=0.021$ |
+| Contact | Surface-to-surface, hard normal behaviour, frictionless |
+| Load introduction | Kinematic coupling of the indenter to a reference point |
+| Prescribed depth | $0.9\\ \\mathrm{\\mu m}$, applied and fully removed through an amplitude |
+| Step | Static, \`nlgeom=YES\`, automatic stabilisation $2\\times10^{-4}$ |
+ 
+The symmetry axis and the outer radius are constrained radially and the bottom face vertically. Reaction force and displacement are requested as history output at the reference point, so one loading curve is produced per job without any field-output post-processing.
+ 
+## Refinement series in Python
+ 
+Both the minimum and the maximum biased seed size are halved together at every level, so the meshes form a clean sequence
+ 
+$$
+h_{k}=\\frac{h_{0}}{2^{k}},\\qquad k=0,1,2,\\dots
+$$
+ 
+rather than an arbitrary set of unrelated meshes. Halving both ends of the bias keeps the grading ratio constant, which means the meshes differ in resolution but not in character.
+ 
+For each level the script:
+ 
+1. deletes any previous model and job with the same name and copies the base model,
+2. rebuilds the reference-point set and the U2/RF2 history request,
+3. applies the new bias with \`seedEdgeByBias\` on the named edge set and regenerates the mesh,
+4. submits the job and waits for completion,
+5. opens the ODB and writes the force-displacement history to CSV.
+ 
+The ODB reader does not hard-code a history region name. It scans the available regions and selects the first one containing both \`U2\` and \`RF2\`, and prints the full list of regions and outputs if no match is found. The time points of the two histories are also compared before every row is written, so a mismatched output request fails immediately instead of silently producing a shifted curve.
+ 
+The mesh metadata is written into the CSV as repeated columns:
+ 
+\`CASE, MIN_SEED, MAX_SEED, STEP_TIME, ABS_U2, ABS_RF2\`
+ 
+Repeating the case name and the two seed sizes on every row is redundant, but it means MATLAB can read the file with a plain \`readtable\` call. A separate header block would have required a custom parser, and metadata encoded in the file name would have to be parsed with string operations that break as soon as the naming convention changes.
+ 
+## Post-processing in MATLAB
+ 
+Two decisions determine whether the comparison is meaningful.
+ 
+**Only the loading branch is used.** The analysis loads and then fully unloads the indenter. Plotting $|U_{2}|$ against $|RF_{2}|$ for the complete cycle folds the unloading curve back onto the loading curve and produces a near-vertical return segment that has no physical meaning in a convergence plot. Each history is therefore truncated at the first displacement maximum.
+ 
+**Force is compared at the same depth, not at the peak.** Abaqus does not write history output at identical increments in different jobs, so $\\max(F)$ is sampled at slightly different penetrations in each mesh and part of the apparent mesh sensitivity would simply be sampling scatter. The script instead interpolates the force linearly at one common depth,
+ 
+$$
+U_{c}=0.88\\ \\mathrm{\\mu m},
+$$
+ 
+taken as the smallest peak depth of the series rounded down. Two deviations are then reported,
+ 
+$$
+\\varepsilon_{\\text{finest}}
+=
+\\frac{\\left|F_{k}-F_{N}\\right|}{\\left|F_{N}\\right|}\\times100\\%,
+\\qquad
+\\varepsilon_{\\text{prev}}
+=
+\\frac{\\left|F_{k}-F_{k-1}\\right|}{\\left|F_{k}\\right|}\\times100\\%,
+$$
+ 
+and the cases are sorted from coarse to fine using the seed size read from the CSV, so no ordering is assumed from the file names.
+ 
+## Results
+ 
+| Case | Specimen nodes | Min seed [$\\mathrm{\\mu m}$] | Max seed [$\\mathrm{\\mu m}$] | $F$ at $0.88\\ \\mathrm{\\mu m}$ [N] | $\\varepsilon_{\\text{prev}}$ [%] |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Mesh_01 | 77 | 1.050 | 7.00 | 0.01542 | - |
+| Mesh_02 | 216 | 0.525 | 3.50 | 0.01865 | 17.3 |
+| Mesh_03 | 889 | 0.2625 | 1.75 | 0.01843 | 1.19 |
+| Mesh_04 | 889 | 0.2625 | 1.75 | 0.01843 | 0.00 |
+ 
+The coarse mesh underestimates the indentation force by about 16%, which is expected: with a maximum seed of $7\\ \\mathrm{\\mu m}$ the contact zone is resolved by a handful of elements and neither the contact pressure distribution nor the plastic zone under the tip is captured. The change collapses to roughly 1% at the next refinement.
+ 
+## Limitations
+ 
+**The series is truncated by a node limit.** The model was built in Abaqus Learning Edition, which allows at most 1000 nodes. Mesh_03 uses 889 nodes in the specimen and 90 in the indenter, so the fourth refinement level could not be created: the seeding request could not produce a finer mesh and Mesh_04 reproduced the Mesh_03 mesh exactly. The finest case is therefore not an independent reference, and the $0.000\\%$ deviation reported for Mesh_03 is the result of comparing a mesh with itself. It is a property of the table, not evidence of convergence.
+ 
+Several further caveats follow from the same constraint:
+ 
+* The sequence is not monotonic. The force rises from Mesh_01 to Mesh_02 and then falls slightly at Mesh_03, so the solution is not in the asymptotic range where an observed order of accuracy or a Richardson extrapolation would be defensible.
+* Only the specimen was refined. The indenter mesh is unchanged in every case, so contact resolution improves on one side of the interface only.
+* The specimen depth is about $6\\ \\mathrm{\\mu m}$ against a contact radius of roughly $a=h\\tan\\psi\\approx2.2\\ \\mathrm{\\mu m}$ at maximum load. The constrained bottom face is close enough to stiffen the response, and a converged study would need a deeper domain.
+* Automatic stabilisation is active, so the ratio of stabilisation energy to internal energy should be checked before the force is treated as a purely physical quantity.
+ 
+The honest summary is that this study demonstrates a refinement workflow and shows the expected trend, but does not establish a mesh-converged indentation force.`
+},
+      {
         slug: 'Robotic_Cat_Companion',
         title: 'Robotic Cat Companion',
         subtitle: 'A paintable, personality-swappable wooden robot cat for children',
@@ -440,12 +551,12 @@ Implementation of optimization in MATLAB resulted in the lowest rms acceleration
         content: md`
 **Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
 
-The cat is intentionally **not** a low-care pet substitute — it is a creative toy. Children **paint the wooden shell themselves**, swap **ears and hats**, and choose **personalities** through a companion website, so the same hardware can become endlessly different cats over time.
+The cat is intentionally **not** a low-care pet substitute - it is a creative toy. Children **paint the wooden shell themselves**, swap **ears and hats**, and choose **personalities** through a companion website, so the same hardware can become endlessly different cats over time.
 
 **Product goals (from the PRD).**
-* **Innovative user experience** — a curious, story-enabled, ever-changeable robot friend that addresses unmet desires children haven't yet articulated.
-* **Technology leadership** — modern consumer-robotics components and early prototype testing.
-* **Competitive positioning** — feature/price parity with or above existing offerings (benchmarked against ImagiCharm and Pokémon-style toys).
+* **Innovative user experience** - a curious, story-enabled, ever-changeable robot friend that addresses unmet desires children haven't yet articulated.
+* **Technology leadership** - modern consumer-robotics components and early prototype testing.
+* **Competitive positioning** - feature/price parity with or above existing offerings (benchmarked against ImagiCharm and Pokémon-style toys).
 
 **Target user.**
 * **Buyer:** parents, grandparents, relatives or friends of children.
@@ -453,7 +564,7 @@ The cat is intentionally **not** a low-care pet substitute — it is a creative 
 * **Scenario:** *"Elliot, an 8-year-old, is bored and uses ShellCat to stay satisfied with endless play and unlimited personalities. He paints and plays with the ShellCat and sees it as a real pet/friend."*
 
 **Mechanical design.**
-* **Outer shell:** **Masonite, laser-cut** — a wooden surface that takes paint well, fitting the brand's *Blanchedalmond* wooden look.
+* **Outer shell:** **Masonite, laser-cut** - a wooden surface that takes paint well, fitting the brand's *Blanchedalmond* wooden look.
 * **3D-printed plastic** parts for gears, the MCU case, the computer case, and battery holders.
 * **Swappable accessories:** ears and hats designed to be made by the user from a manual included in the box.
 * CAD modelled in **Inventor** to allow rapid iteration and a **modular design** for a future "world of characters."
@@ -464,7 +575,7 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
 | Subsystem | Prototype | Product |
 | :--- | :--- | :--- |
 | MCU | Arduino Uno | ATMEGA328P-PU |
-| Computer | Raspberry Pi Zero WH | — (replaced by Wi-Fi + MCU) |
+| Computer | Raspberry Pi Zero WH | - (replaced by Wi-Fi + MCU) |
 | Connectivity | (via Pi) | ESP8266 Wi-Fi module |
 | Motion | 2× DC motors + 1× stepper (28BYJ-48 + ULN2003) | same |
 | Sensing | Ultrasonic ranger | Ultrasonic ranger |
@@ -473,7 +584,7 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
 
 **Functional requirements.**
 * Natural, intuitive interaction with children.
-* **Selectable personalities** — currently five, exposed via the companion website with regular updates planned.
+* **Selectable personalities** - currently five, exposed via the companion website with regular updates planned.
 * **Autonomous navigation** in a home environment with obstacle avoidance and the ability to approach objects within a defined area.
 * **Safe interaction** with household objects, children, and pets.
 * **Battery life** sufficient for at least one full day of typical use, with easy-to-change batteries.
@@ -483,7 +594,7 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
 * High durability and a low failure rate to support endless play.
 * **Modular design** to allow future upgrades and new characters.
 
-**Companion website.** A web app (a visual copy hosted at *here* and is also shown in one of the videos) lets the user pick the cat's personality and will host a community forum where suggestions can be voted on and rolled into future updates — closing a loop directly back into the product.
+**Companion website.** A web app (a visual copy hosted at *here* and is also shown in one of the videos) lets the user pick the cat's personality and will host a community forum where suggestions can be voted on and rolled into future updates - closing a loop directly back into the product.
 
 **Brand & story.** ShellCats are described in the PRD as having come from a worn-out world to Earth via a "magical spell," carrying protective shells that children can decorate to express each cat's personality.
 
@@ -639,6 +750,21 @@ or about $0.04\\%$.
 The close agreement between two independently constructed finite element models provides strong verification of the numerical implementation within the assumptions of the model.
 
 It also demonstrates the value of independent solver comparison: Abaqus was not simply used to reproduce the result, but as a verification tool that helped identify and correct an error in the original time-integration implementation.
+
+### Analytical verification
+To check the numerical results, an analytical estimate was obtained from the one-term approximation for transient conduction in a sphere.
+The nonlinear radiation flux was linearized over the cooling interval (1030 °C → 950 °C) by introducing an equivalent radiation coefficient evaluated at the mean surface temperature. The effective heat-transfer coefficient then became
+$$h_{\\mathrm{eff}}=h+h_{\\mathrm{rad}},$$
+yielding the Biot number
+$$Bi_R=\\frac{h_{\\mathrm{eff}}R}{k}\\approx0.1045.$$
+Using tabulated coefficients for $  Bi=0.1  $ ($  \\zeta_1\\approx0.5423  $, $  C_1\\approx1.0298  $), the surface temperature was evaluated from
+$$\\theta_s^*=C_1\\frac{\\sin(\\zeta_1)}{\\zeta_1}\\exp(-\\zeta_1^2Fo).$$
+Solving for the Fourier number and converting to time gave
+$$ Fo = \\frac{1}{-\\zeta_1^2} \\ln\\left(\\frac{C_1 \\sin(\\zeta_1)}{\\theta_s^*}\\right) $$
+$$ t = \\frac{Fo R^2}{\\alpha} $$
+$$t_{\\mathrm{analytic}}\\approx14.55\\,\\mathrm{s}.$$
+
+This lies within 2 % of the numerical predictions (14.3 s). The small difference is expected: the analytical model holds $h_{\\mathrm{rad}}$ constant, whereas the MATLAB and Abaqus solutions retain the full nonlinear $T^4$ dependence. The close agreement nevertheless confirms the physical consistency of the numerical results.
 
 ## Key takeaways
 
@@ -997,7 +1123,7 @@ This portfolio highlights that workflow through projects in balancing robots, go
 
 ## Education
 
-**M.Sc. in Mechanical Engineering, Applied Mechanics** — Blekinge Institute of Technology | 2021 – 2026
+**M.Sc. in Mechanical Engineering, Applied Mechanics** - Blekinge Institute of Technology | 2021 – 2026
 
 * Focus on experimental & computational engineering, signal processing, product development, and mechatronics.
 * Strong foundation in analytical, numerical, and experimental methods and technologies.
@@ -1006,34 +1132,34 @@ This portfolio highlights that workflow through projects in balancing robots, go
 
 ## Work Experience
 
-**Technical Documentation Specialist** — Shape Process Automation | March 2022 – Present
+**Technical Documentation Specialist** - Shape Process Automation | March 2022 – Present
 
 * Compile and create manuals, drawings, CE documents, and installation guides for laser- and waterjet cutting machines, ensuring compliance with industry standards for technical documentation.
 
-**Machine Operator** — NKT HV Cables | Summers 2024 & 2025
+**Machine Operator** - NKT HV Cables | Summers 2024 & 2025
 
 * Operated heavy industrial machinery in high-voltage cable manufacturing at the world's largest site for high-voltage offshore cables. Acquired knowledge of risk assessment and safety measures in manufacturing.
 
-**Production Planning Specialist** — Tarkett | May 2023 – August 2023
+**Production Planning Specialist** - Tarkett | May 2023 – August 2023
 
 * Managed production scheduling for two production lines; gained insight into supply chain and customer interactions in large-scale production.
 
-**Machine Operator** — Shape Process Automation | June 2022 – August 2022
+**Machine Operator** - Shape Process Automation | June 2022 – August 2022
 
 * Coil manufacturing with hand bending deformations to drawing; hands-on experience in maintenance, troubleshooting, and machine repair.
 
 ## Entrepreneurship
 
-**Founder & Consultant** — HWK AB | September 2023 – Present
+**Founder & Consultant** - HWK AB | September 2023 – Present
 
 * Founded a consulting firm specializing in mechanical engineering and technical documentation. Developed business management skills, including bookkeeping and legal compliance.
 
 ## Research & Projects
 
-* **Master's thesis at Combitech** — numerical analysis comparing FE models of bolted joints to produce validity boundaries supporting engineers' modelling choices. [Read more](#thesis)
-* **Balancing drone robot** — mechanics and control algorithms for automated navigation in MATLAB/Simulink. [Read more](#/project/Drone1)
-* **Cooperating sorting robots** — autonomous robots navigating, balancing, and climbing in an obstacle course. [Read more](#/project/robot-challenge)
-* **Ocean sensor buoy** — water measurements transmitted via radio to a land-based hub, for emission detection and climate research. [Read more](#/project/ocean-sensor)
+* **Master's thesis at Combitech** - numerical analysis comparing FE models of bolted joints to produce validity boundaries supporting engineers' modelling choices. [Read more](#thesis)
+* **Balancing drone robot** - mechanics and control algorithms for automated navigation in MATLAB/Simulink. [Read more](#/project/Drone1)
+* **Cooperating sorting robots** - autonomous robots navigating, balancing, and climbing in an obstacle course. [Read more](#/project/robot-challenge)
+* **Ocean sensor buoy** - water measurements transmitted via radio to a land-based hub, for emission detection and climate research. [Read more](#/project/ocean-sensor)
 
 ## Skills
 
@@ -1049,12 +1175,12 @@ This portfolio highlights that workflow through projects in balancing robots, go
 | Thermal dynamics | ★★★★☆ |
 | Solid mechanics | ★★★★☆ |
 | Simulation-driven design | ★★★★☆ |
-| CAE — CAD, CAM & simulations | ★★★★☆ |
-| Documentation — CE, ISO, standards | ★★★★☆ |
+| CAE - CAD, CAM & simulations | ★★★★☆ |
+| Documentation - CE, ISO, standards | ★★★★☆ |
 
 ## Voluntary Work
 
-**MakerNinja** — Blekinge Institute of Technology | 2022 – Present
+**MakerNinja** - Blekinge Institute of Technology | 2022 – Present
 
 * Conduct training sessions on 3D printing, laser cutting, and product development prototyping for university and high school students.
 
@@ -1066,7 +1192,7 @@ References available upon request.
 
     const thesisPage = {
       title: 'Guidelines for Resource Efficient Finite Element Analysis of Bolted Joints under Random Vibration Fatigue',
-      subtitle: 'Master of Science Thesis in Mechanical Engineering — Blekinge Institute of Technology (BTH), 2026',
+      subtitle: 'Master of Science Thesis in Mechanical Engineering - Blekinge Institute of Technology (BTH), 2026',
       stack: ['FEM', 'Bolted Joints', 'Random Vibration Fatigue', 'Dirlik Method', 'PSD Analysis', 'Modal Analysis', 'Modeling Guidelines'],
       images: [
         'images/Thesis/geometryWNut.png',
@@ -1085,7 +1211,7 @@ References available upon request.
 *Link to thesis PDF:* [Guidelines for Resource Efficient Finite Element Analysis of Bolted Joints under Random Vibration Fatigue](http://www.diva-portal.org/smash/record.jsf?pid=diva2:2067092)
 > *A practical engineering model is not the most detailed model available, but the simplest model that still answers the right question with sufficient confidence.*
 
-**Background.** Predicting random-vibration fatigue in bolted joints is challenging. While industry standards provide analytical frameworks, they lack systematic guidance on selecting a Finite Element bolt representation. Fully threaded 3D models become prohibitive at large assembly scale, requiring engineers to simplify — yet it remains unclear *when* specific simplifications are acceptable.
+**Background.** Predicting random-vibration fatigue in bolted joints is challenging. While industry standards provide analytical frameworks, they lack systematic guidance on selecting a Finite Element bolt representation. Fully threaded 3D models become prohibitive at large assembly scale, requiring engineers to simplify - yet it remains unclear *when* specific simplifications are acceptable.
 
 **Objective.** Develop practical guidelines for selecting bolt modeling strategies in random vibration fatigue analysis, balancing accuracy against computational cost. The work tests the hypothesis that model selection can be systematized based on the mechanical phenomena of interest and the requirements on accuracy and cost.
 
@@ -1096,22 +1222,22 @@ References available upon request.
 * **CBUSH spring** connector
 * **Threadless 3D solid** (reference)
 
-Each model was subjected to pre-stressed linear perturbation (modal + random response) with two excitation profiles — **NASA-STD-7001B** and **MIL-STD-810G T43A** — in both transverse and axial directions. The stress tensor PSDs were reduced to an equivalent von Mises PSD using the **Segalman method**, mean stress from bolt preload was handled with a **Goodman correction**, and fatigue life was computed in the frequency domain with the **Dirlik method** (cross-checked against Steinberg's three-band approach):
+Each model was subjected to pre-stressed linear perturbation (modal + random response) with two excitation profiles - **NASA-STD-7001B** and **MIL-STD-810G T43A** - in both transverse and axial directions. The stress tensor PSDs were reduced to an equivalent von Mises PSD using the **Segalman method**, mean stress from bolt preload was handled with a **Goodman correction**, and fatigue life was computed in the frequency domain with the **Dirlik method** (cross-checked against Steinberg's three-band approach):
 
 $$
 E[D] = \\frac{T \\, \\nu_p}{C} \\int_0^{\\infty} S^m \\, p_{Dirlik}(S) \\, dS
 $$
 
-Model accuracy was scored against the solid reference using a combined ranking of fatigue life and RMS stress, evaluated per region (clamped members, under bolt head, at the nut) — weighed against solver cost.
+Model accuracy was scored against the solid reference using a combined ranking of fatigue life and RMS stress, evaluated per region (clamped members, under bolt head, at the nut) - weighed against solver cost.
 
 **Results.**
 
-* For **clamped members**, the 1D beam model gave the closest agreement with the solid reference across all load cases — at a fraction of the computational cost.
+* For **clamped members**, the 1D beam model gave the closest agreement with the solid reference across all load cases - at a fraction of the computational cost.
 * **Bonded and CBUSH** models generally overpredicted stress and underpredicted fatigue life, in some cases by up to two orders of magnitude.
 * In **local bolt regions**, simplified models were unreliable: the beam captured the correct stress magnitude for transverse loading but was non-conservative under axial loads. Bonded and CBUSH models cannot produce meaningful local bolt stresses at all.
 * Dirlik and Steinberg life estimates agreed closely, confirming the model ranking was not an artifact of the fatigue method.
 
-**Conclusions.** No single bolt model is universally best — the optimal choice depends on the desired response and dominant loading:
+**Conclusions.** No single bolt model is universally best - the optimal choice depends on the desired response and dominant loading:
 
 | Question to answer | Cheapest adequate model |
 | :--- | :--- |
@@ -1121,7 +1247,7 @@ Model accuracy was scored against the solid reference using a combined ranking o
 | Thread-root stress from pretension | 3D solid with threads |
 | Thread-related nonlinearities (e.g. self-loosening) | Threaded solid + nonlinear transient |
 
-Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bolt bending, hole elongation, embedding preload loss — can still be incorporated into design decisions through analytical governing conditions (e.g. $F_{Shear} < F_{friction}$, $\\sigma_{bend} = M/W$). The resulting **decision flowchart**, **phenomenon–method matrix**, and benchmark results provide scoped engineering guidance for FE model selection under random-vibration fatigue.
+Phenomena that are too expensive to resolve in FE - sliding/self-loosening, bolt bending, hole elongation, embedding preload loss - can still be incorporated into design decisions through analytical governing conditions (e.g. $F_{Shear} < F_{friction}$, $\\sigma_{bend} = M/W$). The resulting **decision flowchart**, **phenomenon–method matrix**, and benchmark results provide scoped engineering guidance for FE model selection under random-vibration fatigue.
 
 **Keywords:** Bolted joints, Dirlik method, Finite element modeling, Modeling guidelines, Random vibration fatigue.
       `
@@ -1325,7 +1451,7 @@ Phenomena that are too expensive to resolve in FE — sliding/self-loosening, bo
           },
           {
             slug: 'thesis',
-            title: 'Master\'s Thesis — FE Analysis of Bolted Joints',
+            title: 'Master\'s Thesis - FE Analysis of Bolted Joints',
             subtitle: thesisPage.subtitle,
             stack: thesisPage.stack,
             images: thesisPage.images,
@@ -1411,7 +1537,7 @@ function renderDetail(slug){
   const p = projects.find(x => (x.slug || slugify(x.title)) === slug);
   if(!p){ location.hash = '#projects'; return; }
 
-  document.title = `${BASE_TITLE} — ${p.title}`;
+  document.title = `${BASE_TITLE} - ${p.title}`;
   detailTitle.textContent = p.title;
   detailSubtitle.textContent = p.subtitle || '';
   detailMD.innerHTML = renderMarkdown(p.content);
@@ -1429,7 +1555,7 @@ function renderDetail(slug){
         list.style.display = 'none';
         detail.style.display = 'block';
         setActiveTab('about');
-        document.title = `${BASE_TITLE} — About Me`;
+        document.title = `${BASE_TITLE} - About Me`;
         renderContentPage(aboutPage);
         return;
       }
@@ -1437,7 +1563,7 @@ function renderDetail(slug){
         list.style.display = 'none';
         detail.style.display = 'block';
         setActiveTab('thesis');
-        document.title = `${BASE_TITLE} — Thesis`;
+        document.title = `${BASE_TITLE} - Thesis`;
         renderContentPage(thesisPage);
         return;
       }
@@ -1450,7 +1576,7 @@ function renderDetail(slug){
         detail.style.display = 'none';
         list.style.display = 'block';
         setActiveTab('projects');
-        document.title = `${BASE_TITLE} — Projects`;
+        document.title = `${BASE_TITLE} - Projects`;
         renderList();
       }
     }
