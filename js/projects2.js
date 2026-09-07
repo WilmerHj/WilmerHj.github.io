@@ -9,6 +9,228 @@ function getYoutubeId(url) {
 
 const projects = [
       {
+        slug: 'Drone1',
+        title: 'Flying & Balancing robot drone',
+        subtitle: 'Two wheeled, two propellered drone car',
+        stack: ['MATLAB','Simulink','Kinematics', 'Control Theory'],
+        images: ['images/Drone1/Turn.png', 'images/Drone1/Equation.png','images/Drone1/RobotBild.jpeg', 'images/Drone1/Balancing Kinematics.png', 'images/Drone1/Assembly1.png', 'images/Drone1/PXL_20250327_161507964.jpg','images/Drone1/Video (1).mp4','images/Drone1/Video (2).mp4'],
+        content: md`
+**Overview.** An accurate controlled robot that can move on ground and in air.
+
+**Odometry.** Designed & built a balancing drone robot including both mechanical parts and control algorithms for automated navigation system using MATLAB and Simulink.
+For wheel i, the velocity is calculated as
+$$
+V_i = \\bar{V} + \\overline{r_{i/C}} \\times \\bar{\\omega}
+= V\\hat{y} + \\det\\left| \\begin{bmatrix}
+    \\hat{x} & \\hat{y} & \\hat{z} \\newline
+    r_x & r_y & r_z \\newline
+    0 & 0 & \\omega_z
+\\end{bmatrix} \\right|
+= (V - r_x \\omega_z) \\hat{y}
+$$
+
+The left wheel has a directed distance of $+\\frac{L}{2}$
+and the right wheel a directed distance of $-\\frac{L}{2}$ in the x-direction relative to C.
+We obtain the equations:
+
+$$
+\\begin{cases}
+V_l = V - \\frac{L}{2}\\,\\omega_z
+  = \\begin{bmatrix} 1 & -\\frac{L}{2} \\end{bmatrix}\\begin{bmatrix} V \\newline \\omega_z \\end{bmatrix} \\newline
+V_r = V + \\frac{L}{2}\\,\\omega_z
+  = \\begin{bmatrix} 1 & +\\frac{L}{2} \\end{bmatrix}\\begin{bmatrix} V \\newline \\omega_z \\end{bmatrix}
+\\end{cases}
+$$
+
+            `
+      },
+      {
+        slug: 'golf-design-exploration',
+        title: 'Golf Trajectory & Club Optimization',
+        subtitle: 'Simulation Driven Design & Parameter Estimation',
+        stack: ['MATLAB', 'Optimization', 'Latin Hypercube', 'Physics Modeling'],
+        images: ['images/Golf/Golf2024.png', 'images/Golf/traject3.png', 'images/Golf/kline3.png', 'images/Golf/Trajectory Best Club.png'],
+        content: md`
+**Overview.** The project consists of two parts: constructing a prediction model for a golf ball's trajectory and optimizing the geometry of a parametric golf club head to maximize carry distance.
+
+**Part 1: Trajectory Prediction.**
+The goal was to build a model to predict the carry and apex of a golf ball using simulator data. The ball is subject to drag and lift forces, modeled as proportional to the square of the velocity:
+$$
+F_D = k_{Drag} \\cdot v^2, \\quad F_L = k_{Lift} \\cdot v^2
+$$
+
+The system is modeled in 2D, where the acceleration components are derived from Newton's second law:
+$$
+\\begin{align}
+a_x &= -\\frac{1}{m} \\left[ k_{Lift}\\sin(\\alpha) + k_{Drag}\\cos(\\alpha) \\right] \\cdot \\|v\\|^2 \\newline
+a_y &= +\\frac{1}{m} \\left[ k_{Lift}\\cos(\\alpha) - k_{Drag}\\sin(\\alpha) \\right] \\cdot \\|v\\|^2 - g
+\\end{align}
+$$
+
+**Parameter Estimation.**
+Using the \`fminsearch\` function in MATLAB, a non-linear least square error optimization was performed to estimate $k_{Drag}$ and $k_{Lift}$ by minimizing the difference between predicted and actual carry.
+
+* **Results:** The calculated coefficients were $C_D \\approx 0.34$ and $C_L \\approx 0.32$, which aligns with standard literature.
+* **Accuracy:** 8 out of 11 hits had an error below 2%, though apex error reached up to 16.8% for inexperienced shots.
+
+**Part 2: Geometry Optimization.**
+The second objective was to optimize a fully parametric golf club head to maximize carry distance for a beginner level player.
+
+**Method.**
+To solve the unknown relationships between design variables and club velocity, a **Latin Hypercube Sampling (LHS)** was used to generate initial points, followed by a gradient-based optimization (\`fmincon\`) to minimize the negative carry.
+
+**Optimal Design.**
+The process successfully produced a design within bounds, with parameters pushing the physical limits:
+* **Blade Width:** 150 mm (Upper Bound)
+* **Blade Depth:** 50 mm (Upper Bound)
+* **Loft:** 5$^{\\circ}$ (Lower Bound)
+* **Toe Height:** $\\approx$ 51 mm
+
+The final optimized club yielded a maximum carry of 275 meters, proving the utility of simulation-driven design.
+        `
+      },
+      {
+        slug: 'arrow-flight-simulation',
+        title: 'Compound Bow Arrow Flight Simulation',
+        subtitle: 'Trajectory and Archer\'s Paradox Modeling',
+        stack: ['MATLAB', 'FEM', 'Runge-Kutta 4', 'Newmark-Beta', 'Physics Simulation'],
+        images: ['images/arrow/DrawCurve2.png', 'images/arrow/StaticDef.png', 'images/arrow/DynamicDef.png', 'images/arrow/FlightHorizontal.png', 'images/arrow/DrawAndVertDiff.png'],
+        content: md`
+**Overview.** The problem consists of building up a simulation model for an arrow launched from a compound bow. The objective was to hit a target 20 meters away and estimate how the release affects the accuracy, considering different shooting styles with the Mediterranean draw. The simulation includes surrounding factors such as gravitation, quadratic air resistance, shooting angle, and the archer's paradox.
+
+**Methodology.**
+The project combined empirical measurements with advanced numerical methods to simulate the entire launch and flight sequence.
+
+**Experimental Data Collection.** An experiment was conducted using an actual compound bow and a dynamometer. By measuring the force applied to the string for different draw lengths, a nonlinear relationship was interpolated to compute the initial velocity.
+
+**Modeling the Archer's Paradox.** The arrow was simplified into an Euler-Bernoulli beam. The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method. The beam equation used in the model was $EI\\,w''''(x,t) + \\rho A\\,\\ddot{w}(x,t) = 0$.
+
+**Flight Trajectory.** The flight path was modeled as an ordinary differential equation (ODE) initial value problem and solved using the fourth-order Runge-Kutta (RK4) method. The model combined initial velocity, gravity, quadratic air resistance, and the tip vibrations derived from the FEM calculations.
+
+**Results.** The simulation produced a periodic oscillating motion reflecting the archer's paradox over a 20-meter trajectory. The impact of different initial conditions on accuracy was evaluated:
+* The order and timing of which finger leaves the string first, introducing horizontal and vertical offsets, has the largest impact on hit location.
+* An uneven release excites a stronger tip vibration and gives the arrow a persistent initial angular deviation.
+* Differences in draw length resulted in considerably lower spread, giving it the least impact on overall precision.
+
+**Conclusion.** To minimize potential error and maximize accuracy, it is highly recommended to release all fingers as simultaneously as possible without pulling the string sideways.
+        `
+      },
+      {
+        slug: 'topology-optimization-lifting',
+        title: 'Topology Optimization for Lifting Solutions',
+        subtitle: 'Generalized attachment design using Ansys Mechanical',
+        stack: ['Ansys Mechanical', 'Topology Optimization', 'FEM', 'CAD', 'Product Development'],
+        images: ['images/Hook/1500N/1500N_optimized_stress.png', 'images/Hook/Paretofront.png', 'images/Hook/400N/400N_optimized.png', 'images/Hook/Analyze lifting loops on cargo.png'],
+        content: md`
+**Overview.** The transportation of a diverse product range-specifically pumps of different sizes and weights-creates logistical bottlenecks due to frequent tool changes. This project investigates the design of a generalized conveyor attachment system capable of handling diverse loads without operational stoppages.
+
+**Methodology.** The study utilizes topology optimization to analyze the structural balance between stress and material consumption. By applying Finite Element Method (FEM) stress analysis in Ansys Mechanical, the design process iteratively removes material from determining where structural support is essential vs. where it is negligible.
+
+**Mathematical Validation.** To validate the FEA results, a simplification of the attachment solution was performed using hand calculations based on the Winkler-Bach formula for bending of curved beams. The hook is affected by both direct tensile stress and bending stress:
+
+$$
+\\sigma = \\frac{F}{A} + M \\cdot \\frac{r_n - r_i}{A \\cdot e \\cdot r_i}
+$$
+
+Where $r_n$ is the neutral axis radius ($r_n = \\frac{h}{\\ln(r_o/r_i)}$) and $e$ is the eccentricity. The theoretical deflection was calculated as:
+
+$$
+\\delta = \\frac{\\pi \\cdot F \\cdot R^2}{2 \\cdot E \\cdot A \\cdot e}
+$$
+
+**Optimization Results.** Three distinct models were generated based on different load cases (400 N and 1500 N) and contact surfaces. The results demonstrated a non-linear trade-off between volume and stress, visualized as a Pareto front.
+
+| Model | Load Case | Volume [L] | Max Stress [MPa] | Characteristics |
+| :--- | :--- | :--- | :--- | :--- |
+| **Model 1** | 400 N | 1.35 | 10.89 | **Balanced:** Good trade-off between weight and strength. |
+| **Model 2** | 1500 N | 1.48 | 10.46 | **Lowest Stress:** Most durable, but highest volume. |
+| **Model 3** | 1500 N (Small Area) | 1.19 | 13.29 | **Lowest Volume:** Lightest design (48% reduction), higher stress. |
+
+**Conclusion.** The final optimized solution achieved a weight reduction of up to 48% compared to the original design while maintaining structural integrity under a reference load of 3000 N. The study confirmed that while critical stress areas require consistent material distribution across load cases, the magnitude of material volume can be optimized significantly.
+        `
+      },
+      {
+        slug: 'robot-challenge',
+        title: 'Autonomous Ball-Sorting Robots',
+        subtitle: 'Two collaborative mechatronic systems - LEGO Mindstorms EV3',
+        stack: ['LEGO Mindstorms EV3', 'Mechatronics', 'CAD (Inventor)', '3D Printing', 'CNC', 'Design-Build-Test'],
+        images: ['images/CollabRobots/2The_One_assembly_New.png', 'images/CollabRobots/2The_One_assembly_New2.png'],
+        content: md`
+**Overview.** Designed, built, and programmed two autonomous robots - *Baggern* (the digger) and *Dumpern* (the transporter) - that collaborate to collect unsorted balls from a loading zone, navigate an obstacle course, and sort them by size into three colour-coded unloading zones, all within 10 minutes.
+
+**Challenge.** The course featured three elevated platforms (P1–P3), a tipping bridge (P2), and variable-width paths (300–1300 mm), requiring an adaptable open-loop/sensor-fusion solution. Balls came in three sizes - white (Ø 20 mm, 3 g), yellow (Ø 25 mm, 1.4 g), blue (Ø 30 mm, 4.3 g) - plus red balls to be excluded.
+
+**Robot Roles.**
+* **Baggern** - stationed beside the ball box; scoops balls and delivers them to the top platform.
+* **Dumpern** - pre-positioned on the platform nearest the pickup zone; transports and sorts balls across the obstacle course and deposits them in the correct boxes.
+
+**User Interface.** A two-button colour-coded remote control lets an uninitiated user configure the sorting mapping before start. The software then infers the third destination automatically.
+
+**Methodology.**
+* Group contract, shared vision, and sub-team structure (10 members, communication leads per sub-team).
+* Concept generation via brainstorming + ranked comparison in Excel → two finalist concepts selected by elimination.
+* LEGO prototyping → physical iteration → CAD in Autodesk Inventor → CNC milling, metal lathe, and 3D printing (Cura + FDM).
+* Design-Build-Test robustness loop: each sub-solution reviewed for feasibility before manufacture.
+* User-guide validation: external test users performed the full startup sequence; manual refined after each session.
+
+**Sustainability.** No component used two different materials, enabling correct source-separation and recycling at end of life.
+
+**Outcome.** The final system successfully sorted and transported balls autonomously. The team demonstrated that well-thought-out concept selection minimises unnecessary prototypes, and that rigorous user testing produces genuinely user-friendly solutions.
+        `
+      },
+      {
+        slug: 'ocean-sensor',
+        title: 'Ocean Sensor',
+        subtitle: 'Modular waterproof sensing unit for ocean pollution & climate data',
+        stack: ['Embedded Systems', 'Sensors', 'Electronics', 'Radio/WiFi', 'Web Visualization'],
+        images: ['images/OceanSensor/slide-2.png', 'images/OceanSensor/slide-3.png', 'images/OceanSensor/slide-4.png', 'images/OceanSensor/slide-5.png', 'images/OceanSensor/Film1.mp4'],
+        content: md`
+**Overview.** A modular, waterproof sensor unit for monitoring ocean pollution, collecting climate data for research, and tracking algae growth.
+
+**Hardware.**
+* **Enclosure:** Waterproof case with modular design, built for quick customer assembly.
+* **Electronics & sensors:** turbidity (*grumlighet*) and temperature.
+* **Future extensions:** pH and oil detection via capacitance.
+* **Comms:** radio transmitter (sender).
+
+**Software & data flow.**
+* Web-based data visualization dashboard.
+* Multi-unit support.
+* Receiver: **radio + WiFi** gateway; sender: **radio**.
+
+**Testing.**
+* Temperature validation and calibration (bench testing).
+
+**Learnings.**
+* Waterproofing (connectors, sealing surfaces, tolerances).
+* Radio link robustness as a key design constraint.
+* Design-for-manufacturing and practical measurement electronics.
+        `
+      },
+      {
+        slug: 'comsol-heat',
+        title: '1D Heat Conduction (COMSOL)',
+        subtitle: 'Verification vs. model',
+        stack: ['MATLAB','COMSOL','FEM'],
+        images: ['images/Heatsink/Comsol.png', 'images/Heatsink/FEM.png'],
+        content: md`
+**PDE.** $\\nabla \\cdot(-c\\nabla u - \\alpha u + \\gamma) + \\beta \\nabla u + au = f$. In 1D: $$\\frac{d}{dx}\\left(k \\frac{dT}{dx}\\right) - 25T + 25T_{air} = 0.$$
+
+**Mapping.** $c=-K,\ u=T,\ a=-25,\ f=-25T_{air}$. Dirichlet + zero-flux on boundaries.
+$$
+\\begin{align}
+N_i &= \\frac{x - x_j}{x_i-x_j} \\quad N_j = \\frac{x_i-x}{x_i-x_j} \\newline
+F_r &= \\int_{x_1}^{x_2} 25 T_{air} N_r \\, dx \\newline
+K_{rc} &= \\int_{x_1}^{x_2} -\\frac{d}{dx}\\left(K \\frac{d N_c}{dx}\\right) N_r + 25 N_r N_c \\, dx\\newline
+&= \\int_{x_1}^{x_2} K \\frac{d N_r}{dx} \\frac{d N_c}{dx} + 25 N_r N_c \\, dx\\newline
+\\mathbf{T} &= K^{-1} \\mathbf{F}
+\\end{align}
+$$
+
+**Result.** Temperature decays along the fin; MATLAB computations correspond to Comsol.
+        `
+      },
+      {
         slug: 'experimental-modal-analysis',
         title: 'Experimental Modal Analysis & FE Model Updating',
         subtitle: 'Shaker testing vs. simulation - from a free-free beam to a welded T-structure',
@@ -61,179 +283,147 @@ A T-shaped structure of two welded 35×35×2 mm hollow steel sections (327 mm ho
 **Conclusion.** Idealized clamped boundary conditions consistently overpredict resonance frequencies. Calibrating boundary stiffness against EMA data - rather than scaling material parameters - reconciles the FE model with reality, since real fixtures are never ideally rigid.
         `
       },
-{
-  slug: 'automated-fea-design-optimization',
-  title: 'Automated FEA Design Optimization',
-  subtitle: 'MATLAB-Python-Abaqus coupling, Isight automation and surrogate modeling',
-  stack: [
-    'Abaqus',
-    'MATLAB',
-    'Python',
-    'Isight',
-    'FEA Automation',
-    'fmincon',
-    'Latin Hypercube Sampling',
-    'Metamodeling'
-  ],
-  images: [],
-  content: md`
-**Overview.** A two-part simulation-driven design project covering automated structural optimization and surrogate modeling for computationally expensive functions. The first task coupled MATLAB, Python, and Abaqus to minimize the mass of a cantilever I-beam. The second investigated Latin Hypercube Sampling and cubic metamodeling for a black-box optimization problem. Performed together with Florent Congost.
+      {
+        slug: 'Railroad-vehicle-suspension',
+        title: 'Suspension Optimization for railroad vehicles',
+        subtitle: 'Solving for feasibility',
+        stack: ['MATLAB','Mathematical Modeling', 'Runge-Kutta 4'],
+        images: ['images/Suspension/Mathematical Model.png', 'images/Suspension/Task5_Impulse_10mm.png', 'images/Suspension/StepResponse.png'],
+        content: md`
+**Problem statement.** The vehicle is running at constant velocity $v = 68\\ \\mathrm{km/h}$. The measured vertical height position $z_s$ of the track along the route $s$ is given by data.
 
-## Task 1 - Automated optimization of an I-beam
+**Mathematical model.** We consider a two-degree-of-freedom train model with masses $m_1$, $m_2$, contact and suspension springs $k_1$, $k_2$, and dampers $C_1$, $C_2$, traveling over a track profile $z_s(s)$ at constant speed v.
 
-The objective was to minimize the mass of a $1.2\\ \\mathrm{m}$ cantilever I-beam subjected to a $75\\ \\mathrm{kN}$ end load acting at $45^{\\circ}$.
-
-Because the beam length and material density remained constant, minimizing mass was equivalent to minimizing the cross-sectional area:
-
+The parameters are:
 $$
-A =
-2t_f w
-+
-\\left(h-2t_f\\right)t_w,
+\\begin{aligned}
+m_1 &= 6\\,000 \\ \\mathrm{kg}, & m_2 &= 38\\,200 \\ \\mathrm{kg},\\newline
+k_1 &= 1.12 \\times 10^7 \\ \\mathrm{N/m}, & k_2 &= 2.16 \\times 10^6 \\ \\mathrm{N/m},\\newline
+C_1 &= 4.10 \\times 10^5 \\ \\mathrm{Ns/m}, & C_2 &= 1.60 \\times 10^5 \\ \\mathrm{Ns/m}.
+\\end{aligned}
 $$
 
-where:
-
-* $w$ is the flange width,
-* $h$ is the section height,
-* $t_f$ is the flange thickness,
-* $t_w$ is the web thickness.
-
-The design was required to satisfy:
-
+The track elevation is given as a dataset with corresponding heights $z_s$ and distances $s$.
+Since the vehicle moves at constant speed $v_s = 68\\ \\mathrm{km/h}$, we can also obtain the time signal from the data:
 $$
-\\sigma_{VM,max}\\leq190\\ \\mathrm{MPa},
+t = \\frac{s}{v}, \\quad \\text{where $s$ is the track distance vector}.
 $$
 
+We denote:
 $$
-\\delta_{max}\\leq15\\ \\mathrm{mm},
+z_s(t) = z_s(s = v t),
 $$
-
-together with geometric bounds on the section dimensions.
-
-## Finite element model
-
-The beam was represented in Abaqus using quadratic Timoshenko beam elements. The model contained approximately 100 nodes and used:
-
-| Parameter | Value |
-| :--- | :--- |
-| Length | $1.2\\ \\mathrm{m}$ |
-| End load | $75\\ \\mathrm{kN}$ |
-| Load direction | $-45^{\\circ}$ |
-| Young's modulus | $210\\ \\mathrm{GPa}$ |
-| Shear modulus | $70\\ \\mathrm{GPa}$ |
-| Stress limit | $190\\ \\mathrm{MPa}$ |
-| Deflection limit | $15\\ \\mathrm{mm}$ |
-
-The load was resolved into two components:
-
+and approximate its time derivative by:
 $$
-F_x=F_y=
--\\frac{75\\,000}{\\sqrt{2}}
-\\approx-53.0\\ \\mathrm{kN}.
+v_s(t_i) = \\dot z_s(t_i) \\approx \\frac{z_s(t_{i+1}) - z_s(t_i)}{\\Delta t},  
+\\quad \\Delta t = \\frac{T}{N}.
+$$
+The system can be modeled as a coupled spring-mass-damper system with the given parameters.
+From the free body diagram, the forces are:
+$$
+\\begin{aligned}
+F_{S1} &= k_1(z_s - z_1), & F_{C1} &= C_1(\\dot z_s - \\dot z_1),\\newline
+F_{S2} &= k_2(z_1 - z_2), & F_{C2} &= C_2(\\dot z_1 - \\dot z_2).
+\\end{aligned}
 $$
 
-Maximum von Mises stress and resultant tip displacement were extracted from every Abaqus analysis.
-
-## MATLAB-Python-Abaqus automation
-
-A fully automated optimization loop was developed:
-
-1. MATLAB supplied a new design vector containing $w$, $h$, $t_f$, and $t_w$.
-2. The dimensions were written to an Abaqus parameter file.
-3. Abaqus regenerated and solved the FE model.
-4. Python scripts opened the Abaqus ODB file.
-5. Maximum stress and tip-displacement components were written to result files.
-6. MATLAB evaluated the normalized constraints and cross-sectional area.
-7. The gradient-based fmincon algorithm generated the next design.
-
-The nonlinear constraints were formulated as
-
+The equilibrium equations are:
 $$
-g_1=
-\\frac{\\delta_{max}-\\delta_{limit}}
-{\\delta_{limit}}
-\\leq0,
+\\begin{aligned}
+\\uparrow^+ \\sum F_{z1} = m_1 \\ddot z_1 &= +F_{S1} - F_{S2} + F_{C1} - F_{C2} + F_1,\\newline
+&= k_1(z_s - z_1) - k_2(z_1 - z_2) + C_1(\\dot z_s - \\dot z_1) - C_2(\\dot z_1 - \\dot z_2) + F_1,\\newline
+\\uparrow^+ \\sum F_{z2} = m_2 \\ddot z_2 &= +F_{S2} + F_{C2} + F_2,\\newline
+&= -k_2(z_2 - z_1) - C_2(\\dot z_2 - \\dot z_1) + F_2.
+\\end{aligned}
 $$
 
+Since there are no other external forces ($F_1 = F_2 = 0$), the accelerations can be expressed as:
 $$
-g_2=
-\\frac{\\sigma_{VM,max}-\\sigma_{limit}}
-{\\sigma_{limit}}
-\\leq0.
+\\ddot{z}_1 = -\\frac{1}{m_1} \\left[ (C_1 + C_2)\\dot z_1 + (k_1 + k_2) z_1 - C_2 \\dot z_2 - k_2 z_2 - C_1 \\dot z_s - k_1 z_s \\right], \\tag{1}
 $$
-
-Invalid Abaqus models or missing result files were penalized so the optimizer could recover and continue searching.
-
-The same optimization architecture was also recreated in Isight using connected Abaqus, Calculator, and Optimization components. This provided an alternative graphical implementation of the automated workflow.
-
-## Optimized design
-
-The reported MATLAB-Abaqus solution was:
-
-| Design variable | Optimized value |
-| :--- | :--- |
-| Flange width $w$ | $119.2\\ \\mathrm{mm}$ |
-| Section height $h$ | $175.0\\ \\mathrm{mm}$ |
-| Flange thickness $t_f$ | $21.8\\ \\mathrm{mm}$ |
-| Web thickness $t_w$ | $1.0\\ \\mathrm{mm}$ |
-| Cross-sectional area | $5.33\\times10^{-3}\\ \\mathrm{m^2}$ |
-| Maximum von Mises stress | $190\\ \\mathrm{MPa}$ |
-| Maximum displacement | $5.8\\ \\mathrm{mm}$ |
-
-The stress constraint became active while the displacement remained below its limit. The section height reached its upper bound and the web thickness reached its lower bound.
-
-This result also exposes an important distinction between mathematical and engineering optimization: without buckling, fabrication, or minimum-gauge constraints, the optimizer drives the web toward an impractically small thickness. A production-oriented study would therefore require additional constraints for manufacturability, local buckling, and section slenderness.
-
-## Task 2 - Metamodeling of an expensive black-box function
-
-The second task considered a function requiring approximately three hours for each evaluation. Direct gradient-based optimization would therefore be prohibitively expensive.
-
-Ten design points were generated using Latin Hypercube Sampling:
-
 $$
-\\mathbf{x}^{(i)}
-=
-\\mathbf{x}_{min}
-+
-\\mathbf{u}^{(i)}
-\\odot
-\\left(
-\\mathbf{x}_{max}-\\mathbf{x}_{min}
-\\right),
+\\ddot{z}_2 = -\\frac{1}{m_2} \\left[ C_2 \\dot z_2 + k_2 z_2 - C_2 \\dot z_1 - k_2 z_1 \\right]. \\tag{2}
 $$
 
-where $\\mathbf{u}^{(i)}$ contains the normalized Latin Hypercube coordinates.
+**Solving the coupled system.** The system of equations is defined as
+$$
+\\begin{aligned}
+f_1(z_1, \\dot{z}_1, z_2, \\dot{z}_2, i) &=
+\\frac{-C_1\\left(\\dot{z}_1 - \\dot{z}_s(i)\\right)
+      - k_1\\left(z_1 - z_s(i)\\right)
+      - C_2\\left(\\dot{z}_1 - \\dot{z}_2\\right)
+      - k_2\\left(z_1 - z_2\\right)}{m_1}, \\newline
+f_2(z_1, \\dot{z}_1, z_2, \\dot{z}_2) &=
+\\frac{-C_2\\left(\\dot{z}_2 - \\dot{z}_1\\right)
+      - k_2\\left(z_2 - z_1\\right)}{m_2}.
+\\end{aligned}
+$$
 
-MATLAB controlled an Excel-based black-box model through COM automation. The sampled input-output pairs were then used to construct a cubic response surface:
+The fourth-order Runge–Kutta method (RK4) is applied as follows.
+For $k = 1, \\dots, N-1$, let
 
 $$
-\\hat f(x_1,x_2)
-=
-\\operatorname{CubicInterp}
-\\left(
-x_1,x_2,f
-\\right).
+\\begin{aligned}
+k_{1v_1} &= f_1(z_1^k, \\dot z_1^k, z_2^k, \\dot z_2^k, k), &\\quad
+k_{1z_1} &= \\dot z_1^k, \\newline
+k_{2v_1} &= f_1\\left(z_1^k + \\tfrac{\\Delta t}{2}k_{1z_1},\\, \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{1v_1},\\, z_2^k,\\, \\dot z_2^k,\\, k\\right), &\\quad
+k_{2z_1} &= \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{1v_1}, \\newline
+k_{3v_1} &= f_1\\left(z_1^k + \\tfrac{\\Delta t}{2}k_{2z_1},\\, \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{2v_1},\\, z_2^k,\\, \\dot z_2^k,\\, k\\right), &\\quad
+k_{3z_1} &= \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{2v_1}, \\newline
+k_{4v_1} &= f_1\\left(z_1^k + \\Delta t\\,k_{3z_1},\\, \\dot z_1^k + \\Delta t\\,k_{3v_1},\\, z_2^k,\\, \\dot z_2^k,\\, k\\right), &\\quad
+k_{4z_1} &= \\dot z_1^k + \\Delta t\\,k_{3v_1}, \\newline
+\\dot z_1^{k+1} &= \\dot z_1^k + \\frac{\\Delta t}{6}\\left(k_{1v_1} + 2k_{2v_1} + 2k_{3v_1} + k_{4v_1}\\right), &\\quad
+z_1^{k+1} &= z_1^k + \\frac{\\Delta t}{6}\\left(k_{1z_1} + 2k_{2z_1} + 2k_{3z_1} + k_{4z_1}\\right).
+\\end{aligned}
 $$
 
-## Surrogate-model verification
+Similarly, for $z_2$:
 
-The exercise demonstrated why a metamodel optimum must always be evaluated with the original high-fidelity function. Validation showed that the cubic surface did not reliably predict the true response near its proposed minimum.
+$$
+\\begin{aligned}
+k_{1v_2} &= f_2(z_1^k, \\dot z_1^k, z_2^k, \\dot z_2^k), &\\quad
+k_{1z_2} &= \\dot z_2^k, \\newline
+k_{2v_2} &= f_2\\left(z_1^k,\\, \\dot z_1^k,\\, z_2^k + \\tfrac{\\Delta t}{2}k_{1z_2},\\, \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{1v_2}\\right), &\\quad
+k_{2z_2} &= \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{1v_2}, \\newline
+k_{3v_2} &= f_2\\left(z_1^k,\\, \\dot z_1^k,\\, z_2^k + \\tfrac{\\Delta t}{2}k_{2z_2},\\, \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{2v_2}\\right), &\\quad
+k_{3z_2} &= \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{2v_2}, \\newline
+k_{4v_2} &= f_2\\left(z_1^k,\\, \\dot z_1^k,\\, z_2^k + \\Delta t\\,k_{3z_2},\\, \\dot z_2^k + \\Delta t\\,k_{3v_2}\\right), &\\quad
+k_{4z_2} &= \\dot z_2^k + \\Delta t\\,k_{3v_2}, \\newline
+\\dot z_2^{k+1} &= \\dot z_2^k + \\frac{\\Delta t}{6}\\left(k_{1v_2} + 2k_{2v_2} + 2k_{3v_2} + k_{4v_2}\\right), &\\quad
+z_2^{k+1} &= z_2^k + \\frac{\\Delta t}{6}\\left(k_{1z_2} + 2k_{2z_2} + 2k_{3z_2} + k_{4z_2}\\right).
+\\end{aligned}
+$$
 
-The implementation also contained incorrectly scaled design bounds. Consequently, the numerical black-box optimum is not presented as a valid result. The useful outcome is instead methodological: space-filling sampling, input-domain verification, sufficient sample density, cross-validation, and confirmation using the original model are all essential before a surrogate is trusted for design decisions.
 
-## Conclusion
+The Runge-Kutta 4 method is implemented by iteratively computing the four RK coefficients and performing a weighted average.
+For any function $\\dot{y} = F(t, y)$:
+$$
+\\begin{aligned}
+k_1 &= F(t_n, y_n), \\newline
+k_2 &= F\\left(t_n + \\frac{\\Delta t}{2},\\ y_n + \\frac{\\Delta t}{2} k_1\\right), \\newline
+k_3 &= F\\left(t_n + \\frac{\\Delta t}{2},\\ y_n + \\frac{\\Delta t}{2} k_2\\right), \\newline
+k_4 &= F\\left(t_n + \\Delta t,\\ y_n + \\Delta t\\, k_3\\right), \\newline
+y_{n+1} &= y_n + \\frac{\\Delta t}{6} \\left(k_1 + 2k_2 + 2k_3 + k_4\\right).
+\\end{aligned}
+$$
 
-The project demonstrates an end-to-end simulation-driven design workflow spanning parameterized FE modeling, automated solver execution, ODB post-processing, nonlinear constrained optimization, and graphical process automation in Isight.
+Here, $f_1$ and $f_2$ are the accelerations of masses 1 and 2, respectively, as in Eqs. (1) - (2).
+Defining
+$$
+\\begin{aligned}
+v_1 &= \\dot{z}_1, \\quad \\dot{v}_1 = \\ddot{z}_1 = f_1(z_1^n, v_1^n, z_2^n, v_2^n, z_s^n, v_s^n), \\newline
+v_2 &= \\dot{z}_2, \\quad \\dot{v}_2 = \\ddot{z}_2 = f_2(z_1^n, v_1^n, z_2^n, v_2^n),
+\\end{aligned}
+$$
+we have four first-order ODEs of the form $\\dot{y} = F(t, y)$.
 
-It also highlights two practical lessons:
 
-* Optimization results are only meaningful when all relevant physical and manufacturing constraints are included.
-* A surrogate model must be validated against the original function before its predicted optimum is accepted.
 
-The strongest result is the reusable MATLAB-Python-Abaqus framework, which separates optimization logic, FE evaluation, and result extraction into a modular automated process.
-  `
-},
+**Optimization.** For obvious reasons, the suspension of the car body is something that is added after the wheels and tracks and thus is subject to more changes, therefore the parameters that are to be optimized are the car body's stiffness and damping ($k_2$ and $C_2$). The optimization involves a multidimensional problem, where the displacement is dependent on both stiffness and damping in addition to the wheels reaction to the movement of the car body.
+
+Implementation of optimization in MATLAB resulted in the lowest rms acceleration occurred at the lowest possible stiffness and damping in the user defined range. Interpretation of this is that the theoretical maximum deflection is not what is limiting the system but the limit lies in the feasibility and real world application of the stiffness and damping. To test the feasibility of the solution was modified with a fake impulse (simulated gravel on the track) in addition to the solution beginning and end of the data was zero padded to be able to inspect longer oscillatory behaviours. With the introduced "gravel" (impulse in data) the optimization was run again with more feasible results this time, not the lowest possible of the input range of solutions. This result that includes a faked impulse in the track seems more trustworthy and robust since it can handle not perfectly smooth (and clean) track without losing comfort for potential passengers.
+        `
+      },
       {
   slug: 'vickers-indentation-mesh-convergence',
   title: 'Automated Mesh Convergence Study',
@@ -353,37 +543,62 @@ Several further caveats follow from the same constraint:
 The honest summary is that this study demonstrates a refinement workflow and shows the expected trend, but does not establish a mesh-converged indentation force.`
 },
       {
-        slug: 'topology-optimization-lifting',
-        title: 'Topology Optimization for Lifting Solutions',
-        subtitle: 'Generalized attachment design using Ansys Mechanical',
-        stack: ['Ansys Mechanical', 'Topology Optimization', 'FEM', 'CAD', 'Product Development'],
-        images: ['images/Hook/1500N/1500N_optimized_stress.png', 'images/Hook/Paretofront.png', 'images/Hook/400N/400N_optimized.png', 'images/Hook/Analyze lifting loops on cargo.png'],
+        slug: 'Robotic_Cat_Companion',
+        title: 'Robotic Cat Companion',
+        subtitle: 'A paintable, personality-swappable wooden robot cat for children',
+        stack: ['CAD (Inventor)', 'Arduino Uno', 'Raspberry Pi Zero WH', 'ATMEGA328P', 'ESP8266 Wi-Fi', 'Ultrasonic Sensing', 'Laser-Cut Masonite', '3D Printing', 'Web App', 'DBT / Gate Process'],
+        images: ['images/Cat/Picture2.jpg','images/Cat/Picture1.jpg', 'images/Cat/webGif.mp4', 'images/Cat/PXL_20231208_102716055.jpg', 'images/Cat/PXL_20231208_102719947.jpg'],
         content: md`
-**Overview.** The transportation of a diverse product range-specifically pumps of different sizes and weights-creates logistical bottlenecks due to frequent tool changes. This project investigates the design of a generalized conveyor attachment system capable of handling diverse loads without operational stoppages.
+**Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
 
-**Methodology.** The study utilizes topology optimization to analyze the structural balance between stress and material consumption. By applying Finite Element Method (FEM) stress analysis in Ansys Mechanical, the design process iteratively removes material from determining where structural support is essential vs. where it is negligible.
+The cat is intentionally **not** a low-care pet substitute - it is a creative toy. Children **paint the wooden shell themselves**, swap **ears and hats**, and choose **personalities** through a companion website, so the same hardware can become endlessly different cats over time.
 
-**Mathematical Validation.** To validate the FEA results, a simplification of the attachment solution was performed using hand calculations based on the Winkler-Bach formula for bending of curved beams. The hook is affected by both direct tensile stress and bending stress:
+**Product goals (from the PRD).**
+* **Innovative user experience** - a curious, story-enabled, ever-changeable robot friend that addresses unmet desires children haven't yet articulated.
+* **Technology leadership** - modern consumer-robotics components and early prototype testing.
+* **Competitive positioning** - feature/price parity with or above existing offerings (benchmarked against ImagiCharm and Pokémon-style toys).
 
-$$
-\\sigma = \\frac{F}{A} + M \\cdot \\frac{r_n - r_i}{A \\cdot e \\cdot r_i}
-$$
+**Target user.**
+* **Buyer:** parents, grandparents, relatives or friends of children.
+* **User:** children aged 3–8 with an interest in robotics or cats.
+* **Scenario:** *"Elliot, an 8-year-old, is bored and uses ShellCat to stay satisfied with endless play and unlimited personalities. He paints and plays with the ShellCat and sees it as a real pet/friend."*
 
-Where $r_n$ is the neutral axis radius ($r_n = \\frac{h}{\\ln(r_o/r_i)}$) and $e$ is the eccentricity. The theoretical deflection was calculated as:
+**Mechanical design.**
+* **Outer shell:** **Masonite, laser-cut** - a wooden surface that takes paint well, fitting the brand's *Blanchedalmond* wooden look.
+* **3D-printed plastic** parts for gears, the MCU case, the computer case, and battery holders.
+* **Swappable accessories:** ears and hats designed to be made by the user from a manual included in the box.
+* CAD modelled in **Inventor** to allow rapid iteration and a **modular design** for a future "world of characters."
 
-$$
-\\delta = \\frac{\\pi \\cdot F \\cdot R^2}{2 \\cdot E \\cdot A \\cdot e}
-$$
+**Electronics.**
+The PRD splits the bill of materials between an early *prototype* and a cost-reduced *product* version:
 
-**Optimization Results.** Three distinct models were generated based on different load cases (400 N and 1500 N) and contact surfaces. The results demonstrated a non-linear trade-off between volume and stress, visualized as a Pareto front.
+| Subsystem | Prototype | Product |
+| :--- | :--- | :--- |
+| MCU | Arduino Uno | ATMEGA328P-PU |
+| Computer | Raspberry Pi Zero WH | - (replaced by Wi-Fi + MCU) |
+| Connectivity | (via Pi) | ESP8266 Wi-Fi module |
+| Motion | 2× DC motors + 1× stepper (28BYJ-48 + ULN2003) | same |
+| Sensing | Ultrasonic ranger | Ultrasonic ranger |
+| Power | 3× AA + 1× 6LR holders | 3× AA + 1× 6LR holders |
+| PCB | breadboard / wiring | Custom PCB |
 
-| Model | Load Case | Volume [L] | Max Stress [MPa] | Characteristics |
-| :--- | :--- | :--- | :--- | :--- |
-| **Model 1** | 400 N | 1.35 | 10.89 | **Balanced:** Good trade-off between weight and strength. |
-| **Model 2** | 1500 N | 1.48 | 10.46 | **Lowest Stress:** Most durable, but highest volume. |
-| **Model 3** | 1500 N (Small Area) | 1.19 | 13.29 | **Lowest Volume:** Lightest design (48% reduction), higher stress. |
+**Functional requirements.**
+* Natural, intuitive interaction with children.
+* **Selectable personalities** - currently five, exposed via the companion website with regular updates planned.
+* **Autonomous navigation** in a home environment with obstacle avoidance and the ability to approach objects within a defined area.
+* **Safe interaction** with household objects, children, and pets.
+* **Battery life** sufficient for at least one full day of typical use, with easy-to-change batteries.
 
-**Conclusion.** The final optimized solution achieved a weight reduction of up to 48% compared to the original design while maintaining structural integrity under a reference load of 3000 N. The study confirmed that while critical stress areas require consistent material distribution across load cases, the magnitude of material volume can be optimized significantly.
+**Non-functional requirements.**
+* User-friendly setup with no maintenance.
+* High durability and a low failure rate to support endless play.
+* **Modular design** to allow future upgrades and new characters.
+
+**Companion website.** A web app (a visual copy hosted at *here* and is also shown in one of the videos) lets the user pick the cat's personality and will host a community forum where suggestions can be voted on and rolled into future updates - closing a loop directly back into the product.
+
+**Brand & story.** ShellCats are described in the PRD as having come from a worn-out world to Earth via a "magical spell," carrying protective shells that children can decorate to express each cat's personality.
+
+**Process.** The development followed a **Design-Build-Test (DBT) and gate** workflow with early user-testing prototypes feeding back into the design before each gate.
         `
       },
       {
@@ -707,393 +922,178 @@ A simplified one-dimensional analytical solution was derived for fixed radii. It
   `
 },
 {
-        slug: 'Drone1',
-        title: 'Flying & Balancing robot drone',
-        subtitle: 'Two wheeled, two propellered drone car',
-        stack: ['MATLAB','Simulink','Kinematics', 'Control Theory'],
-        images: ['images/Drone1/Turn.png', 'images/Drone1/Equation.png','images/Drone1/RobotBild.jpeg', 'images/Drone1/Balancing Kinematics.png', 'images/Drone1/Assembly1.png', 'images/Drone1/PXL_20250327_161507964.jpg','images/Drone1/Video (1).mp4','images/Drone1/Video (2).mp4'],
-        content: md`
-**Overview.** An accurate controlled robot that can move on ground and in air.
+  slug: 'automated-fea-design-optimization',
+  title: 'Automated FEA Design Optimization',
+  subtitle: 'MATLAB-Python-Abaqus coupling, Isight automation and surrogate modeling',
+  stack: [
+    'Abaqus',
+    'MATLAB',
+    'Python',
+    'Isight',
+    'FEA Automation',
+    'fmincon',
+    'Latin Hypercube Sampling',
+    'Metamodeling'
+  ],
+  images: [],
+  content: md`
+**Overview.** A two-part simulation-driven design project covering automated structural optimization and surrogate modeling for computationally expensive functions. The first task coupled MATLAB, Python, and Abaqus to minimize the mass of a cantilever I-beam. The second investigated Latin Hypercube Sampling and cubic metamodeling for a black-box optimization problem. Performed together with Florent Congost.
 
-**Odometry.** Designed & built a balancing drone robot including both mechanical parts and control algorithms for automated navigation system using MATLAB and Simulink.
-For wheel i, the velocity is calculated as
-$$
-V_i = \\bar{V} + \\overline{r_{i/C}} \\times \\bar{\\omega}
-= V\\hat{y} + \\det\\left| \\begin{bmatrix}
-    \\hat{x} & \\hat{y} & \\hat{z} \\newline
-    r_x & r_y & r_z \\newline
-    0 & 0 & \\omega_z
-\\end{bmatrix} \\right|
-= (V - r_x \\omega_z) \\hat{y}
-$$
+## Task 1 - Automated optimization of an I-beam
 
-The left wheel has a directed distance of $+\\frac{L}{2}$
-and the right wheel a directed distance of $-\\frac{L}{2}$ in the x-direction relative to C.
-We obtain the equations:
+The objective was to minimize the mass of a $1.2\\ \\mathrm{m}$ cantilever I-beam subjected to a $75\\ \\mathrm{kN}$ end load acting at $45^{\\circ}$.
 
-$$
-\\begin{cases}
-V_l = V - \\frac{L}{2}\\,\\omega_z
-  = \\begin{bmatrix} 1 & -\\frac{L}{2} \\end{bmatrix}\\begin{bmatrix} V \\newline \\omega_z \\end{bmatrix} \\newline
-V_r = V + \\frac{L}{2}\\,\\omega_z
-  = \\begin{bmatrix} 1 & +\\frac{L}{2} \\end{bmatrix}\\begin{bmatrix} V \\newline \\omega_z \\end{bmatrix}
-\\end{cases}
-$$
-
-            `
-      },
-      {
-        slug: 'arrow-flight-simulation',
-        title: 'Compound Bow Arrow Flight Simulation',
-        subtitle: 'Trajectory and Archer\'s Paradox Modeling',
-        stack: ['MATLAB', 'FEM', 'Runge-Kutta 4', 'Newmark-Beta', 'Physics Simulation'],
-        images: ['images/arrow/DrawCurve2.png', 'images/arrow/StaticDef.png', 'images/arrow/DynamicDef.png', 'images/arrow/FlightHorizontal.png', 'images/arrow/DrawAndVertDiff.png'],
-        content: md`
-**Overview.** The problem consists of building up a simulation model for an arrow launched from a compound bow. The objective was to hit a target 20 meters away and estimate how the release affects the accuracy, considering different shooting styles with the Mediterranean draw. The simulation includes surrounding factors such as gravitation, quadratic air resistance, shooting angle, and the archer's paradox.
-
-**Methodology.**
-The project combined empirical measurements with advanced numerical methods to simulate the entire launch and flight sequence.
-
-**Experimental Data Collection.** An experiment was conducted using an actual compound bow and a dynamometer. By measuring the force applied to the string for different draw lengths, a nonlinear relationship was interpolated to compute the initial velocity.
-
-**Modeling the Archer's Paradox.** The arrow was simplified into an Euler-Bernoulli beam. The dynamic movement was calculated using the Finite Element Method (FEM) and integrated over time using the Newmark-Beta method. The beam equation used in the model was $EI\\,w''''(x,t) + \\rho A\\,\\ddot{w}(x,t) = 0$.
-
-**Flight Trajectory.** The flight path was modeled as an ordinary differential equation (ODE) initial value problem and solved using the fourth-order Runge-Kutta (RK4) method. The model combined initial velocity, gravity, quadratic air resistance, and the tip vibrations derived from the FEM calculations.
-
-**Results.** The simulation produced a periodic oscillating motion reflecting the archer's paradox over a 20-meter trajectory. The impact of different initial conditions on accuracy was evaluated:
-* The order and timing of which finger leaves the string first, introducing horizontal and vertical offsets, has the largest impact on hit location.
-* An uneven release excites a stronger tip vibration and gives the arrow a persistent initial angular deviation.
-* Differences in draw length resulted in considerably lower spread, giving it the least impact on overall precision.
-
-**Conclusion.** To minimize potential error and maximize accuracy, it is highly recommended to release all fingers as simultaneously as possible without pulling the string sideways.
-        `
-      },
-      {
-        slug: 'Railroad-vehicle-suspension',
-        title: 'Suspension Optimization for railroad vehicles',
-        subtitle: 'Solving for feasibility',
-        stack: ['MATLAB','Mathematical Modeling', 'Runge-Kutta 4'],
-        images: ['images/Suspension/Mathematical Model.png', 'images/Suspension/Task5_Impulse_10mm.png', 'images/Suspension/StepResponse.png'],
-        content: md`
-**Problem statement.** The vehicle is running at constant velocity $v = 68\\ \\mathrm{km/h}$. The measured vertical height position $z_s$ of the track along the route $s$ is given by data.
-
-**Mathematical model.** We consider a two-degree-of-freedom train model with masses $m_1$, $m_2$, contact and suspension springs $k_1$, $k_2$, and dampers $C_1$, $C_2$, traveling over a track profile $z_s(s)$ at constant speed v.
-
-The parameters are:
-$$
-\\begin{aligned}
-m_1 &= 6\\,000 \\ \\mathrm{kg}, & m_2 &= 38\\,200 \\ \\mathrm{kg},\\newline
-k_1 &= 1.12 \\times 10^7 \\ \\mathrm{N/m}, & k_2 &= 2.16 \\times 10^6 \\ \\mathrm{N/m},\\newline
-C_1 &= 4.10 \\times 10^5 \\ \\mathrm{Ns/m}, & C_2 &= 1.60 \\times 10^5 \\ \\mathrm{Ns/m}.
-\\end{aligned}
-$$
-
-The track elevation is given as a dataset with corresponding heights $z_s$ and distances $s$.
-Since the vehicle moves at constant speed $v_s = 68\\ \\mathrm{km/h}$, we can also obtain the time signal from the data:
-$$
-t = \\frac{s}{v}, \\quad \\text{where $s$ is the track distance vector}.
-$$
-
-We denote:
-$$
-z_s(t) = z_s(s = v t),
-$$
-and approximate its time derivative by:
-$$
-v_s(t_i) = \\dot z_s(t_i) \\approx \\frac{z_s(t_{i+1}) - z_s(t_i)}{\\Delta t},  
-\\quad \\Delta t = \\frac{T}{N}.
-$$
-The system can be modeled as a coupled spring-mass-damper system with the given parameters.
-From the free body diagram, the forces are:
-$$
-\\begin{aligned}
-F_{S1} &= k_1(z_s - z_1), & F_{C1} &= C_1(\\dot z_s - \\dot z_1),\\newline
-F_{S2} &= k_2(z_1 - z_2), & F_{C2} &= C_2(\\dot z_1 - \\dot z_2).
-\\end{aligned}
-$$
-
-The equilibrium equations are:
-$$
-\\begin{aligned}
-\\uparrow^+ \\sum F_{z1} = m_1 \\ddot z_1 &= +F_{S1} - F_{S2} + F_{C1} - F_{C2} + F_1,\\newline
-&= k_1(z_s - z_1) - k_2(z_1 - z_2) + C_1(\\dot z_s - \\dot z_1) - C_2(\\dot z_1 - \\dot z_2) + F_1,\\newline
-\\uparrow^+ \\sum F_{z2} = m_2 \\ddot z_2 &= +F_{S2} + F_{C2} + F_2,\\newline
-&= -k_2(z_2 - z_1) - C_2(\\dot z_2 - \\dot z_1) + F_2.
-\\end{aligned}
-$$
-
-Since there are no other external forces ($F_1 = F_2 = 0$), the accelerations can be expressed as:
-$$
-\\ddot{z}_1 = -\\frac{1}{m_1} \\left[ (C_1 + C_2)\\dot z_1 + (k_1 + k_2) z_1 - C_2 \\dot z_2 - k_2 z_2 - C_1 \\dot z_s - k_1 z_s \\right], \\tag{1}
-$$
-$$
-\\ddot{z}_2 = -\\frac{1}{m_2} \\left[ C_2 \\dot z_2 + k_2 z_2 - C_2 \\dot z_1 - k_2 z_1 \\right]. \\tag{2}
-$$
-
-**Solving the coupled system.** The system of equations is defined as
-$$
-\\begin{aligned}
-f_1(z_1, \\dot{z}_1, z_2, \\dot{z}_2, i) &=
-\\frac{-C_1\\left(\\dot{z}_1 - \\dot{z}_s(i)\\right)
-      - k_1\\left(z_1 - z_s(i)\\right)
-      - C_2\\left(\\dot{z}_1 - \\dot{z}_2\\right)
-      - k_2\\left(z_1 - z_2\\right)}{m_1}, \\newline
-f_2(z_1, \\dot{z}_1, z_2, \\dot{z}_2) &=
-\\frac{-C_2\\left(\\dot{z}_2 - \\dot{z}_1\\right)
-      - k_2\\left(z_2 - z_1\\right)}{m_2}.
-\\end{aligned}
-$$
-
-The fourth-order Runge–Kutta method (RK4) is applied as follows.
-For $k = 1, \\dots, N-1$, let
+Because the beam length and material density remained constant, minimizing mass was equivalent to minimizing the cross-sectional area:
 
 $$
-\\begin{aligned}
-k_{1v_1} &= f_1(z_1^k, \\dot z_1^k, z_2^k, \\dot z_2^k, k), &\\quad
-k_{1z_1} &= \\dot z_1^k, \\newline
-k_{2v_1} &= f_1\\left(z_1^k + \\tfrac{\\Delta t}{2}k_{1z_1},\\, \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{1v_1},\\, z_2^k,\\, \\dot z_2^k,\\, k\\right), &\\quad
-k_{2z_1} &= \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{1v_1}, \\newline
-k_{3v_1} &= f_1\\left(z_1^k + \\tfrac{\\Delta t}{2}k_{2z_1},\\, \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{2v_1},\\, z_2^k,\\, \\dot z_2^k,\\, k\\right), &\\quad
-k_{3z_1} &= \\dot z_1^k + \\tfrac{\\Delta t}{2}k_{2v_1}, \\newline
-k_{4v_1} &= f_1\\left(z_1^k + \\Delta t\\,k_{3z_1},\\, \\dot z_1^k + \\Delta t\\,k_{3v_1},\\, z_2^k,\\, \\dot z_2^k,\\, k\\right), &\\quad
-k_{4z_1} &= \\dot z_1^k + \\Delta t\\,k_{3v_1}, \\newline
-\\dot z_1^{k+1} &= \\dot z_1^k + \\frac{\\Delta t}{6}\\left(k_{1v_1} + 2k_{2v_1} + 2k_{3v_1} + k_{4v_1}\\right), &\\quad
-z_1^{k+1} &= z_1^k + \\frac{\\Delta t}{6}\\left(k_{1z_1} + 2k_{2z_1} + 2k_{3z_1} + k_{4z_1}\\right).
-\\end{aligned}
+A =
+2t_f w
++
+\\left(h-2t_f\\right)t_w,
 $$
 
-Similarly, for $z_2$:
+where:
+
+* $w$ is the flange width,
+* $h$ is the section height,
+* $t_f$ is the flange thickness,
+* $t_w$ is the web thickness.
+
+The design was required to satisfy:
 
 $$
-\\begin{aligned}
-k_{1v_2} &= f_2(z_1^k, \\dot z_1^k, z_2^k, \\dot z_2^k), &\\quad
-k_{1z_2} &= \\dot z_2^k, \\newline
-k_{2v_2} &= f_2\\left(z_1^k,\\, \\dot z_1^k,\\, z_2^k + \\tfrac{\\Delta t}{2}k_{1z_2},\\, \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{1v_2}\\right), &\\quad
-k_{2z_2} &= \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{1v_2}, \\newline
-k_{3v_2} &= f_2\\left(z_1^k,\\, \\dot z_1^k,\\, z_2^k + \\tfrac{\\Delta t}{2}k_{2z_2},\\, \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{2v_2}\\right), &\\quad
-k_{3z_2} &= \\dot z_2^k + \\tfrac{\\Delta t}{2}k_{2v_2}, \\newline
-k_{4v_2} &= f_2\\left(z_1^k,\\, \\dot z_1^k,\\, z_2^k + \\Delta t\\,k_{3z_2},\\, \\dot z_2^k + \\Delta t\\,k_{3v_2}\\right), &\\quad
-k_{4z_2} &= \\dot z_2^k + \\Delta t\\,k_{3v_2}, \\newline
-\\dot z_2^{k+1} &= \\dot z_2^k + \\frac{\\Delta t}{6}\\left(k_{1v_2} + 2k_{2v_2} + 2k_{3v_2} + k_{4v_2}\\right), &\\quad
-z_2^{k+1} &= z_2^k + \\frac{\\Delta t}{6}\\left(k_{1z_2} + 2k_{2z_2} + 2k_{3z_2} + k_{4z_2}\\right).
-\\end{aligned}
+\\sigma_{VM,max}\\leq190\\ \\mathrm{MPa},
 $$
 
-
-The Runge-Kutta 4 method is implemented by iteratively computing the four RK coefficients and performing a weighted average.
-For any function $\\dot{y} = F(t, y)$:
 $$
-\\begin{aligned}
-k_1 &= F(t_n, y_n), \\newline
-k_2 &= F\\left(t_n + \\frac{\\Delta t}{2},\\ y_n + \\frac{\\Delta t}{2} k_1\\right), \\newline
-k_3 &= F\\left(t_n + \\frac{\\Delta t}{2},\\ y_n + \\frac{\\Delta t}{2} k_2\\right), \\newline
-k_4 &= F\\left(t_n + \\Delta t,\\ y_n + \\Delta t\\, k_3\\right), \\newline
-y_{n+1} &= y_n + \\frac{\\Delta t}{6} \\left(k_1 + 2k_2 + 2k_3 + k_4\\right).
-\\end{aligned}
+\\delta_{max}\\leq15\\ \\mathrm{mm},
 $$
 
-Here, $f_1$ and $f_2$ are the accelerations of masses 1 and 2, respectively, as in Eqs. (1) - (2).
-Defining
+together with geometric bounds on the section dimensions.
+
+## Finite element model
+
+The beam was represented in Abaqus using quadratic Timoshenko beam elements. The model contained approximately 100 nodes and used:
+
+| Parameter | Value |
+| :--- | :--- |
+| Length | $1.2\\ \\mathrm{m}$ |
+| End load | $75\\ \\mathrm{kN}$ |
+| Load direction | $-45^{\\circ}$ |
+| Young's modulus | $210\\ \\mathrm{GPa}$ |
+| Shear modulus | $70\\ \\mathrm{GPa}$ |
+| Stress limit | $190\\ \\mathrm{MPa}$ |
+| Deflection limit | $15\\ \\mathrm{mm}$ |
+
+The load was resolved into two components:
+
 $$
-\\begin{aligned}
-v_1 &= \\dot{z}_1, \\quad \\dot{v}_1 = \\ddot{z}_1 = f_1(z_1^n, v_1^n, z_2^n, v_2^n, z_s^n, v_s^n), \\newline
-v_2 &= \\dot{z}_2, \\quad \\dot{v}_2 = \\ddot{z}_2 = f_2(z_1^n, v_1^n, z_2^n, v_2^n),
-\\end{aligned}
-$$
-we have four first-order ODEs of the form $\\dot{y} = F(t, y)$.
-
-
-
-**Optimization.** For obvious reasons, the suspension of the car body is something that is added after the wheels and tracks and thus is subject to more changes, therefore the parameters that are to be optimized are the car body's stiffness and damping ($k_2$ and $C_2$). The optimization involves a multidimensional problem, where the displacement is dependent on both stiffness and damping in addition to the wheels reaction to the movement of the car body.
-
-Implementation of optimization in MATLAB resulted in the lowest rms acceleration occurred at the lowest possible stiffness and damping in the user defined range. Interpretation of this is that the theoretical maximum deflection is not what is limiting the system but the limit lies in the feasibility and real world application of the stiffness and damping. To test the feasibility of the solution was modified with a fake impulse (simulated gravel on the track) in addition to the solution beginning and end of the data was zero padded to be able to inspect longer oscillatory behaviours. With the introduced "gravel" (impulse in data) the optimization was run again with more feasible results this time, not the lowest possible of the input range of solutions. This result that includes a faked impulse in the track seems more trustworthy and robust since it can handle not perfectly smooth (and clean) track without losing comfort for potential passengers.
-        `
-      },
-      {
-        slug: 'comsol-heat',
-        title: '1D Heat Conduction (COMSOL)',
-        subtitle: 'Verification vs. model',
-        stack: ['MATLAB','COMSOL','FEM'],
-        images: ['images/Heatsink/Comsol.png', 'images/Heatsink/FEM.png'],
-        content: md`
-**PDE.** $\\nabla \\cdot(-c\\nabla u - \\alpha u + \\gamma) + \\beta \\nabla u + au = f$. In 1D: $$\\frac{d}{dx}\\left(k \\frac{dT}{dx}\\right) - 25T + 25T_{air} = 0.$$
-
-**Mapping.** $c=-K,\ u=T,\ a=-25,\ f=-25T_{air}$. Dirichlet + zero-flux on boundaries.
-$$
-\\begin{align}
-N_i &= \\frac{x - x_j}{x_i-x_j} \\quad N_j = \\frac{x_i-x}{x_i-x_j} \\newline
-F_r &= \\int_{x_1}^{x_2} 25 T_{air} N_r \\, dx \\newline
-K_{rc} &= \\int_{x_1}^{x_2} -\\frac{d}{dx}\\left(K \\frac{d N_c}{dx}\\right) N_r + 25 N_r N_c \\, dx\\newline
-&= \\int_{x_1}^{x_2} K \\frac{d N_r}{dx} \\frac{d N_c}{dx} + 25 N_r N_c \\, dx\\newline
-\\mathbf{T} &= K^{-1} \\mathbf{F}
-\\end{align}
+F_x=F_y=
+-\\frac{75\\,000}{\\sqrt{2}}
+\\approx-53.0\\ \\mathrm{kN}.
 $$
 
-**Result.** Temperature decays along the fin; MATLAB computations correspond to Comsol.
-        `
-      },
-      {
-        slug: 'robot-challenge',
-        title: 'Autonomous Ball-Sorting Robots',
-        subtitle: 'Two collaborative mechatronic systems - LEGO Mindstorms EV3',
-        stack: ['LEGO Mindstorms EV3', 'Mechatronics', 'CAD (Inventor)', '3D Printing', 'CNC', 'Design-Build-Test'],
-        images: ['images/CollabRobots/2The_One_assembly_New.png', 'images/CollabRobots/2The_One_assembly_New2.png'],
-        content: md`
-**Overview.** Designed, built, and programmed two autonomous robots - *Baggern* (the digger) and *Dumpern* (the transporter) - that collaborate to collect unsorted balls from a loading zone, navigate an obstacle course, and sort them by size into three colour-coded unloading zones, all within 10 minutes.
+Maximum von Mises stress and resultant tip displacement were extracted from every Abaqus analysis.
 
-**Challenge.** The course featured three elevated platforms (P1–P3), a tipping bridge (P2), and variable-width paths (300–1300 mm), requiring an adaptable open-loop/sensor-fusion solution. Balls came in three sizes - white (Ø 20 mm, 3 g), yellow (Ø 25 mm, 1.4 g), blue (Ø 30 mm, 4.3 g) - plus red balls to be excluded.
+## MATLAB-Python-Abaqus automation
 
-**Robot Roles.**
-* **Baggern** - stationed beside the ball box; scoops balls and delivers them to the top platform.
-* **Dumpern** - pre-positioned on the platform nearest the pickup zone; transports and sorts balls across the obstacle course and deposits them in the correct boxes.
+A fully automated optimization loop was developed:
 
-**User Interface.** A two-button colour-coded remote control lets an uninitiated user configure the sorting mapping before start. The software then infers the third destination automatically.
+1. MATLAB supplied a new design vector containing $w$, $h$, $t_f$, and $t_w$.
+2. The dimensions were written to an Abaqus parameter file.
+3. Abaqus regenerated and solved the FE model.
+4. Python scripts opened the Abaqus ODB file.
+5. Maximum stress and tip-displacement components were written to result files.
+6. MATLAB evaluated the normalized constraints and cross-sectional area.
+7. The gradient-based fmincon algorithm generated the next design.
 
-**Methodology.**
-* Group contract, shared vision, and sub-team structure (10 members, communication leads per sub-team).
-* Concept generation via brainstorming + ranked comparison in Excel → two finalist concepts selected by elimination.
-* LEGO prototyping → physical iteration → CAD in Autodesk Inventor → CNC milling, metal lathe, and 3D printing (Cura + FDM).
-* Design-Build-Test robustness loop: each sub-solution reviewed for feasibility before manufacture.
-* User-guide validation: external test users performed the full startup sequence; manual refined after each session.
+The nonlinear constraints were formulated as
 
-**Sustainability.** No component used two different materials, enabling correct source-separation and recycling at end of life.
-
-**Outcome.** The final system successfully sorted and transported balls autonomously. The team demonstrated that well-thought-out concept selection minimises unnecessary prototypes, and that rigorous user testing produces genuinely user-friendly solutions.
-        `
-      },
-      {
-        slug: 'ocean-sensor',
-        title: 'Ocean Sensor',
-        subtitle: 'Modular waterproof sensing unit for ocean pollution & climate data',
-        stack: ['Embedded Systems', 'Sensors', 'Electronics', 'Radio/WiFi', 'Web Visualization'],
-        images: ['images/OceanSensor/slide-2.png', 'images/OceanSensor/slide-3.png', 'images/OceanSensor/slide-4.png', 'images/OceanSensor/slide-5.png', 'images/OceanSensor/Film1.mp4'],
-        content: md`
-**Overview.** A modular, waterproof sensor unit for monitoring ocean pollution, collecting climate data for research, and tracking algae growth.
-
-**Hardware.**
-* **Enclosure:** Waterproof case with modular design, built for quick customer assembly.
-* **Electronics & sensors:** turbidity (*grumlighet*) and temperature.
-* **Future extensions:** pH and oil detection via capacitance.
-* **Comms:** radio transmitter (sender).
-
-**Software & data flow.**
-* Web-based data visualization dashboard.
-* Multi-unit support.
-* Receiver: **radio + WiFi** gateway; sender: **radio**.
-
-**Testing.**
-* Temperature validation and calibration (bench testing).
-
-**Learnings.**
-* Waterproofing (connectors, sealing surfaces, tolerances).
-* Radio link robustness as a key design constraint.
-* Design-for-manufacturing and practical measurement electronics.
-        `
-      },
-      {
-        slug: 'golf-design-exploration',
-        title: 'Golf Trajectory & Club Optimization',
-        subtitle: 'Simulation Driven Design & Parameter Estimation',
-        stack: ['MATLAB', 'Optimization', 'Latin Hypercube', 'Physics Modeling'],
-        images: ['images/Golf/Golf2024.png', 'images/Golf/traject3.png', 'images/Golf/kline3.png', 'images/Golf/Trajectory Best Club.png'],
-        content: md`
-**Overview.** The project consists of two parts: constructing a prediction model for a golf ball's trajectory and optimizing the geometry of a parametric golf club head to maximize carry distance.
-
-**Part 1: Trajectory Prediction.**
-The goal was to build a model to predict the carry and apex of a golf ball using simulator data. The ball is subject to drag and lift forces, modeled as proportional to the square of the velocity:
 $$
-F_D = k_{Drag} \\cdot v^2, \\quad F_L = k_{Lift} \\cdot v^2
+g_1=
+\\frac{\\delta_{max}-\\delta_{limit}}
+{\\delta_{limit}}
+\\leq0,
 $$
 
-The system is modeled in 2D, where the acceleration components are derived from Newton's second law:
 $$
-\\begin{align}
-a_x &= -\\frac{1}{m} \\left[ k_{Lift}\\sin(\\alpha) + k_{Drag}\\cos(\\alpha) \\right] \\cdot \\|v\\|^2 \\newline
-a_y &= +\\frac{1}{m} \\left[ k_{Lift}\\cos(\\alpha) - k_{Drag}\\sin(\\alpha) \\right] \\cdot \\|v\\|^2 - g
-\\end{align}
+g_2=
+\\frac{\\sigma_{VM,max}-\\sigma_{limit}}
+{\\sigma_{limit}}
+\\leq0.
 $$
 
-**Parameter Estimation.**
-Using the \`fminsearch\` function in MATLAB, a non-linear least square error optimization was performed to estimate $k_{Drag}$ and $k_{Lift}$ by minimizing the difference between predicted and actual carry.
+Invalid Abaqus models or missing result files were penalized so the optimizer could recover and continue searching.
 
-* **Results:** The calculated coefficients were $C_D \\approx 0.34$ and $C_L \\approx 0.32$, which aligns with standard literature.
-* **Accuracy:** 8 out of 11 hits had an error below 2%, though apex error reached up to 16.8% for inexperienced shots.
+The same optimization architecture was also recreated in Isight using connected Abaqus, Calculator, and Optimization components. This provided an alternative graphical implementation of the automated workflow.
 
-**Part 2: Geometry Optimization.**
-The second objective was to optimize a fully parametric golf club head to maximize carry distance for a beginner level player.
+## Optimized design
 
-**Method.**
-To solve the unknown relationships between design variables and club velocity, a **Latin Hypercube Sampling (LHS)** was used to generate initial points, followed by a gradient-based optimization (\`fmincon\`) to minimize the negative carry.
+The reported MATLAB-Abaqus solution was:
 
-**Optimal Design.**
-The process successfully produced a design within bounds, with parameters pushing the physical limits:
-* **Blade Width:** 150 mm (Upper Bound)
-* **Blade Depth:** 50 mm (Upper Bound)
-* **Loft:** 5$^{\\circ}$ (Lower Bound)
-* **Toe Height:** $\\approx$ 51 mm
+| Design variable | Optimized value |
+| :--- | :--- |
+| Flange width $w$ | $119.2\\ \\mathrm{mm}$ |
+| Section height $h$ | $175.0\\ \\mathrm{mm}$ |
+| Flange thickness $t_f$ | $21.8\\ \\mathrm{mm}$ |
+| Web thickness $t_w$ | $1.0\\ \\mathrm{mm}$ |
+| Cross-sectional area | $5.33\\times10^{-3}\\ \\mathrm{m^2}$ |
+| Maximum von Mises stress | $190\\ \\mathrm{MPa}$ |
+| Maximum displacement | $5.8\\ \\mathrm{mm}$ |
 
-The final optimized club yielded a maximum carry of 275 meters, proving the utility of simulation-driven design.
-        `
-      },
-      {
-        slug: 'Robotic_Cat_Companion',
-        title: 'Robotic Cat Companion',
-        subtitle: 'A paintable, personality-swappable wooden robot cat for children',
-        stack: ['CAD (Inventor)', 'Arduino Uno', 'Raspberry Pi Zero WH', 'ATMEGA328P', 'ESP8266 Wi-Fi', 'Ultrasonic Sensing', 'Laser-Cut Masonite', '3D Printing', 'Web App', 'DBT / Gate Process'],
-        images: ['images/Cat/Picture2.jpg','images/Cat/Picture1.jpg', 'images/Cat/webGif.mp4', 'images/Cat/PXL_20231208_102716055.jpg', 'images/Cat/PXL_20231208_102719947.jpg'],
-        content: md`
-**Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
+The stress constraint became active while the displacement remained below its limit. The section height reached its upper bound and the web thickness reached its lower bound.
 
-The cat is intentionally **not** a low-care pet substitute - it is a creative toy. Children **paint the wooden shell themselves**, swap **ears and hats**, and choose **personalities** through a companion website, so the same hardware can become endlessly different cats over time.
+This result also exposes an important distinction between mathematical and engineering optimization: without buckling, fabrication, or minimum-gauge constraints, the optimizer drives the web toward an impractically small thickness. A production-oriented study would therefore require additional constraints for manufacturability, local buckling, and section slenderness.
 
-**Product goals (from the PRD).**
-* **Innovative user experience** - a curious, story-enabled, ever-changeable robot friend that addresses unmet desires children haven't yet articulated.
-* **Technology leadership** - modern consumer-robotics components and early prototype testing.
-* **Competitive positioning** - feature/price parity with or above existing offerings (benchmarked against ImagiCharm and Pokémon-style toys).
+## Task 2 - Metamodeling of an expensive black-box function
 
-**Target user.**
-* **Buyer:** parents, grandparents, relatives or friends of children.
-* **User:** children aged 3–8 with an interest in robotics or cats.
-* **Scenario:** *"Elliot, an 8-year-old, is bored and uses ShellCat to stay satisfied with endless play and unlimited personalities. He paints and plays with the ShellCat and sees it as a real pet/friend."*
+The second task considered a function requiring approximately three hours for each evaluation. Direct gradient-based optimization would therefore be prohibitively expensive.
 
-**Mechanical design.**
-* **Outer shell:** **Masonite, laser-cut** - a wooden surface that takes paint well, fitting the brand's *Blanchedalmond* wooden look.
-* **3D-printed plastic** parts for gears, the MCU case, the computer case, and battery holders.
-* **Swappable accessories:** ears and hats designed to be made by the user from a manual included in the box.
-* CAD modelled in **Inventor** to allow rapid iteration and a **modular design** for a future "world of characters."
+Ten design points were generated using Latin Hypercube Sampling:
 
-**Electronics.**
-The PRD splits the bill of materials between an early *prototype* and a cost-reduced *product* version:
+$$
+\\mathbf{x}^{(i)}
+=
+\\mathbf{x}_{min}
++
+\\mathbf{u}^{(i)}
+\\odot
+\\left(
+\\mathbf{x}_{max}-\\mathbf{x}_{min}
+\\right),
+$$
 
-| Subsystem | Prototype | Product |
-| :--- | :--- | :--- |
-| MCU | Arduino Uno | ATMEGA328P-PU |
-| Computer | Raspberry Pi Zero WH | - (replaced by Wi-Fi + MCU) |
-| Connectivity | (via Pi) | ESP8266 Wi-Fi module |
-| Motion | 2× DC motors + 1× stepper (28BYJ-48 + ULN2003) | same |
-| Sensing | Ultrasonic ranger | Ultrasonic ranger |
-| Power | 3× AA + 1× 6LR holders | 3× AA + 1× 6LR holders |
-| PCB | breadboard / wiring | Custom PCB |
+where $\\mathbf{u}^{(i)}$ contains the normalized Latin Hypercube coordinates.
 
-**Functional requirements.**
-* Natural, intuitive interaction with children.
-* **Selectable personalities** - currently five, exposed via the companion website with regular updates planned.
-* **Autonomous navigation** in a home environment with obstacle avoidance and the ability to approach objects within a defined area.
-* **Safe interaction** with household objects, children, and pets.
-* **Battery life** sufficient for at least one full day of typical use, with easy-to-change batteries.
+MATLAB controlled an Excel-based black-box model through COM automation. The sampled input-output pairs were then used to construct a cubic response surface:
 
-**Non-functional requirements.**
-* User-friendly setup with no maintenance.
-* High durability and a low failure rate to support endless play.
-* **Modular design** to allow future upgrades and new characters.
+$$
+\\hat f(x_1,x_2)
+=
+\\operatorname{CubicInterp}
+\\left(
+x_1,x_2,f
+\\right).
+$$
 
-**Companion website.** A web app (a visual copy hosted at *here* and is also shown in one of the videos) lets the user pick the cat's personality and will host a community forum where suggestions can be voted on and rolled into future updates - closing a loop directly back into the product.
+## Surrogate-model verification
 
-**Brand & story.** ShellCats are described in the PRD as having come from a worn-out world to Earth via a "magical spell," carrying protective shells that children can decorate to express each cat's personality.
+The exercise demonstrated why a metamodel optimum must always be evaluated with the original high-fidelity function. Validation showed that the cubic surface did not reliably predict the true response near its proposed minimum.
 
-**Process.** The development followed a **Design-Build-Test (DBT) and gate** workflow with early user-testing prototypes feeding back into the design before each gate.
-        `
-      },
+The implementation also contained incorrectly scaled design bounds. Consequently, the numerical black-box optimum is not presented as a valid result. The useful outcome is instead methodological: space-filling sampling, input-domain verification, sufficient sample density, cross-validation, and confirmation using the original model are all essential before a surrogate is trusted for design decisions.
+
+## Conclusion
+
+The project demonstrates an end-to-end simulation-driven design workflow spanning parameterized FE modeling, automated solver execution, ODB post-processing, nonlinear constrained optimization, and graphical process automation in Isight.
+
+It also highlights two practical lessons:
+
+* Optimization results are only meaningful when all relevant physical and manufacturing constraints are included.
+* A surrogate model must be validated against the original function before its predicted optimum is accepted.
+
+The strongest result is the reusable MATLAB-Python-Abaqus framework, which separates optimization logic, FE evaluation, and result extraction into a modular automated process.
+  `
+},
     ];
 
     const aboutPage = {
