@@ -1,11 +1,4 @@
-// Joins a tagged template. NOTE: this is a COOKED template literal - JS escape
-// processing applies before the text ever reaches the markdown renderer. So a
-// LaTeX command is written \\cmd (JS turns it into \cmd) and a matrix/align row
-// break is written \\\\ (JS turns it into \\, which is what TeX wants).
-// (The previous String.raw({raw: strings}) form did NOT return the raw string:
-//  it fed String.raw the cooked array, so it was a no-op with a misleading name.)
-const md = (strings, ...values) =>
-  strings.reduce((out, s, i) => out + s + (i < values.length ? values[i] : ''), '');
+const md = (strings, ...values) => String.raw({raw: strings}, ...values);
 
 function getYoutubeId(url) {
   const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
@@ -32,6 +25,7 @@ const projects = [
   images: [
     'images/WindTurbineFSI/render4_pressure_suction_side.png',
     'images/WindTurbineFSI/render10_total_deformation.png',
+    'images/WindTurbineFSI/fig4_momentum.png',
     'images/WindTurbineFSI/fig2_spanwise_loads.png',
     'images/WindTurbineFSI/render6_section_forces.png',
     'images/WindTurbineFSI/fig5_yplus.png',
@@ -39,128 +33,103 @@ const projects = [
     'images/WindTurbineFSI/render9_shell_mesh.png',
     'images/WindTurbineFSI/fig6_section_cp.png',
     'images/WindTurbineFSI/fig7_fea.png',
-    'images/WindTurbineFSI/render1_domain.png',
-    'images/WindTurbineFSI/render8_section_pressure_field.png',
-    'images/WindTurbineFSI/render7_section_vectors.png',
-    'images/WindTurbineFSI/render2_blade_velocity.png',
+    'images/WindTurbineFSI/render1_domain.png'
   ],
   content: md`
-**Overview.** In this project, I followed the load on a 44.2 m wind-turbine blade from the airflow all the way into the structure. I first solved the aerodynamics in ANSYS Fluent and then transferred the pressure field to a composite-shell model in ANSYS Mechanical.
+**Overview.** A fluid-structure interaction study of a 44.2 m wind-turbine blade at rated wind speed. The project connects a rotating-frame RANS solution in ANSYS Fluent to a geometrically nonlinear composite-shell model in ANSYS Mechanical, then checks the solver results using momentum conservation, free-body equilibrium and an independent beam estimate.
 
-Getting a result was only part of the goal. I also wanted to find out which results could actually be trusted. The thrust agreed very well with an independent momentum calculation. The torque was much more sensitive to the mesh, and a free-body check showed that about one quarter of the aerodynamic load was lost during the transfer to Mechanical.
+The aim was not only to produce aerodynamic and structural results, but to determine which results were sufficiently verified to trust. The study found a well-conditioned thrust prediction, a mesh-sensitive torque prediction and a non-conservative pressure transfer that reduced the structural load by approximately one quarter.
 
-**The model**
-| Item             | Model                                                    |
-| :--------------- | :------------------------------------------------------- |
-| Rotor            | Three blades, radius 44.2 m                              |
-| Operating point  | 12 m/s, 2.22 rad/s, 21.2 rpm, TSR 8.18                   |
-| CFD              | Steady RANS, SST k-omega, rotating reference frame       |
-| Fluid domain     | One 120-degree periodic sector with one blade            |
-| Fluid mesh       | 367,691 tetrahedra, 73,331 nodes, 5,108 blade-wall faces |
-| Structural model | 15,881 SHELL181 and 13,508 SURF154 elements              |
-| Material         | Simplified orthotropic UD composite                      |
-| Coupling         | Pressure transferred from Fluent to Mechanical           |
+## Model at a glance
 
-Only one blade and one third of the fluid domain were solved. The other two blades were represented through rotational periodicity. This reduced the model size without changing the physics for a rotor in uniform wind.
+| Item | Model |
+| :--- | :--- |
+| Rotor | Three blades, radius 44.2 m |
+| Operating point | 12 m/s, 2.22 rad/s, 21.2 rpm, TSR 8.18 |
+| CFD | Steady RANS, SST k-omega, single rotating reference frame |
+| Fluid domain | One 120-degree periodic sector containing one blade |
+| Fluid mesh | 367,691 tetrahedra, 73,331 nodes, 5,108 blade-wall faces |
+| Structural model | 15,881 SHELL181 and 13,508 SURF154 elements |
+| Material | Homogenized orthotropic UD composite |
+| Coupling | Imported pressure, Fluent to Mechanical |
 
-A multiple reference frame, or MRF, model was used to describe the rotation as a steady problem. This works for the current model because it does not include a tower, wind shear or yawed flow.
+Solving a single periodic sector reduced the fluid problem to one third of the rotor while preserving the uniform-inflow physics. A multiple reference frame formulation converted the rotating problem into a steady analysis; this is appropriate for the modeled case without tower interaction, wind shear or yaw.
 
-**Rotational kinematics**
+## Rotational kinematics
 
-The rotor turns at a constant speed, and the blade does not move relative to the rotating frame. Therefore,
+The blade is stationary relative to a frame rotating at constant angular velocity. Therefore,
 
 $$
 \\dot\\omega_z=0,
 \\qquad
 \\vec v_{rel}=0,
 \\qquad
-\\vec a_{rel}=0.
+\\vec a_{rel}=0,
 $$
 
-The blade velocity and acceleration can then be written as
+and the motion is described by
 
 $$
-\\vec v
-=
-\\vec\\omega\\times\\vec r,
+\\vec v=\\vec{\\omega}\\times\\vec r,
 \\qquad
-\\vec a
-=
-\\vec\\omega
-\\times
-\\left(
-\\vec\\omega\\times\\vec r
-\\right).
+\\vec a=\\vec{\\omega}\\times\\left(\\vec{\\omega}\\times\\vec r\\right).
 $$
 
-In cylindrical coordinates,
+Using cylindrical coordinates,
 
 $$
-\\vec\\omega
-=
-\\omega_z\\hat z,
+\\vec{\\omega}=\\omega_z\\hat{z},
 \\qquad
-\\vec r
-=
-R\\hat r.
+\\vec r=R\\,\\hat{r}.
 $$
 
-The blade velocity follows from the cross product
+The blade velocity is obtained from the determinant
 
 $$
-\\vec\\omega\\times\\vec r
+\\vec{\\omega}\\times\\vec r
 =
 \\begin{vmatrix}
-\\hat r & \\hat\\theta & \\hat z\\\\
+\\hat{r} & \\hat{\\theta} & \\hat{z}\\\\
 0 & 0 & \\omega_z\\\\
 R & 0 & 0
 \\end{vmatrix}
 =
-\\omega_zR\\hat\\theta.
+\\omega_z R\\,\\hat{\\theta}.
 $$
 
-At the blade tip, the velocity is
+The velocity magnitude at the blade tip is therefore
 
 $$
 \\left|\\vec v_{tip}\\right|
-=
-\\left|\\omega_z\\right|R
-=
-2.22\\times44.2
-=
-98.1\\ \\text{m/s}.
+=\\left|\\omega_z\\right|R
+=2.22\\times44.2
+=98.1\\ \\text{m/s}.
 $$
 
-The centripetal acceleration is found by taking a second cross product:
+The centripetal acceleration follows from a second cross product, with that result entered as the third row:
 
 $$
-\\vec\\omega
-\\times
-\\left(
-\\vec\\omega\\times\\vec r
-\\right)
+\\vec{\\omega}\\times\\left(\\vec{\\omega}\\times\\vec r\\right)
 =
 \\begin{vmatrix}
-\\hat r & \\hat\\theta & \\hat z\\\\
+\\hat{r} & \\hat{\\theta} & \\hat{z}\\\\
 0 & 0 & \\omega_z\\\\
-0 & \\omega_zR & 0
+0 & \\omega_z R & 0
 \\end{vmatrix}
 =
--\\omega_z^2R\\hat r.
+-\\,\\omega_z^{2}R\\,\\hat{r}.
 $$
 
-The minus sign means that the acceleration points inward, toward the hub. At the blade tip,
+The negative radial direction shows that the acceleration points inward toward the rotor hub. The sign is not a modeling choice: $-\\omega_z^{2}$ is negative whichever way the rotor turns. Row order carries the sign as well, since exchanging rows two and three gives $\\vec r\\times\\vec{\\omega}=-\\,\\vec{\\omega}\\times\\vec r$.
+
+At the blade tip,
 
 $$
 \\left|\\vec a_{tip}\\right|
-=
-\\omega_z^2R
-=
-2.22^2\\times44.2
-=
-217.8\\ \\text{m/s}^2
-=
-22.2g.
+=\\omega_z^{2}R
+=2.22^{2}\\times44.2
+=217.8\\ \\text{m/s}^{2}
+=22.2\\,g.
 $$
 
 The shell model has its center of gravity at
@@ -169,124 +138,97 @@ $$
 R_{CG}=14.087\\ \\text{m}.
 $$
 
-The acceleration at the center of gravity is therefore
+Its centripetal acceleration is therefore
 
 $$
 \\left|\\vec a_{CG}\\right|
-=
-2.22^2\\times14.087
-=
-69.43\\ \\text{m/s}^2.
+=\\omega_z^{2}R_{CG}
+=2.22^{2}\\times14.087
+=69.43\\ \\text{m/s}^{2}.
 $$
 
-With a blade mass of 22,147.7 kg, the expected radial root force becomes
+For the blade mass of 22,147.7 kg, the corresponding root-force magnitude is
 
 $$
 \\begin{aligned}
 F_{root}
-&=
-m\\omega_z^2R_{CG}\\\\
-&=
-22\\,147.7\\times69.43\\\\
-&=
-1.538\\times10^6\\ \\text{N}
-=
-1.538\\ \\text{MN}.
+&=m\\,\\omega_z^{2}R_{CG}\\\\
+&=22\\,147.7\\times69.43\\\\
+&=1.538\\times10^{6}\\ \\text{N}
+=1.538\\ \\text{MN}.
 \\end{aligned}
 $$
 
-Mechanical reported 1.5388 MN. That is only 0.07% above the hand calculation. When the small radial aerodynamic force of 1.6 kN is included, the difference falls to **0.03%**.
+Mechanical reported a radial root reaction of 1.5388 MN, which is **0.07%** above this hand calculation. The hand calculation omits the small radial component of the aerodynamic load, 1.6 kN; including it closes the difference to **0.03%**, the value reported in the free-body table below.
 
-**Checking the CFD result**
+## CFD verification
 
-I used four checks to judge whether the CFD solution had converged:
+The aerodynamic solution was assessed using four independent checks:
 
-* The momentum residuals reached roughly $10^{-6}$, while continuity reached $3.0\times10^{-5}$.
-* The integrated pressure force changed by only **0.025%** during the final 50 iterations.
-* The mass-flow imbalance was $1.09\times10^{-6}$ kg/s on a total flow of about 886,000 kg/s.
-* The thrust from the blade surface was compared with a separate momentum balance over the outer boundaries of the fluid domain.
+* The final momentum residuals were of order $10^{-6}$ and continuity reached $3.0\\times10^{-5}$.
+* Integrated blade pressure drifted by only **0.025%** over the final 50 iterations.
+* The global mass-flow imbalance was $1.09\\times10^{-6}$ kg/s on a throughput of approximately 886,000 kg/s.
+* Blade force from direct wall integration was compared with a momentum balance evaluated only on the outer domain boundaries.
 
-The momentum balance was the most useful check. Integrating the pressure and shear directly over the blade gave **82.09 kN per blade**. The independent control-volume calculation gave **82.52 kN**. The difference was only **0.52%**.
+The last check is the most important. Direct integration gave **82.09 kN thrust per blade**, while the independent control-volume balance gave **82.52 kN**. The difference was only **0.52%**, giving high confidence in the thrust result without relying on residuals alone.
 
-| Rotor result       |    Value | Assessment                                  |
-| :----------------- | -------: | :------------------------------------------ |
-| Thrust             |   246 kN | Verified independently to 0.52%             |
-| Thrust coefficient |    0.455 | Reasonable at this operating point          |
-| Torque             | 364 kNm  | Not mesh-converged                          |
-| Shaft power        |   807 kW | Based on the uncertain torque               |
-| Power coefficient  |    0.124 | Should not be treated as a validated result |
+| Rotor result | Value | Assessment |
+| :--- | ---: | :--- |
+| Thrust | 246 kN | Verified independently to 0.52% |
+| Thrust coefficient | 0.455 | Credible at the modeled operating point |
+| Torque | 364 kN·m | Not mesh-converged |
+| Shaft power | 807 kW | Derived from the uncertain torque |
+| Power coefficient | 0.124 | Diagnostic result, not a validated performance prediction |
 
-The pressure field had the expected pattern: high pressure near the leading-edge stagnation point, low pressure on the suction side and a gradual recovery toward the trailing edge.
+## Aerodynamic loading and mesh limitations
 
-The outer part of the blade carried most of the structural load. The **outer 30% of the span produced 53% of the thrust**, which is especially important because this load also acts with the longest lever arm.
+The pressure distribution showed the expected stagnation region, suction peak and smooth recovery toward the trailing edge. The planform also produced a sensible angle of attack over the load-producing outer half of the blade.
 
-The torque result was less convincing. Near the tip, the calculated torque became negative and the cumulative torque briefly exceeded 100% before falling back. Two mesh problems explain this:
+The spanwise force distribution revealed that the **outer 30% of the blade carries 53% of the thrust**. This is structurally important because the largest loads act at the largest lever arms. Torque, however, became negative over the outermost part of the blade and the cumulative torque exceeded 100% before falling back at the tip.
 
-* **93% of the blade-wall faces had $y^+>300$**, with a median value of 943. The near-wall mesh was therefore too coarse for reliable skin-friction forces.
-* The wall-face size remained close to 0.29 m even though the blade chord decreased from about 3.0 m to 0.90 m. Near the tip, only around twelve faces described each airfoil section.
+Post-processing traced this behavior to two mesh limitations:
 
-Thrust is dominated by a large pressure force, so it remained stable despite these limitations. Torque is a much smaller difference between pressure and viscous contributions, making it far more sensitive to the mesh. For that reason, I consider the thrust trustworthy but not the torque or power coefficient.
+* **93% of the blade-wall faces had $y^+$ above 300**, with a median of 943. The wall-function range was therefore exceeded over most of the blade, causing excessive viscous drag.
+* The surface mesh did not scale with the narrowing chord. Wall-face edge length stayed near 0.29 m at every radius while the chord fell from 3.0 m to 0.90 m, so the tip retained only about a dozen faces around each section and the pressure difference responsible for tangential force became noisy.
 
-**Transferring the load to Mechanical**
+Thrust remains robust because it is a large pressure-dominated integral. Torque is a much smaller difference between large pressure and viscous contributions, making it far more sensitive to wall resolution and chordwise discretization. The study therefore reports thrust as verified while explicitly rejecting the power coefficient as mesh-converged.
 
-The Fluent pressure field was transferred to a shell model in Mechanical. The simplified composite material had a spanwise Youngs modulus of 175 GPa and transverse moduli of 7.58 GPa. The shell thickness decreased linearly from 100 mm at the root to 5 mm at the tip.
+## Fluid-structure interaction
 
-The root was fully fixed with a remote displacement. The same rotational speed was used as in Fluent, and large deflection was enabled to include geometric stiffening from the centrifugal load.
+The converged Fluent pressure field was mapped to a Mechanical shell model. The blade used a simplified orthotropic material with a spanwise modulus of 175 GPa and transverse moduli of 7.58 GPa. Wall thickness tapered linearly from 100 mm at the root to 5 mm at the tip.
 
-The idealized shell weighed 22.1 tonnes and produced a radial root force of about **1.54 MN**. This is roughly nineteen times larger than the aerodynamic thrust on one blade. The close agreement with the hand calculation showed that the rotational load and mass distribution were being handled correctly.
+The root was fully constrained through a rigid remote displacement. Rotational velocity matched the CFD frame, and large-deflection effects were enabled so the model could include geometric stiffening from centrifugal tension.
 
-**Checking the transferred load**
+The 22.1 tonne idealized shell generated **1.54 MN of centrifugal root force**, approximately nineteen times the aerodynamic thrust on one blade. This load was checked directly from mass, angular speed and center-of-gravity radius, as set out above.
 
-I compared expected forces/moments with Mechanicals root reactions:
+## Free-body audit of the transferred load
+
+A second equilibrium check compared aerodynamic and centrifugal loads with the six root reactions reported by Mechanical.
 
 | Reaction component | Difference from free-body prediction |
-| :----------------- | -----------------------------------: |
-| Radial force       |                               -0.03% |
-| Tangential force   |                               -1.91% |
-| Rotor-axis torque  |                               -3.26% |
-| Axial thrust       |                          **-23.66%** |
-| Flapwise moment    |                          **-25.03%** |
+| :--- | ---: |
+| Radial force, centrifugal | -0.03% |
+| Tangential force | -1.91% |
+| Torque about the rotor axis | -3.26% |
+| Axial thrust | **-23.66%** |
+| Flapwise moment | **-25.03%** |
 
-Radial force, tangential force and torque agreed well. Axial thrust and flapwise moment did not, roughly one quarter of the aerodynamic load was missing after pressure transfer.
+The rotational and tangential components closed well, but approximately one quarter of the axial load was missing after the CFD-to-FEA transfer. Loaded surface area differed by only 1.2%, 211.9 m² of pressure-loaded shell against 214.5 m² of CFD wetted area, so coverage is not the explanation. The most likely cause is non-conservative pressure interpolation flattening the leading-edge suction peak. Inconsistent shell normals are a secondary possibility that should be checked in the imported-load mapping summary.
 
-This was not due to missing surface coverage (211.9 m$^2$ vs 214.5 m$^2$, only 1.2% difference). The most likely cause is that standard pressure interpolation smoothed the leading-edge suction peak. Inconsistent shell normals should also be checked.
+This check changes how the deformation result must be presented. Mechanical reported a maximum tip displacement of **0.259 m**, or 0.59% of rotor radius, but the shell received only about 75% of the verified aerodynamic load. A conservative remap and re-solve would therefore be expected to move the result closer to **0.34 m**.
 
-The most likely explanation is that the standard pressure interpolation smoothed out part of the leading-edge suction peak. Inconsistent shell normals are another possibility that should be checked in Mechanicals imported-load mapping summary.
+An Euler-Bernoulli beam model using the extracted spanwise stiffness predicted 0.211 m under the full CFD load. Compared at equal load, the shell is roughly 1.7 times more flexible, as expected for a thin-walled orthotropic section whose cross-section can distort; the beam result was used as an order-of-magnitude check rather than a validation target.
 
-**Structural result**
-Mechanical reported a maximum tip displacement of 0.259 m (0.59% of rotor radius).
+## Reproducible post-processing
 
-CFD gives 82.09 kN thrust per blade (verified to within 0.52%). After mapping, Mechanical reports only 62.67 kN axial reaction (76.3% of the load). The flapwise moment shows a similar shortfall (~71% after subtracting the small centrifugal contribution). This means that ~24-25% of the load was lost in transfer. The 0.259 m displacement is therefore an under-loaded result; under full load it would likely be closer to 0.34 m.
-An Euler-Bernoulli beam model predicted 0.211 m under full CFD load. The shell is ~1.7$\times$ more flexible, which is expected because the thin-walled composite can distort while the beam assumes rigid cross-sections.
+Custom Python scripts read the Fluent HDF5 case and data files directly and generated the force integrations, momentum balance, spanwise loading, $y^+$ statistics, sectional pressure coefficients, FEA convergence plots and free-body checks. The reported values were generated from the raw solver results rather than transcribed from screenshots.
 
-Two loads act on the blade: the aerodynamics and the centrifugal force from the Rotational Velocity. Centrifugal load is purely radial (z-component = 0):
+## Engineering conclusions
 
-$$ F_{cent} = (-1 537 672, -238 540) N $$
-
-Therefore, the z-reaction is purely aerodynamic. Mechanical reports 62.67 kN, while the CFD states 82.09 kN:
-
-$$\\frac{62.67}{82.09} = 76.3\\%$$
-
-The same applies to the bending moment, although there the centrifugal part must be subtracted first (the mass has a slight z-offset, which generates a y-moment):
-
-$$\\frac{2 202.2 - 402.1}{2 535.2} = \\frac{1 800.1}{2 535.2} = 71.0\\%$$
-
-That leaves two components that do not match, axial force and flapwise moment, and they are missing by roughly the same proportion, 24% and 25% respectively. This is the signature of a load lost in the transfer, not a redistribution or a calculation error.
-
-The shell deformed 0.259 m under approximately three-quarters of the load it should have received. That is why the post states that 0.34 m is a more reasonable figure under full load, and that 0.259 m should be read as an underloaded result, not a structural conclusion.
-
- It should therefore be treated as an under-loaded result. If the pressure is transferred conservatively and the model is solved again, the displacement would probably be closer to **0.34 m**.
-
-As a separate check, an Euler-Bernoulli beam model predicted a tip displacement of 0.211 m under the full CFD load. At the same load, the shell model is roughly 1.7 times more flexible. That is reasonable because the beam model assumes that the cross-section keeps its shape, while the thin-walled composite shell can distort.
-
-The beam result is therefore useful as an order-of-magnitude check, but not as an exact validation result.
-The middle graph shows how much the blade is pulled outward as it spins. At the base (the root), this pull is massive: 1.54 million Newtons, which is almost 19 times stronger than the wind pushing against the blade. Because of this, the blade acts more like a stretched rope than a bending stick. The connection at the base is designed mostly to handle this huge spinning force, rather than the wind. However, because the base is so thick, this force is spread out, keeping the actual stress on the material quite low.
-
-The pulling force drops very quickly as you move outward toward the tip. You might expect the opposite, since the tip is moving much faster than the base. But while speed increases toward the tip, the weight of the blade drops drastically.
-
-**Reproducible post-processing**
-
-Python scripts read the Fluent HDF5 files directly and computed forces, momentum balance, spanwise loading, $y^+$, sectional $C_p$, convergence and the structural free-body check. All reported values therefore come from the solver files, not manual extractions from screenshots.
+* A converged residual history is not sufficient verification; the independent momentum balance was the decisive CFD check.
+* The rotor thrust is trustworthy to approximately half a percent, while torque and power require a substantially finer near-wall and chordwise mesh.
+* FSI still requires a force-conservation check. A mapped pressure contour can look correct while losing a material part of the resultant load.
+* The reported 0.259 m deflection is an under-loaded result, not a final structural prediction.
   `
 },
       {
@@ -328,9 +270,9 @@ $$
 This normalized the errors but could not remove them all, as the deviations had mixed signs. For the cantilever case, replacing the ideal clamp with a rotational spring $k_\\theta = 50 \\ \\mathrm{kNm/rad}$ matched the experiment better than scaling the stiffness - the real fixture is not ideally rigid.
 
 **Part 2 - Welded T-structure.**
-A T-shaped structure of two welded 35$\times$35$\times$2 mm hollow steel sections (327 mm horizontal, 500 mm vertical) was modeled in Abaqus. The predicted mode shapes guided the pretest planning: the shaker was placed at the end of the vertical beam where both modes are most visible, and 13 response points were distributed over the structure.
+A T-shaped structure of two welded 35×35×2 mm hollow steel sections (327 mm horizontal, 500 mm vertical) was modeled in Abaqus. The predicted mode shapes guided the pretest planning: the shaker was placed at the end of the vertical beam where both modes are most visible, and 13 response points were distributed over the structure.
 
-**Measurement.** Excitation by shaker, response by 3 accelerometers (QuickDAQ): 0-150 Hz range, 4000 Hz sample rate, FFT size 8192, Hanning window, 20 averages. Modal parameters were extracted from the stabilization diagram:
+**Measurement.** Excitation by shaker, response by 3 accelerometers (QuickDAQ): 0–150 Hz range, 4000 Hz sample rate, FFT size 8192, Hanning window, 20 averages. Modal parameters were extracted from the stabilization diagram:
 
 | Mode | First FE-model | Updated FE-model | EMA | Damping $\\zeta$ |
 | :--- | :--- | :--- | :--- | :--- |
@@ -739,7 +681,7 @@ $$
 \\mathbf f(\\mathbf T).
 $$
 
-Time integration was performed using the Crank-Nicolson method,
+Time integration was performed using the Crank–Nicolson method,
 
 $$
 \\left(
@@ -788,7 +730,7 @@ $$
 (1-\\theta)\\mathbf f_n+\\theta\\mathbf f_{n+1}.
 $$
 
-For Crank-Nicolson, where $\\theta=0.5$, this becomes
+For Crank–Nicolson, where $\\theta=0.5$, this becomes
 
 $$
 \\frac{\\mathbf f_n+\\mathbf f_{n+1}}{2}.
@@ -836,7 +778,7 @@ This lies within 2 % of the numerical predictions (14.3 s). The small difference
 
 The project combined equation-based modelling with numerical implementation and independent FE verification. Rather than treating the numerical solver as a black box, the governing equations were derived, discretized and implemented directly before the thermal model was cross-checked in Abaqus.
 
-**Methods and tools:** MATLAB, Abaqus/Standard, finite element method, Crank-Nicolson time integration, nonlinear thermal boundary conditions, solver-to-solver verification.
+**Methods and tools:** MATLAB, Abaqus/Standard, finite element method, Crank–Nicolson time integration, nonlinear thermal boundary conditions, solver-to-solver verification.
 `
 },
 {
@@ -1125,7 +1067,7 @@ f_2(z_1, \\dot{z}_1, z_2, \\dot{z}_2) &=
 \\end{aligned}
 $$
 
-The fourth-order Runge-Kutta method (RK4) is applied as follows.
+The fourth-order Runge–Kutta method (RK4) is applied as follows.
 For $k = 1, \\dots, N-1$, let
 
 $$
@@ -1222,7 +1164,7 @@ $$
         content: md`
 **Overview.** Designed, built, and programmed two autonomous robots - *Baggern* (the digger) and *Dumpern* (the transporter) - that collaborate to collect unsorted balls from a loading zone, navigate an obstacle course, and sort them by size into three colour-coded unloading zones, all within 10 minutes.
 
-**Challenge.** The course featured three elevated platforms (P1-P3), a tipping bridge (P2), and variable-width paths (300-1300 mm), requiring an adaptable open-loop/sensor-fusion solution. Balls came in three sizes - white (Ø 20 mm, 3 g), yellow (Ø 25 mm, 1.4 g), blue (Ø 30 mm, 4.3 g) - plus red balls to be excluded.
+**Challenge.** The course featured three elevated platforms (P1–P3), a tipping bridge (P2), and variable-width paths (300–1300 mm), requiring an adaptable open-loop/sensor-fusion solution. Balls came in three sizes - white (Ø 20 mm, 3 g), yellow (Ø 25 mm, 1.4 g), blue (Ø 30 mm, 4.3 g) - plus red balls to be excluded.
 
 **Robot Roles.**
 * **Baggern** - stationed beside the ball box; scoops balls and delivers them to the top platform.
@@ -1323,7 +1265,7 @@ The final optimized club yielded a maximum carry of 275 meters, proving the util
         stack: ['CAD (Inventor)', 'Arduino Uno', 'Raspberry Pi Zero WH', 'ATMEGA328P', 'ESP8266 Wi-Fi', 'Ultrasonic Sensing', 'Laser-Cut Masonite', '3D Printing', 'Web App', 'DBT / Gate Process'],
         images: ['images/Cat/Picture2.jpg','images/Cat/Picture1.jpg', 'images/Cat/webGif.mp4', 'images/Cat/PXL_20231208_102716055.jpg', 'images/Cat/PXL_20231208_102719947.jpg'],
         content: md`
-**Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3-8.
+**Overview.** *The Robotic Cat Companion* is a Standalone Consumer Robot (SCR) developed for children aged 3–8.
 
 The cat is intentionally **not** a low-care pet substitute - it is a creative toy. Children **paint the wooden shell themselves**, swap **ears and hats**, and choose **personalities** through a companion website, so the same hardware can become endlessly different cats over time.
 
@@ -1334,7 +1276,7 @@ The cat is intentionally **not** a low-care pet substitute - it is a creative to
 
 **Target user.**
 * **Buyer:** parents, grandparents, relatives or friends of children.
-* **User:** children aged 3-8 with an interest in robotics or cats.
+* **User:** children aged 3–8 with an interest in robotics or cats.
 * **Scenario:** *"Elliot, an 8-year-old, is bored and uses ShellCat to stay satisfied with endless play and unlimited personalities. He paints and plays with the ShellCat and sees it as a real pet/friend."*
 
 **Mechanical design.**
@@ -1351,9 +1293,9 @@ The PRD splits the bill of materials between an early *prototype* and a cost-red
 | MCU | Arduino Uno | ATMEGA328P-PU |
 | Computer | Raspberry Pi Zero WH | - (replaced by Wi-Fi + MCU) |
 | Connectivity | (via Pi) | ESP8266 Wi-Fi module |
-| Motion | 2$\times$ DC motors + 1$\times$ stepper (28BYJ-48 + ULN2003) | same |
+| Motion | 2× DC motors + 1× stepper (28BYJ-48 + ULN2003) | same |
 | Sensing | Ultrasonic ranger | Ultrasonic ranger |
-| Power | 3$\times$ AA + 1$\times$ 6LR holders | 3$\times$ AA + 1$\times$ 6LR holders |
+| Power | 3× AA + 1× 6LR holders | 3× AA + 1× 6LR holders |
 | PCB | breadboard / wiring | Custom PCB |
 
 **Functional requirements.**
@@ -1528,7 +1470,7 @@ Model accuracy was scored against the solid reference using a combined ranking o
 | Thread-root stress from pretension | 3D solid with threads |
 | Thread-related nonlinearities (e.g. self-loosening) | Threaded solid + nonlinear transient |
 
-Phenomena that are too expensive to resolve in FE - sliding/self-loosening, bolt bending, hole elongation, embedding preload loss - can still be incorporated into design decisions through analytical governing conditions (e.g. $F_{Shear} < F_{friction}$, $\\sigma_{bend} = M/W$). The resulting **decision flowchart**, **phenomenon-method matrix**, and benchmark results provide scoped engineering guidance for FE model selection under random-vibration fatigue.
+Phenomena that are too expensive to resolve in FE - sliding/self-loosening, bolt bending, hole elongation, embedding preload loss - can still be incorporated into design decisions through analytical governing conditions (e.g. $F_{Shear} < F_{friction}$, $\\sigma_{bend} = M/W$). The resulting **decision flowchart**, **phenomenon–method matrix**, and benchmark results provide scoped engineering guidance for FE model selection under random-vibration fatigue.
 
 **Keywords:** Bolted joints, Dirlik method, Finite element modeling, Modeling guidelines, Random vibration fatigue.
       `
@@ -1573,7 +1515,7 @@ Phenomena that are too expensive to resolve in FE - sliding/self-loosening, bolt
       lightbox.setAttribute('aria-label', 'Project media preview');
       lightbox.hidden = true;
       lightbox.innerHTML = `
-        <button class="project-lightbox-close" type="button" aria-label="Close preview">$\times$</button>
+        <button class="project-lightbox-close" type="button" aria-label="Close preview">×</button>
         <div class="project-lightbox-content"></div>
       `;
 
@@ -1755,7 +1697,7 @@ Phenomena that are too expensive to resolve in FE - sliding/self-loosening, bolt
             card.innerHTML = `
             <div>
                 <div class="title">${p.title}</div>
-                <div class="subtitle">- ${p.subtitle || ''}</div>
+                <div class="subtitle">– ${p.subtitle || ''}</div>
                 <div class="stack">${(p.stack||[]).map(s=>`<div>${s}</div>`).join('')}</div>
             </div>
             ${media}
@@ -1790,15 +1732,12 @@ Phenomena that are too expensive to resolve in FE - sliding/self-loosening, bolt
 // Render markdown to HTML while protecting TeX math from the markdown parser.
 // Without this, markdown eats backslashes before punctuation (e.g. \, -> ,)
 // and may mangle _ or * inside math. Math spans are swapped for placeholders,
-// markdown runs on the rest, then the TeX is reinserted (HTML-escaped).
-//
-// Do NOT collapse \\ -> \ here. The template literal has already done exactly
-// that when the content was parsed, so a second pass eats the \\ that TeX needs
-// as a row separator and every matrix/aligned block collapses onto one line.
+// markdown runs on the rest, then the raw TeX is reinserted (HTML-escaped).
 function renderMarkdown(src){
   const math = [];
   const protectedSrc = (src || '').replace(/\$\$[\s\S]+?\$\$|\$[^$\n]+?\$/g, m => {
     const tex = m
+      .replace(/\\\\/g, '\\')
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     math.push(tex);
     return `@@MATH${math.length - 1}@@`;
