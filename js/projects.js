@@ -32,6 +32,7 @@ const projects = [
   images: [
     'images/PhoneArm_Continuation/Deflection_W_MagSafe.png',
     'images/PhoneArm_Continuation/MagSafeFinal.png',
+    'images/PhoneArm_Continuation/Assembly1_PhoneArm2.png',
     'images/PhoneArm_Continuation/TopOptMagSafe (2).png',
     'images/PhoneArm_Continuation/TopOptMagSafe (1).png',
     'images/PhoneArm_Continuation/Mass.png',
