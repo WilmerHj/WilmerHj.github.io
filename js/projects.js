@@ -333,7 +333,7 @@ const projects = [
       lightbox.setAttribute('aria-label', 'Project media preview');
       lightbox.hidden = true;
       lightbox.innerHTML = `
-        <button class="project-lightbox-close" type="button" aria-label="Close preview">$\times$</button>
+        <button class="project-lightbox-close" type="button" aria-label="Close preview">$\\times$</button>
         <div class="project-lightbox-content"></div>
       `;
 
