@@ -18,7 +18,7 @@ const projects = [
   stack: [
     'PrePoMax',
     'Calculix',
-    'Beso'
+    'Beso',
     'Topology Optimization',
     'Nonlinear FEA',
     'Contact Mechanics',
@@ -30,7 +30,12 @@ const projects = [
     'AI-Assisted Engineering'
   ],
   images: [
-    'images/'
+    'images/PhoneArm_Continuation/Deflection_W_MagSafe.png',
+    'images/PhoneArm_Continuation/MagSafeFinal.png',
+    'images/PhoneArm_Continuation/TopOptMagSafe (2).png',
+    'images/PhoneArm_Continuation/TopOptMagSafe (1).png',
+    'images/PhoneArm_Continuation/Mass.png',
+    'images/PhoneArm_Continuation/energy_density_mean.png',
   ],
   contentFile: 'content/projects/topology-optimization-ai-meshing-phone-arm-continuation.md'
 
