@@ -58,7 +58,7 @@ The laptop itself is intentionally simplified. It consists of a wedge-shaped bas
 
 The positions of the vents were measured from the physical laptop.
 
-## Automated meshing workflow
+## Mesh
 
 Stand geometry, laptop position and mesh controls are defined parametrically, with named regions generated automatically from geometry rather than selected manually inside the solver.
 
