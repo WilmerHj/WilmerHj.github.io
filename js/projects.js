@@ -12,6 +12,35 @@ function getYoutubeId(url) {
 
 const projects = [
   {
+  slug: 'CFD-simulation-of-different-laptop-stands',
+  title: 'CFD simulation of different laptop stands',
+  subtitle: 'AI-assisted meshing for Ansys Fluent',
+  stack: [
+    'Claude AI',
+    'Ansys Fluent',
+    'CAD',
+    'AI-Assisted Engineering'
+  ],
+  images: [
+    'images/LaptopStandCFD/Dacota_1.png',
+    'images/LaptopStandCFD/Pods_1.png', 
+    'images/LaptopStandCFD/Pods_2.png',  
+    'images/LaptopStandCFD/AirFrame_1.png',  
+    'images/LaptopStandCFD/Desk_1.png',  
+    'images/LaptopStandCFD/01_pods_vents.png',
+    'images/LaptopStandCFD/02_geom_B_claude_pods.png',
+    'images/LaptopStandCFD/02_geom_BL1_desk.png',
+    'images/LaptopStandCFD/02_geom_C_codex_airframe.png',  
+    'images/LaptopStandCFD/02_geom_D_dacota_approx.png',  
+    'images/LaptopStandCFD/04_T_airframe.png',  
+    'images/LaptopStandCFD/04_T_dacota.png',  
+    'images/LaptopStandCFD/04_T_desk.png',  
+    'images/LaptopStandCFD/04_T_pods.png',  
+  ],
+  contentFile: 'content/projects/laptop-stand-cfd.md'
+
+},
+  {
   slug: 'topology-optimization-ai-meshing-phone-arm-continuation',
   title: 'Continuation of Topology Optimization & AI-Automated Hex Meshing',
   subtitle: 'Further AI-assisted meshing and Topology Optimization with Calculix (Open Source FEA)',
